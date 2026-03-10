@@ -24,6 +24,8 @@ import { ChatMessage } from '../entities/chat-message.entity';
 dotenv.config();
 
 export async function runSeed() {
+  const isProduction = process.env.NODE_ENV === 'production';
+
   const dataSource = new DataSource({
     type: 'postgres',
     host: process.env.DB_HOST || 'localhost',
@@ -31,6 +33,7 @@ export async function runSeed() {
     username: process.env.DB_USERNAME || 'postgres',
     password: String(process.env.DB_PASSWORD || 'postgres'),
     database: process.env.DB_DATABASE || 'agency_hub',
+    ssl: isProduction ? { rejectUnauthorized: false } : false,
     entities: [
       Agency, User, Client, Campaign, Goal, Reminder, FinancialTransaction,
       Ticket, TicketMessage, AuditLog, CrmContact, Project, KanbanTask,
