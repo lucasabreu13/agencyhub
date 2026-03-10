@@ -23,30 +23,34 @@ import { ChatMessage } from '../entities/chat-message.entity';
 
 dotenv.config();
 
-const dataSource = new DataSource({
-  type: 'postgres',
-  host: process.env.DB_HOST || 'localhost',
-  port: parseInt(process.env.DB_PORT || '5432'),
-  username: process.env.DB_USERNAME || 'postgres',
-  password: String(process.env.DB_PASSWORD || 'postgres'),
-  database: process.env.DB_DATABASE || 'agency_hub',
-  entities: [
-    Agency, User, Client, Campaign, Goal, Reminder, FinancialTransaction,
-    Ticket, TicketMessage, AuditLog, CrmContact, Project, KanbanTask,
-    Event, Report, Invoice, Document, ChatMessage,
-  ],
-  synchronize: false,
-  logging: false,
-});
-
-dataSource
-  .initialize()
-  .then(async (ds) => {
-    await seed(ds);
-    await ds.destroy();
-    process.exit(0);
-  })
-  .catch((err) => {
-    console.error('❌ Erro no seed:', err);
-    process.exit(1);
+export async function runSeed() {
+  const dataSource = new DataSource({
+    type: 'postgres',
+    host: process.env.DB_HOST || 'localhost',
+    port: parseInt(process.env.DB_PORT || '5432'),
+    username: process.env.DB_USERNAME || 'postgres',
+    password: String(process.env.DB_PASSWORD || 'postgres'),
+    database: process.env.DB_DATABASE || 'agency_hub',
+    entities: [
+      Agency, User, Client, Campaign, Goal, Reminder, FinancialTransaction,
+      Ticket, TicketMessage, AuditLog, CrmContact, Project, KanbanTask,
+      Event, Report, Invoice, Document, ChatMessage,
+    ],
+    synchronize: false,
+    logging: false,
   });
+
+  const ds = await dataSource.initialize();
+  await seed(ds);
+  await ds.destroy();
+}
+
+// Permite rodar diretamente via CLI: npx ts-node run-seed.ts
+if (require.main === module) {
+  runSeed()
+    .then(() => process.exit(0))
+    .catch((err) => {
+      console.error('❌ Erro no seed:', err);
+      process.exit(1);
+    });
+}

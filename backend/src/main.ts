@@ -3,6 +3,16 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
+async function runSeedIfNeeded() {
+  try {
+    const { runSeed } = await import('./database/seeds/run-seed');
+    await runSeed();
+    console.log('✅ Seed executado com sucesso');
+  } catch (err) {
+    console.warn('⚠️ Seed ignorado (já executado ou erro):', err.message);
+  }
+}
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
@@ -22,16 +32,16 @@ async function bootstrap() {
   // Validação global de DTOs
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true,           // Remove campos não declarados no DTO
-      forbidNonWhitelisted: true, // Retorna erro se vier campo extra
-      transform: true,            // Transforma tipos automaticamente
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
       transformOptions: {
         enableImplicitConversion: true,
       },
     }),
   );
 
-  // Swagger - Documentação automática da API
+  // Swagger - apenas em desenvolvimento
   if (process.env.NODE_ENV !== 'production') {
     const config = new DocumentBuilder()
       .setTitle('AgencyHub API')
@@ -46,20 +56,22 @@ async function bootstrap() {
       .addTag('agency', 'Módulos da agência')
       .addTag('client', 'Módulos do cliente final')
       .build();
-
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('docs', app, document, {
       swaggerOptions: { persistAuthorization: true },
     });
-
     console.log(`📚 Swagger disponível em: http://localhost:${process.env.PORT || 3001}/docs`);
   }
 
   const port = process.env.PORT || 3001;
   await app.listen(port);
-
   console.log(`🚀 AgencyHub Backend rodando em: http://localhost:${port}/${apiPrefix}`);
   console.log(`🌎 Ambiente: ${process.env.NODE_ENV || 'development'}`);
+
+  // Roda seed automaticamente em produção
+  if (process.env.NODE_ENV === 'production') {
+    await runSeedIfNeeded();
+  }
 }
 
 bootstrap();
