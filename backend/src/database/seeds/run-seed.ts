@@ -41,9 +41,13 @@ export async function runSeed() {
     ],
     synchronize: false,
     logging: false,
+    migrations: [__dirname + '/../migrations/*{.ts,.js}'],
   });
 
   const ds = await dataSource.initialize();
+  console.log('🔄 Rodando migrations...');
+  await ds.runMigrations();
+  console.log('✅ Migrations concluídas');
   await seed(ds);
   await ds.destroy();
 }
