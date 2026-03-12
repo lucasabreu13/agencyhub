@@ -292,7 +292,7 @@ export default function UsersPage() {
                                   </div>
                                   <div className="flex items-center gap-1">
                                     <Calendar className="h-3 w-3" />
-                                    Desde {member.createdAt.toLocaleDateString("pt-BR")}
+                                    Desde {member.(typeof createdAt === "string" ? new Date(createdAt).toLocaleDateString("pt-BR") : createdAt instanceof Date ? createdAt.toLocaleDateString("pt-BR") : "")}
                                   </div>
                                   {member.lastLogin && (
                                     <div className="flex items-center gap-1">

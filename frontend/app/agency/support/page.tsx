@@ -25,7 +25,7 @@ interface Ticket {
 }
 
 export default function AgencySupportPage() {
-  const { user, isLoading, logout } = useAuth("agency_owner")
+  const { user, loading, logout } = useAuth("agency_owner")
   const [showNewTicket, setShowNewTicket] = useState(false)
   const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null)
   const [filterStatus, setFilterStatus] = useState("all")
@@ -61,7 +61,7 @@ export default function AgencySupportPage() {
     },
   ])
 
-  if (isLoading) {
+  if (loading) {
     return <div className="flex h-screen items-center justify-center">Carregando...</div>
   }
 
@@ -243,7 +243,7 @@ export default function AgencySupportPage() {
                                 </div>
                               </div>
                               <div className="mt-2 flex items-center gap-4 text-xs text-muted-foreground">
-                                <span>Criado em {ticket.createdAt.toLocaleDateString("pt-BR")}</span>
+                                <span>Criado em {ticket.(typeof createdAt === "string" ? new Date(createdAt).toLocaleDateString("pt-BR") : createdAt instanceof Date ? createdAt.toLocaleDateString("pt-BR") : "")}</span>
                                 <span>{ticket.responses} respostas</span>
                               </div>
                             </div>

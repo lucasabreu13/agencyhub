@@ -259,7 +259,7 @@ export default function ClientDocumentsPage() {
                         <div className="flex items-center gap-4 text-xs text-muted-foreground">
                           <span className="flex items-center gap-1">
                             <Calendar className="h-3 w-3" />
-                            {doc.uploadedAt.toLocaleDateString("pt-BR")}
+                            {doc.(typeof uploadedAt === "string" ? new Date(uploadedAt).toLocaleDateString("pt-BR") : uploadedAt instanceof Date ? uploadedAt.toLocaleDateString("pt-BR") : "")}
                           </span>
                           <span>{doc.size}</span>
                           <span>Por: {doc.uploadedBy}</span>

@@ -151,7 +151,7 @@ export default function AdminUsersPage() {
                         <div className="text-right">
                           <Badge variant={u.role === "Super Admin" ? "destructive" : "default"}>{u.role}</Badge>
                           <p className="text-xs text-muted-foreground mt-1">
-                            Desde {u.createdAt.toLocaleDateString("pt-BR")}
+                            Desde {u.(typeof createdAt === "string" ? new Date(createdAt).toLocaleDateString("pt-BR") : createdAt instanceof Date ? createdAt.toLocaleDateString("pt-BR") : "")}
                           </p>
                         </div>
                         <Button variant="outline" size="sm">

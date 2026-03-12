@@ -540,7 +540,7 @@ export default function FinancialPage() {
                               <div>
                                 <p className="font-medium">{transaction.description}</p>
                                 <p className="text-xs text-muted-foreground">
-                                  Vence em {transaction.dueDate.toLocaleDateString("pt-BR")}
+                                  Vence em {transaction.(typeof dueDate === "string" ? new Date(dueDate).toLocaleDateString("pt-BR") : dueDate instanceof Date ? dueDate.toLocaleDateString("pt-BR") : "")}
                                 </p>
                               </div>
                               <p className="font-bold text-green-600">
@@ -571,7 +571,7 @@ export default function FinancialPage() {
                               <div>
                                 <p className="font-medium">{transaction.description}</p>
                                 <p className="text-xs text-muted-foreground">
-                                  Vence em {transaction.dueDate.toLocaleDateString("pt-BR")}
+                                  Vence em {transaction.(typeof dueDate === "string" ? new Date(dueDate).toLocaleDateString("pt-BR") : dueDate instanceof Date ? dueDate.toLocaleDateString("pt-BR") : "")}
                                 </p>
                               </div>
                               <p className="font-bold text-red-600">
@@ -1370,9 +1370,9 @@ export default function FinancialPage() {
                                 <TableCell>
                                   <input type="checkbox" className="rounded" />
                                 </TableCell>
-                                <TableCell>{transaction.dueDate.toLocaleDateString("pt-BR")}</TableCell>
+                                <TableCell>{transaction.(typeof dueDate === "string" ? new Date(dueDate).toLocaleDateString("pt-BR") : dueDate instanceof Date ? dueDate.toLocaleDateString("pt-BR") : "")}</TableCell>
                                 <TableCell>
-                                  {transaction.paymentDate ? transaction.paymentDate.toLocaleDateString("pt-BR") : "-"}
+                                  {transaction.paymentDate ? transaction.(typeof paymentDate === "string" ? new Date(paymentDate).toLocaleDateString("pt-BR") : paymentDate instanceof Date ? paymentDate.toLocaleDateString("pt-BR") : "") : "-"}
                                 </TableCell>
                                 <TableCell className="font-medium">{transaction.description}</TableCell>
                                 <TableCell className="text-sm text-muted-foreground">-</TableCell>
@@ -1728,7 +1728,7 @@ export default function FinancialPage() {
                             </TableCell>
                             <TableCell>
                               <div>
-                                <p>{payment.dueDate.toLocaleDateString("pt-BR")}</p>
+                                <p>{payment.(typeof dueDate === "string" ? new Date(dueDate).toLocaleDateString("pt-BR") : dueDate instanceof Date ? dueDate.toLocaleDateString("pt-BR") : "")}</p>
                                 {payment.status === "overdue" && (
                                   <p className="text-xs text-red-600">Atrasado {payment.daysOverdue} dias</p>
                                 )}

@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { agencyApi } from "@/lib/api"
+import { getAgency } from "@/lib/auth"
 import { useEffect, useState } from "react"
 
 export default function SettingsPage() {
@@ -17,7 +17,7 @@ export default function SettingsPage() {
 
   useEffect(() => {
     if (user?.agencyId) {
-      agencyApi.getProfile().then((agency) => {
+      getAgency(user.agencyId).then((agency) => {
         if (agency) setAgencyData(agency)
       })
     }

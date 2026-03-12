@@ -85,7 +85,7 @@ export default function ProjectsPage() {
                         <Calendar className="h-4 w-4" />
                         <span>
                           {project.status === "completed"
-                            ? `Concluído em ${project.dueDate.toLocaleDateString("pt-BR")}`
+                            ? `Concluído em ${project.(typeof dueDate === "string" ? new Date(dueDate).toLocaleDateString("pt-BR") : dueDate instanceof Date ? dueDate.toLocaleDateString("pt-BR") : "")}`
                             : `${daysUntilDue} dias restantes`}
                         </span>
                       </div>

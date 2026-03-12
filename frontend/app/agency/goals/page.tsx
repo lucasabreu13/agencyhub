@@ -207,7 +207,7 @@ export default function GoalsPage() {
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Calendar className="h-4 w-4" />
                         <span>
-                          {goal.startDate.toLocaleDateString("pt-BR")} - {goal.endDate.toLocaleDateString("pt-BR")}
+                          {goal.(typeof startDate === "string" ? new Date(startDate).toLocaleDateString("pt-BR") : startDate instanceof Date ? startDate.toLocaleDateString("pt-BR") : "")} - {goal.(typeof endDate === "string" ? new Date(endDate).toLocaleDateString("pt-BR") : endDate instanceof Date ? endDate.toLocaleDateString("pt-BR") : "")}
                         </span>
                       </div>
                       <Badge variant={daysRemaining < 30 ? "destructive" : "outline"}>

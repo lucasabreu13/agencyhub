@@ -45,7 +45,7 @@ interface Folder {
 }
 
 export default function AgencyDocumentsPage() {
-  const { user, isLoading, logout } = useAuth("agency_owner")
+  const { user, loading, logout } = useAuth("agency_owner")
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [showNewFolder, setShowNewFolder] = useState(false)
   const [showUpload, setShowUpload] = useState(false)
@@ -108,7 +108,7 @@ export default function AgencyDocumentsPage() {
     },
   ])
 
-  if (isLoading) {
+  if (loading) {
     return <div className="flex h-screen items-center justify-center">Carregando...</div>
   }
 
@@ -329,7 +329,7 @@ export default function AgencyDocumentsPage() {
                           </h4>
                           <p className="text-xs text-muted-foreground">{doc.size}</p>
                           <p className="mt-2 text-xs text-muted-foreground">
-                            {doc.uploadedAt.toLocaleDateString("pt-BR")}
+                            {doc.(typeof uploadedAt === "string" ? new Date(uploadedAt).toLocaleDateString("pt-BR") : uploadedAt instanceof Date ? uploadedAt.toLocaleDateString("pt-BR") : "")}
                           </p>
                         </CardContent>
                       </Card>
@@ -347,7 +347,7 @@ export default function AgencyDocumentsPage() {
                           <div>
                             <h4 className="font-semibold">{doc.name}</h4>
                             <p className="text-xs text-muted-foreground">
-                              {doc.size} • Enviado por {doc.uploadedBy} em {doc.uploadedAt.toLocaleDateString("pt-BR")}
+                              {doc.size} • Enviado por {doc.uploadedBy} em {doc.(typeof uploadedAt === "string" ? new Date(uploadedAt).toLocaleDateString("pt-BR") : uploadedAt instanceof Date ? uploadedAt.toLocaleDateString("pt-BR") : "")}
                             </p>
                           </div>
                         </div>

@@ -115,7 +115,7 @@ export default function AdminDashboard() {
                       <div>
                         <p className="font-medium">{agency.name}</p>
                         <p className="text-sm text-muted-foreground">
-                          Desde {new Date(agency.createdAt).toLocaleDateString("pt-BR")}
+                          Desde {agency.(typeof createdAt === "string" ? new Date(createdAt).toLocaleDateString("pt-BR") : createdAt instanceof Date ? createdAt.toLocaleDateString("pt-BR") : "")}
                         </p>
                       </div>
                       <Badge variant="default">
@@ -261,4 +261,3 @@ export default function AdminDashboard() {
     </div>
   )
 }
-

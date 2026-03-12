@@ -77,7 +77,7 @@ export default function CampaignsPage() {
                           <span>Cliente: {client?.company}</span>
                           <span>Plataforma: {campaign.platform}</span>
                           <span>
-                            {campaign.startDate.toLocaleDateString("pt-BR")} -{" "}
+                            {campaign.(typeof startDate === "string" ? new Date(startDate).toLocaleDateString("pt-BR") : startDate instanceof Date ? startDate.toLocaleDateString("pt-BR") : "")} -{" "}
                             {campaign.endDate?.toLocaleDateString("pt-BR") || "Em andamento"}
                           </span>
                         </div>

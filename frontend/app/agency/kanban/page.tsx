@@ -384,7 +384,7 @@ export default function KanbanPage() {
                           <div className="flex items-center gap-2 text-xs">
                             <Calendar className="h-3 w-3" />
                             <span className={isOverdue ? "text-red-600 font-semibold" : ""}>
-                              {card.dueDate.toLocaleDateString("pt-BR")}
+                              {card.(typeof dueDate === "string" ? new Date(dueDate).toLocaleDateString("pt-BR") : dueDate instanceof Date ? dueDate.toLocaleDateString("pt-BR") : "")}
                             </span>
                           </div>
                           {isBlocked && (
@@ -507,7 +507,7 @@ export default function KanbanPage() {
 
               <div>
                 <p className="text-sm font-semibold mb-2">Prazo</p>
-                <p className="text-sm text-muted-foreground">{selectedCard.dueDate.toLocaleDateString("pt-BR")}</p>
+                <p className="text-sm text-muted-foreground">{selectedCard.(typeof dueDate === "string" ? new Date(dueDate).toLocaleDateString("pt-BR") : dueDate instanceof Date ? dueDate.toLocaleDateString("pt-BR") : "")}</p>
               </div>
 
               <div>

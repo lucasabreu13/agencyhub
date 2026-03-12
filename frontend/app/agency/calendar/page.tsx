@@ -306,7 +306,7 @@ export default function AgencyCalendarPage() {
                     <ChevronRight className="h-4 w-4" />
                   </Button>
                   <h2 className="ml-4 text-xl font-semibold">
-                    {currentDate.toLocaleDateString("pt-BR", { month: "long", year: "numeric" })}
+                    {(typeof currentDate === "string" ? new Date(currentDate).toLocaleDateString("pt-BR", { month: "long", year: "numeric" }) : currentDate instanceof Date ? currentDate.toLocaleDateString("pt-BR", { month: "long", year: "numeric" }) : "")}
                   </h2>
                 </div>
 

@@ -1,5 +1,6 @@
 "use client"
 import { useApi } from "@/hooks/use-api"
+import { adminApi } from "@/lib/api"
 
 import { useState } from "react"
 import { useAuth } from "@/hooks/use-auth"

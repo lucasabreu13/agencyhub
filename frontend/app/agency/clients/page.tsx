@@ -215,7 +215,7 @@ export default function ClientsPage() {
                   </div>
                   <div>
                     <p className="text-xs text-muted-foreground mb-1">Cliente desde</p>
-                    <p className="text-sm">{client.startDate.toLocaleDateString("pt-BR")}</p>
+                    <p className="text-sm">{client.(typeof startDate === "string" ? new Date(startDate).toLocaleDateString("pt-BR") : startDate instanceof Date ? startDate.toLocaleDateString("pt-BR") : "")}</p>
                   </div>
                   <Dialog
                     open={showDetailsDialog && selectedClient?.id === client.id}
@@ -284,7 +284,7 @@ export default function ClientsPage() {
                             </div>
                             <div>
                               <p className="text-sm font-medium text-muted-foreground">Cliente desde</p>
-                              <p className="text-base">{client.startDate.toLocaleDateString("pt-BR")}</p>
+                              <p className="text-base">{client.(typeof startDate === "string" ? new Date(startDate).toLocaleDateString("pt-BR") : startDate instanceof Date ? startDate.toLocaleDateString("pt-BR") : "")}</p>
                             </div>
                           </div>
                           <div className="pt-4 border-t">
