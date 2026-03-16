@@ -29,7 +29,7 @@ export default function AgencyDashboard() {
 
   useEffect(() => {
     if (user?.agencyId) {
-      agencyApi.getSettings().then((res: any) => {
+      agencyApi.getProfile().then((res: any) => {
         if (res?.name) setAgencyName(res.name)
       }).catch(() => {})
     }
