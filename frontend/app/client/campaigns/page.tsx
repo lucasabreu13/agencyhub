@@ -1,4 +1,5 @@
 "use client"
+import { formatDate } from "@/lib/utils"
 
 import { useAuth } from "@/hooks/use-auth"
 import { ClientSidebar } from "@/components/client/sidebar"
@@ -72,7 +73,7 @@ export default function ClientCampaignsPage() {
                       <div>
                         <p className="text-sm text-muted-foreground mb-1">Período</p>
                         <p className="font-medium">
-                          {campaign.(typeof startDate === "string" ? new Date(startDate).toLocaleDateString("pt-BR") : startDate instanceof Date ? startDate.toLocaleDateString("pt-BR") : "")} -{" "}
+                          {campaign.formatDate(startDate)} -{" "}
                           {campaign.endDate?.toLocaleDateString("pt-BR") || "Em andamento"}
                         </p>
                       </div>

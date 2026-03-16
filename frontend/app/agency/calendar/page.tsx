@@ -1,4 +1,5 @@
 "use client"
+import { formatDate } from "@/lib/utils"
 
 import { useState } from "react"
 import { useAuth } from "@/hooks/use-auth"
@@ -306,7 +307,7 @@ export default function AgencyCalendarPage() {
                     <ChevronRight className="h-4 w-4" />
                   </Button>
                   <h2 className="ml-4 text-xl font-semibold">
-                    {(typeof currentDate === "string" ? new Date(currentDate).toLocaleDateString("pt-BR", { month: "long", year: "numeric" }) : currentDate instanceof Date ? currentDate.toLocaleDateString("pt-BR", { month: "long", year: "numeric" }) : "")}
+                    {formatDate(currentDate)}
                   </h2>
                 </div>
 

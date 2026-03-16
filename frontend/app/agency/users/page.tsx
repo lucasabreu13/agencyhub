@@ -1,4 +1,5 @@
 "use client"
+import { formatDate } from "@/lib/utils"
 
 import { useState } from "react"
 import { AgencySidebar } from "@/components/agency/sidebar"
@@ -292,7 +293,7 @@ export default function UsersPage() {
                                   </div>
                                   <div className="flex items-center gap-1">
                                     <Calendar className="h-3 w-3" />
-                                    Desde {member.(typeof createdAt === "string" ? new Date(createdAt).toLocaleDateString("pt-BR") : createdAt instanceof Date ? createdAt.toLocaleDateString("pt-BR") : "")}
+                                    Desde {member.formatDate(createdAt)}
                                   </div>
                                   {member.lastLogin && (
                                     <div className="flex items-center gap-1">

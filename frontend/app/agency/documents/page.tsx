@@ -1,4 +1,5 @@
 "use client"
+import { formatDate } from "@/lib/utils"
 
 import { useState } from "react"
 import { useAuth } from "@/hooks/use-auth"
@@ -329,7 +330,7 @@ export default function AgencyDocumentsPage() {
                           </h4>
                           <p className="text-xs text-muted-foreground">{doc.size}</p>
                           <p className="mt-2 text-xs text-muted-foreground">
-                            {doc.(typeof uploadedAt === "string" ? new Date(uploadedAt).toLocaleDateString("pt-BR") : uploadedAt instanceof Date ? uploadedAt.toLocaleDateString("pt-BR") : "")}
+                            {doc.formatDate(uploadedAt)}
                           </p>
                         </CardContent>
                       </Card>
@@ -347,7 +348,7 @@ export default function AgencyDocumentsPage() {
                           <div>
                             <h4 className="font-semibold">{doc.name}</h4>
                             <p className="text-xs text-muted-foreground">
-                              {doc.size} • Enviado por {doc.uploadedBy} em {doc.(typeof uploadedAt === "string" ? new Date(uploadedAt).toLocaleDateString("pt-BR") : uploadedAt instanceof Date ? uploadedAt.toLocaleDateString("pt-BR") : "")}
+                              {doc.size} • Enviado por {doc.uploadedBy} em {doc.formatDate(uploadedAt)}
                             </p>
                           </div>
                         </div>

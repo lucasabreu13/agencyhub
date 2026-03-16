@@ -1,4 +1,5 @@
 "use client"
+import { formatDate } from "@/lib/utils"
 
 import { useState } from "react"
 import { useAuth } from "@/hooks/use-auth"
@@ -243,7 +244,7 @@ export default function AgencySupportPage() {
                                 </div>
                               </div>
                               <div className="mt-2 flex items-center gap-4 text-xs text-muted-foreground">
-                                <span>Criado em {ticket.(typeof createdAt === "string" ? new Date(createdAt).toLocaleDateString("pt-BR") : createdAt instanceof Date ? createdAt.toLocaleDateString("pt-BR") : "")}</span>
+                                <span>Criado em {ticket.formatDate(createdAt)}</span>
                                 <span>{ticket.responses} respostas</span>
                               </div>
                             </div>

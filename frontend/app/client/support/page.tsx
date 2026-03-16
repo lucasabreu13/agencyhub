@@ -1,4 +1,5 @@
 "use client"
+import { formatDate } from "@/lib/utils"
 import { useApi } from "@/hooks/use-api"
 import { clientApi } from "@/lib/api"
 
@@ -328,7 +329,7 @@ export default function ClientSupportPage() {
                           {getStatusBadge(ticket.status)}
                           {getPriorityBadge(ticket.priority)}
                           <span className="text-xs text-muted-foreground">
-                            Criado em {ticket.(typeof createdAt === "string" ? new Date(createdAt).toLocaleDateString("pt-BR") : createdAt instanceof Date ? createdAt.toLocaleDateString("pt-BR") : "")}
+                            Criado em {ticket.formatDate(createdAt)}
                           </span>
                           {ticket.responses.length > 0 && (
                             <span className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -363,7 +364,7 @@ export default function ClientSupportPage() {
                       <h4 className="font-semibold mb-2">Descrição</h4>
                       <p className="text-sm text-muted-foreground">{selectedTicket.description}</p>
                       <p className="text-xs text-muted-foreground mt-2">
-                        Criado em {selectedTicket.(typeof createdAt === "string" ? new Date(createdAt).toLocaleDateString("pt-BR") : createdAt instanceof Date ? createdAt.toLocaleDateString("pt-BR") : "")} às{" "}
+                        Criado em {selectedTicket.formatDate(createdAt)} às{" "}
                         {selectedTicket.createdAt.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
                       </p>
                     </div>
@@ -382,7 +383,7 @@ export default function ClientSupportPage() {
                               <div className="flex items-center justify-between mb-2">
                                 <span className="font-medium text-sm">{response.author}</span>
                                 <span className="text-xs text-muted-foreground">
-                                  {response.(typeof createdAt === "string" ? new Date(createdAt).toLocaleDateString("pt-BR") : createdAt instanceof Date ? createdAt.toLocaleDateString("pt-BR") : "")} às{" "}
+                                  {response.formatDate(createdAt)} às{" "}
                                   {response.createdAt.toLocaleTimeString("pt-BR", {
                                     hour: "2-digit",
                                     minute: "2-digit",

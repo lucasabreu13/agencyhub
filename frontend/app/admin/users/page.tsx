@@ -1,4 +1,5 @@
 "use client"
+import { formatDate } from "@/lib/utils"
 
 import { useState } from "react"
 import { useAuth } from "@/hooks/use-auth"
@@ -151,7 +152,7 @@ export default function AdminUsersPage() {
                         <div className="text-right">
                           <Badge variant={u.role === "Super Admin" ? "destructive" : "default"}>{u.role}</Badge>
                           <p className="text-xs text-muted-foreground mt-1">
-                            Desde {u.(typeof createdAt === "string" ? new Date(createdAt).toLocaleDateString("pt-BR") : createdAt instanceof Date ? createdAt.toLocaleDateString("pt-BR") : "")}
+                            Desde {u.formatDate(createdAt)}
                           </p>
                         </div>
                         <Button variant="outline" size="sm">

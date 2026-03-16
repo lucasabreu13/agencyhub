@@ -1,4 +1,5 @@
 "use client"
+import { formatDate } from "@/lib/utils"
 
 import { useState } from "react"
 import { useAuth } from "@/hooks/use-auth"
@@ -302,7 +303,7 @@ export default function AdminRemindersPage() {
                         <div className="flex items-center gap-6 text-sm">
                           <div className="flex items-center gap-2">
                             <Calendar className="h-4 w-4 text-muted-foreground" />
-                            <span>{reminder.(typeof date === "string" ? new Date(date).toLocaleDateString("pt-BR") : date instanceof Date ? date.toLocaleDateString("pt-BR") : "")}</span>
+                            <span>{reminder.formatDate(date)}</span>
                           </div>
                           <div className="flex items-center gap-2">
                             <Clock className="h-4 w-4 text-muted-foreground" />
@@ -359,7 +360,7 @@ export default function AdminRemindersPage() {
                       <div className="flex items-center gap-6 text-sm text-muted-foreground">
                         <div className="flex items-center gap-2">
                           <Calendar className="h-4 w-4" />
-                          <span>{reminder.(typeof date === "string" ? new Date(date).toLocaleDateString("pt-BR") : date instanceof Date ? date.toLocaleDateString("pt-BR") : "")}</span>
+                          <span>{reminder.formatDate(date)}</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <Clock className="h-4 w-4" />

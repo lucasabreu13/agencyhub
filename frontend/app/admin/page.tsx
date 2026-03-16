@@ -1,4 +1,5 @@
 "use client"
+import { formatDate } from "@/lib/utils"
 
 import { useAuth } from "@/hooks/use-auth"
 import { AdminSidebar } from "@/components/admin/sidebar"
@@ -115,7 +116,7 @@ export default function AdminDashboard() {
                       <div>
                         <p className="font-medium">{agency.name}</p>
                         <p className="text-sm text-muted-foreground">
-                          Desde {agency.(typeof createdAt === "string" ? new Date(createdAt).toLocaleDateString("pt-BR") : createdAt instanceof Date ? createdAt.toLocaleDateString("pt-BR") : "")}
+                          Desde {agency.formatDate(createdAt)}
                         </p>
                       </div>
                       <Badge variant="default">

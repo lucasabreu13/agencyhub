@@ -1,4 +1,5 @@
 "use client"
+import { formatDate } from "@/lib/utils"
 
 import { useAuth } from "@/hooks/use-auth"
 import { AgencySidebar } from "@/components/agency/sidebar"
@@ -207,7 +208,7 @@ export default function GoalsPage() {
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Calendar className="h-4 w-4" />
                         <span>
-                          {goal.(typeof startDate === "string" ? new Date(startDate).toLocaleDateString("pt-BR") : startDate instanceof Date ? startDate.toLocaleDateString("pt-BR") : "")} - {goal.(typeof endDate === "string" ? new Date(endDate).toLocaleDateString("pt-BR") : endDate instanceof Date ? endDate.toLocaleDateString("pt-BR") : "")}
+                          {goal.formatDate(startDate)} - {goal.formatDate(endDate)}
                         </span>
                       </div>
                       <Badge variant={daysRemaining < 30 ? "destructive" : "outline"}>

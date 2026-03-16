@@ -1,4 +1,5 @@
 "use client"
+import { formatDate } from "@/lib/utils"
 
 import { useState } from "react"
 import { useAuth } from "@/hooks/use-auth"
@@ -282,7 +283,7 @@ export default function AdminGoalsPage() {
                       <div className="flex items-center gap-4">
                         <div>
                           <p className="text-muted-foreground">Prazo</p>
-                          <p className="font-medium">{goal.(typeof deadline === "string" ? new Date(deadline).toLocaleDateString("pt-BR") : deadline instanceof Date ? deadline.toLocaleDateString("pt-BR") : "")}</p>
+                          <p className="font-medium">{goal.formatDate(deadline)}</p>
                         </div>
                         <div>
                           <p className="text-muted-foreground">Faltam</p>

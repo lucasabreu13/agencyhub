@@ -1,4 +1,5 @@
 "use client"
+import { formatDate } from "@/lib/utils"
 
 import type React from "react"
 
@@ -384,7 +385,7 @@ export default function KanbanPage() {
                           <div className="flex items-center gap-2 text-xs">
                             <Calendar className="h-3 w-3" />
                             <span className={isOverdue ? "text-red-600 font-semibold" : ""}>
-                              {card.(typeof dueDate === "string" ? new Date(dueDate).toLocaleDateString("pt-BR") : dueDate instanceof Date ? dueDate.toLocaleDateString("pt-BR") : "")}
+                              {card.formatDate(dueDate)}
                             </span>
                           </div>
                           {isBlocked && (
@@ -507,7 +508,7 @@ export default function KanbanPage() {
 
               <div>
                 <p className="text-sm font-semibold mb-2">Prazo</p>
-                <p className="text-sm text-muted-foreground">{selectedCard.(typeof dueDate === "string" ? new Date(dueDate).toLocaleDateString("pt-BR") : dueDate instanceof Date ? dueDate.toLocaleDateString("pt-BR") : "")}</p>
+                <p className="text-sm text-muted-foreground">{selectedCard.formatDate(dueDate)}</p>
               </div>
 
               <div>

@@ -1,4 +1,5 @@
 "use client"
+import { formatDate } from "@/lib/utils"
 
 import { useAuth } from "@/hooks/use-auth"
 import { ClientSidebar } from "@/components/client/sidebar"
@@ -122,7 +123,7 @@ export default function ClientFinancialPage() {
               <CardContent>
                 <div className="text-2xl font-bold">
                   {pendingInvoices.length > 0
-                    ? pendingInvoices[0].(typeof dueDate === "string" ? new Date(dueDate).toLocaleDateString("pt-BR", { day: "2-digit", month: "short" }) : dueDate instanceof Date ? dueDate.toLocaleDateString("pt-BR", { day: "2-digit", month: "short" }) : "")
+                    ? pendingInvoices[0].formatDate(dueDate)
                     : "N/A"}
                 </div>
                 <p className="text-xs text-muted-foreground mt-1">
@@ -156,8 +157,8 @@ export default function ClientFinancialPage() {
                     <TableRow key={invoice.id}>
                       <TableCell className="font-mono">{invoice.invoiceNumber}</TableCell>
                       <TableCell>{invoice.description}</TableCell>
-                      <TableCell>{invoice.(typeof issueDate === "string" ? new Date(issueDate).toLocaleDateString("pt-BR") : issueDate instanceof Date ? issueDate.toLocaleDateString("pt-BR") : "")}</TableCell>
-                      <TableCell>{invoice.(typeof dueDate === "string" ? new Date(dueDate).toLocaleDateString("pt-BR") : dueDate instanceof Date ? dueDate.toLocaleDateString("pt-BR") : "")}</TableCell>
+                      <TableCell>{invoice.formatDate(issueDate)}</TableCell>
+                      <TableCell>{invoice.formatDate(dueDate)}</TableCell>
                       <TableCell className="font-semibold">
                         {invoice.amount.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                       </TableCell>
@@ -198,7 +199,7 @@ export default function ClientFinancialPage() {
 
                                   <div className="space-y-2">
                                     <Label>Vencimento</Label>
-                                    <div className="text-lg">{invoice.(typeof dueDate === "string" ? new Date(dueDate).toLocaleDateString("pt-BR") : dueDate instanceof Date ? dueDate.toLocaleDateString("pt-BR") : "")}</div>
+                                    <div className="text-lg">{invoice.formatDate(dueDate)}</div>
                                   </div>
 
                                   <div className="space-y-2">

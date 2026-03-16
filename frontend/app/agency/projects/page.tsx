@@ -1,4 +1,5 @@
 "use client"
+import { formatDate } from "@/lib/utils"
 
 import { useAuth } from "@/hooks/use-auth"
 import { AgencySidebar } from "@/components/agency/sidebar"
@@ -85,7 +86,7 @@ export default function ProjectsPage() {
                         <Calendar className="h-4 w-4" />
                         <span>
                           {project.status === "completed"
-                            ? `Concluído em ${project.(typeof dueDate === "string" ? new Date(dueDate).toLocaleDateString("pt-BR") : dueDate instanceof Date ? dueDate.toLocaleDateString("pt-BR") : "")}`
+                            ? `Concluído em ${project.formatDate(dueDate)}`
                             : `${daysUntilDue} dias restantes`}
                         </span>
                       </div>

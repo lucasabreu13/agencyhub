@@ -1,4 +1,5 @@
 "use client"
+import { formatDate } from "@/lib/utils"
 
 import { use } from "react"
 import { useAuth } from "@/hooks/use-auth"
@@ -272,7 +273,7 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
                                 {history.newPlan}
                               </p>
                               <p className="text-sm text-muted-foreground">
-                                {history.(typeof date === "string" ? new Date(date).toLocaleDateString("pt-BR") : date instanceof Date ? date.toLocaleDateString("pt-BR") : "")}
+                                {history.formatDate(date)}
                               </p>
                             </div>
                             <p className="text-sm text-muted-foreground mt-1">Responsável: {history.responsibleUser}</p>
@@ -339,7 +340,7 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
                               </div>
                               <div className="flex items-center gap-1 text-xs text-muted-foreground mt-2">
                                 <Clock className="h-3 w-3" />
-                                Último acesso: {user.(typeof lastAccess === "string" ? new Date(lastAccess).toLocaleDateString("pt-BR") : lastAccess instanceof Date ? lastAccess.toLocaleDateString("pt-BR") : "")} às{" "}
+                                Último acesso: {user.formatDate(lastAccess)} às{" "}
                                 {user.lastAccess.toLocaleTimeString("pt-BR", {
                                   hour: "2-digit",
                                   minute: "2-digit",
@@ -407,7 +408,7 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
                               </div>
                               <div>
                                 <p className="text-xs text-muted-foreground">Data de Início</p>
-                                <p className="text-sm font-medium">{client.(typeof startDate === "string" ? new Date(startDate).toLocaleDateString("pt-BR") : startDate instanceof Date ? startDate.toLocaleDateString("pt-BR") : "")}</p>
+                                <p className="text-sm font-medium">{client.formatDate(startDate)}</p>
                               </div>
                               <div>
                                 <p className="text-xs text-muted-foreground">Receita Mensal</p>
@@ -492,7 +493,7 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
                           {filteredLogs.map((log) => (
                             <tr key={log.id} className="border-t hover:bg-muted/30">
                               <td className="p-3 text-sm">
-                                <div>{log.(typeof timestamp === "string" ? new Date(timestamp).toLocaleDateString("pt-BR") : timestamp instanceof Date ? timestamp.toLocaleDateString("pt-BR") : "")}</div>
+                                <div>{log.formatDate(timestamp)}</div>
                                 <div className="text-xs text-muted-foreground">
                                   {log.timestamp.toLocaleTimeString("pt-BR", {
                                     hour: "2-digit",

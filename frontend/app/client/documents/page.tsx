@@ -1,4 +1,5 @@
 "use client"
+import { formatDate } from "@/lib/utils"
 
 import { useAuth } from "@/hooks/use-auth"
 import { ClientSidebar } from "@/components/client/sidebar"
@@ -259,7 +260,7 @@ export default function ClientDocumentsPage() {
                         <div className="flex items-center gap-4 text-xs text-muted-foreground">
                           <span className="flex items-center gap-1">
                             <Calendar className="h-3 w-3" />
-                            {doc.(typeof uploadedAt === "string" ? new Date(uploadedAt).toLocaleDateString("pt-BR") : uploadedAt instanceof Date ? uploadedAt.toLocaleDateString("pt-BR") : "")}
+                            {doc.formatDate(uploadedAt)}
                           </span>
                           <span>{doc.size}</span>
                           <span>Por: {doc.uploadedBy}</span>

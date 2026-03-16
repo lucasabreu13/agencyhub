@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { getAgency } from "@/lib/auth"
+import { getUser } from "@/lib/auth"
 import { useEffect, useState } from "react"
 
 export default function SettingsPage() {
