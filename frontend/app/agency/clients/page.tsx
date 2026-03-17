@@ -211,7 +211,7 @@ export default function ClientsPage() {
                   <div className="pt-2 border-t">
                     <p className="text-xs text-muted-foreground mb-1">Orçamento Mensal</p>
                     <p className="text-lg font-bold">
-                      {client.monthlyBudget.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                      {(client.monthlyBudget || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                     </p>
                   </div>
                   <div>
@@ -291,7 +291,7 @@ export default function ClientsPage() {
                           <div className="pt-4 border-t">
                             <p className="text-sm font-medium text-muted-foreground mb-1">Orçamento Mensal</p>
                             <p className="text-2xl font-bold">
-                              {client.monthlyBudget.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                              {(client.monthlyBudget || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                             </p>
                           </div>
                         </TabsContent>
@@ -329,7 +329,7 @@ export default function ClientsPage() {
                                     <div>
                                       <p className="text-xs text-muted-foreground">Valor Mensal</p>
                                       <p className="text-sm font-medium">
-                                        {client.monthlyBudget.toLocaleString("pt-BR", {
+                                        {(client.monthlyBudget || 0).toLocaleString("pt-BR", {
                                           style: "currency",
                                           currency: "BRL",
                                         })}

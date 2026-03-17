@@ -78,7 +78,7 @@ export default function AdminAgenciesPage() {
                     <div className="pt-2 border-t">
                       <p className="text-xs text-muted-foreground mb-1">Receita Mensal</p>
                       <p className="text-lg font-bold">
-                        {planPrice.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                        {(planPrice || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                       </p>
                     </div>
 

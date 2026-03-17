@@ -190,7 +190,7 @@ export default function GoalsPage() {
                         <p className="text-xs text-muted-foreground mb-1">Atual</p>
                         <p className="text-lg font-bold">
                           {goal.unit === "R$"
-                            ? goal.current.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
+                            ? (goal.current || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
                             : `${goal.current} ${goal.unit}`}
                         </p>
                       </div>
@@ -198,7 +198,7 @@ export default function GoalsPage() {
                         <p className="text-xs text-muted-foreground mb-1">Meta</p>
                         <p className="text-lg font-bold">
                           {goal.unit === "R$"
-                            ? goal.target.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
+                            ? (goal.target || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
                             : `${goal.target} ${goal.unit}`}
                         </p>
                       </div>

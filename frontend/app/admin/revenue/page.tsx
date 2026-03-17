@@ -774,7 +774,7 @@ export default function AdminRevenuePage() {
                             }`}
                           >
                             {transaction.type === "income" ? "+" : "-"}
-                            {transaction.amount.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                            {(transaction.amount || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                           </p>
                           <Badge
                             variant={transaction.status === "confirmed" ? "default" : "secondary"}

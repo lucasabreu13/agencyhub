@@ -232,7 +232,7 @@ export default function InvoicesPage() {
                       </div>
                       <div className="flex items-center gap-6">
                         <div className="text-right">
-                          <div className="font-medium">R$ {invoice.value.toLocaleString("pt-BR")}</div>
+                          <div className="font-medium">R$ {(invoice.value || 0).toLocaleString("pt-BR")}</div>
                           <div className="text-sm text-muted-foreground">{invoice.items} itens</div>
                         </div>
                         <div className="text-sm text-muted-foreground w-24">

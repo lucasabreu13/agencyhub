@@ -74,14 +74,14 @@ export default function ClientCampaignsPage() {
                         <p className="text-sm text-muted-foreground mb-1">Período</p>
                         <p className="font-medium">
                           {campaign.formatDate(startDate)} -{" "}
-                          {campaign.endDate?.toLocaleDateString("pt-BR") || "Em andamento"}
+                          {campaign.endDate ? (typeof campaign.endDate === "string" ? new Date(campaign.endDate) : campaign.endDate).toLocaleDateString("pt-BR") : "Em andamento"}
                         </p>
                       </div>
                       <div>
                         <p className="text-sm text-muted-foreground mb-1">Investimento</p>
                         <p className="font-medium">
-                          {campaign.spent.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} /{" "}
-                          {campaign.budget.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                          {(campaign.spent || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} /{" "}
+                          {(campaign.budget || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                         </p>
                       </div>
                     </div>

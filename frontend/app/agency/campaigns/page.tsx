@@ -79,7 +79,7 @@ export default function CampaignsPage() {
                           <span>Plataforma: {campaign.platform}</span>
                           <span>
                             {campaign.formatDate(startDate)} -{" "}
-                            {campaign.endDate?.toLocaleDateString("pt-BR") || "Em andamento"}
+                            {campaign.endDate ? (typeof campaign.endDate === "string" ? new Date(campaign.endDate) : campaign.endDate).toLocaleDateString("pt-BR") : "Em andamento"}
                           </span>
                         </div>
 
@@ -87,8 +87,8 @@ export default function CampaignsPage() {
                           <div className="flex items-center justify-between text-sm">
                             <span className="text-muted-foreground">Orçamento</span>
                             <span className="font-medium">
-                              {campaign.spent.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} /{" "}
-                              {campaign.budget.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                              {(campaign.spent || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} /{" "}
+                              {(campaign.budget || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                             </span>
                           </div>
                           <div className="h-2 bg-muted rounded-full overflow-hidden">

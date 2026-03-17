@@ -306,7 +306,7 @@ export default function AgencyDashboard() {
                             {isNearBudget && <AlertCircle className="h-4 w-4 text-orange-500" />}
                           </div>
                           <p className="text-sm text-muted-foreground">
-                            {campaign.spent.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} /{" "}
+                            {(campaign.spent || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} /{" "}
                             {campaign.budget.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                           </p>
                         </div>

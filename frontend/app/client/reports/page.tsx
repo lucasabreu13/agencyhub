@@ -54,10 +54,10 @@ export default function ClientReportsPage() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
-                  {totalSpent.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                  {(totalSpent || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                 </div>
                 <p className="text-xs text-muted-foreground mt-1">
-                  de {totalBudget.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                  de {(totalBudget || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                 </p>
               </CardContent>
             </Card>
@@ -115,7 +115,7 @@ export default function ClientReportsPage() {
                         </div>
                         <div className="text-right">
                           <p className="font-bold">
-                            {campaign.spent.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                            {(campaign.spent || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                           </p>
                           <p className="text-sm text-muted-foreground">{percentage.toFixed(1)}% do orçamento</p>
                         </div>
@@ -161,7 +161,7 @@ export default function ClientReportsPage() {
                       <div>
                         <p className="font-medium">{campaign.name}</p>
                         <p className="text-sm text-muted-foreground">
-                          Investimento: {campaign.spent.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                          Investimento: {(campaign.spent || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                         </p>
                       </div>
                       <div className="text-right">

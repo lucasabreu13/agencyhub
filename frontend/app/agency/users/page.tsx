@@ -298,7 +298,7 @@ export default function UsersPage() {
                                   {member.lastLogin && (
                                     <div className="flex items-center gap-1">
                                       <Clock className="h-3 w-3" />
-                                      Último acesso: {member.lastLogin.toLocaleString("pt-BR")}
+                                      Último acesso: {(member.lastLogin || 0).toLocaleString("pt-BR")}
                                     </div>
                                   )}
                                 </div>

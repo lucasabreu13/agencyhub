@@ -210,7 +210,7 @@ export default function CRMPage() {
                               <p>
                                 <span className="font-medium">{log.user}</span> - {log.action}
                               </p>
-                              <p className="text-[10px]">{log.timestamp.toLocaleString("pt-BR")}</p>
+                              <p className="text-[10px]">{(log.timestamp ? new Date(log.timestamp).toLocaleDateString("pt-BR") : "")}</p>
                             </div>
                           ))}
                         </div>
@@ -309,7 +309,7 @@ export default function CRMPage() {
                               <p>
                                 <span className="font-medium">{log.user}</span> - {log.action}
                               </p>
-                              <p className="text-[10px]">{log.timestamp.toLocaleString("pt-BR")}</p>
+                              <p className="text-[10px]">{(log.timestamp ? new Date(log.timestamp).toLocaleDateString("pt-BR") : "")}</p>
                             </div>
                           ))}
                         </div>
