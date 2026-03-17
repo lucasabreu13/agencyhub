@@ -39,7 +39,7 @@ export default function ClientCampaignsPage() {
           </div>
 
           <div className="space-y-6">
-            {campaigns.map((campaign) => {
+            {(campaigns || []).map((campaign) => {
               const percentage = (campaign.spent / campaign.budget) * 100
               const isActive = campaign.status === "active"
 

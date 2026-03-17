@@ -197,7 +197,7 @@ export default function AdminRevenuePage() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold">
-                      {monthlyRevenue.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                      {(monthlyRevenue || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                     </div>
                     <div className="flex items-center gap-1 mt-1">
                       <ArrowUpRight className="h-3 w-3 text-green-600" />
@@ -213,7 +213,7 @@ export default function AdminRevenuePage() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold">
-                      {monthlyExpenses.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                      {(monthlyExpenses || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                     </div>
                     <div className="flex items-center gap-1 mt-1">
                       <ArrowDownRight className="h-3 w-3 text-green-600" />
@@ -229,7 +229,7 @@ export default function AdminRevenuePage() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold">
-                      {netProfit.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                      {(netProfit || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">Margem: {profitMargin}%</p>
                   </CardContent>
@@ -258,7 +258,7 @@ export default function AdminRevenuePage() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-xl font-bold">
-                      {monthlyRevenue.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                      {(monthlyRevenue || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                     </div>
                   </CardContent>
                 </Card>
@@ -296,7 +296,7 @@ export default function AdminRevenuePage() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-xl font-bold">
-                      {estimatedCAC.toLocaleString("pt-BR", {
+                      {(estimatedCAC || 0).toLocaleString("pt-BR", {
                         style: "currency",
                         currency: "BRL",
                         minimumFractionDigits: 0,
@@ -493,7 +493,7 @@ export default function AdminRevenuePage() {
                           </div>
                           <div className="text-right">
                             <p className="font-bold">
-                              {category.value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                              {(category.value || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                             </p>
                             <p className="text-xs text-muted-foreground">
                               {((category.value / monthlyExpenses) * 100).toFixed(1)}% do total
@@ -504,7 +504,7 @@ export default function AdminRevenuePage() {
                       <div className="pt-4 border-t">
                         <div className="flex items-center justify-between font-bold">
                           <span>Total</span>
-                          <span>{monthlyExpenses.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</span>
+                          <span>{(monthlyExpenses || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</span>
                         </div>
                       </div>
                     </div>
@@ -522,7 +522,7 @@ export default function AdminRevenuePage() {
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-sm text-muted-foreground">Receita Projetada</span>
                           <span className="font-bold text-lg">
-                            {yearlyRevenue.toLocaleString("pt-BR", {
+                            {(yearlyRevenue || 0).toLocaleString("pt-BR", {
                               style: "currency",
                               currency: "BRL",
                               minimumFractionDigits: 0,
@@ -690,7 +690,7 @@ export default function AdminRevenuePage() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold text-green-600">
-                      {monthlyRevenue.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                      {(monthlyRevenue || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">
                       {transactions.filter((t) => t.type === "income").length} lançamentos
@@ -707,7 +707,7 @@ export default function AdminRevenuePage() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold text-red-600">
-                      {monthlyExpenses.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                      {(monthlyExpenses || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">
                       {transactions.filter((t) => t.type === "expense").length} lançamentos
@@ -724,7 +724,7 @@ export default function AdminRevenuePage() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold text-blue-600">
-                      {netProfit.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                      {(netProfit || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">Receita - Despesas</p>
                   </CardContent>
@@ -738,7 +738,7 @@ export default function AdminRevenuePage() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    {transactions.map((transaction) => (
+                    {(transactions || []).map((transaction) => (
                       <div
                         key={transaction.id}
                         className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors"

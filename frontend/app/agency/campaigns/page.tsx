@@ -46,7 +46,7 @@ export default function CampaignsPage() {
           </div>
 
           <div className="space-y-4">
-            {campaigns.map((campaign) => {
+            {(campaigns || []).map((campaign) => {
             // client removed - use campaign.clientName if available
               const percentage = (campaign.spent / campaign.budget) * 100
 

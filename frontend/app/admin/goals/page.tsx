@@ -240,7 +240,7 @@ export default function AdminGoalsPage() {
 
           {/* Goals List */}
           <div className="grid gap-4">
-            {goals.map((goal) => {
+            {(goals || []).map((goal) => {
               const progress =
                 goal.type === "custom" ? 100 - (goal.current / goal.target) * 100 : (goal.current / goal.target) * 100
               const daysUntilDeadline = Math.ceil(
@@ -269,7 +269,7 @@ export default function AdminGoalsPage() {
                         <span className="text-muted-foreground">Progresso</span>
                         <span className="font-medium">
                           {goal.type === "revenue"
-                            ? `${goal.current.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} / ${goal.target.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`
+                            ? `${(goal.current || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} / ${(goal.target || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`
                             : goal.type === "custom"
                               ? `${goal.current}% / ${goal.target}%`
                               : `${goal.current} / ${goal.target}`}

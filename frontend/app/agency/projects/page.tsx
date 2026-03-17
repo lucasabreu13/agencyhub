@@ -56,7 +56,7 @@ export default function ProjectsPage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.map((project) => {
+            {(projects || []).map((project) => {
               const client = getClientById(project.clientId)
               const daysUntilDue = Math.ceil((project.dueDate.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))
 

@@ -56,10 +56,10 @@ export default function ClientDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
-                  {totalSpent.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                  {(totalSpent || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                 </div>
                 <p className="text-xs text-muted-foreground mt-1">
-                  de {totalBudget.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                  de {(totalBudget || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                 </p>
               </CardContent>
             </Card>
@@ -82,7 +82,7 @@ export default function ClientDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
-                  {totalBudget.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                  {(totalBudget || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                 </div>
                 <p className="text-xs text-muted-foreground mt-1">Renovação em 25 dias</p>
               </CardContent>

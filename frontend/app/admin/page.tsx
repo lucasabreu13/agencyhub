@@ -84,7 +84,7 @@ export default function AdminDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
-                  {monthlyRevenue.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                  {(monthlyRevenue || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                 </div>
                 <p className="text-xs text-green-600 mt-1">+18% vs. mês anterior</p>
               </CardContent>

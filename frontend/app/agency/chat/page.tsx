@@ -108,7 +108,7 @@ export default function ChatPage() {
 
               <ScrollArea className="flex-1 p-4">
                 <div className="space-y-4">
-                  {messagesData.map((msg: any) => {
+                  {(messagesData || []).map((msg: any) => {
                     const isMe = msg.senderId === user.id || msg.sender === "agency"
                     return (
                       <div key={msg.id} className={`flex ${isMe ? "justify-end" : "justify-start"}`}>

@@ -103,7 +103,7 @@ export default function FinancialPage() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-green-600">
-                  {totalIncome.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                  {(totalIncome || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                 </div>
               </CardContent>
             </Card>
@@ -114,7 +114,7 @@ export default function FinancialPage() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-red-600">
-                  {totalExpense.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                  {(totalExpense || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                 </div>
               </CardContent>
             </Card>
@@ -125,7 +125,7 @@ export default function FinancialPage() {
               </CardHeader>
               <CardContent>
                 <div className={`text-2xl font-bold ${balance >= 0 ? "text-green-600" : "text-red-600"}`}>
-                  {balance.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                  {(balance || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                 </div>
               </CardContent>
             </Card>
@@ -141,7 +141,7 @@ export default function FinancialPage() {
                 <p className="text-muted-foreground text-sm text-center py-8">Nenhuma transação encontrada.</p>
               ) : (
                 <div className="divide-y">
-                  {transactions.map((t: any) => (
+                  {(transactions || []).map((t: any) => (
                     <div key={t.id} className="flex items-center justify-between py-3">
                       <div>
                         <p className="font-medium">{t.description}</p>

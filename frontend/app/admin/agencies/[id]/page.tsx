@@ -413,7 +413,7 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
                               <div>
                                 <p className="text-xs text-muted-foreground">Receita Mensal</p>
                                 <p className="text-sm font-semibold text-green-600">
-                                  {client.monthlyBudget.toLocaleString("pt-BR", {
+                                  {(client.monthlyBudget || 0).toLocaleString("pt-BR", {
                                     style: "currency",
                                     currency: "BRL",
                                   })}

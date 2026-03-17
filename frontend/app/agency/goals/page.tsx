@@ -152,7 +152,7 @@ export default function GoalsPage() {
 
           {/* Goals List */}
           <div className="grid md:grid-cols-2 gap-6">
-            {goals.map((goal) => {
+            {(goals || []).map((goal) => {
               const percentage = (goal.current / goal.target) * 100
               const isCompleted = percentage >= 100
               const Icon = getCategoryIcon(goal.category)

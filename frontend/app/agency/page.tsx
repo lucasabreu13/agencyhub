@@ -138,10 +138,10 @@ export default function AgencyDashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
-                    {totalSpent.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                    {(totalSpent || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                   </div>
                   <p className="text-xs text-muted-foreground mt-1">
-                    de {totalBudget.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                    de {(totalBudget || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                   </p>
                 </CardContent>
               </Card>
@@ -307,7 +307,7 @@ export default function AgencyDashboard() {
                           </div>
                           <p className="text-sm text-muted-foreground">
                             {(campaign.spent || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} /{" "}
-                            {campaign.budget.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                            {(campaign.budget || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                           </p>
                         </div>
                         <div className="h-2 bg-muted rounded-full overflow-hidden">

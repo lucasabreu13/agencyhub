@@ -36,6 +36,8 @@ export default function AdminTicketsPage() {
   const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null)
   const [responseMessage, setResponseMessage] = useState("")
 
+  const { data: ticketsData } = useApi(() => adminApi.getTickets())
+
   if (loading || !user) {
     return null
   }
@@ -123,7 +125,6 @@ export default function AdminTicketsPage() {
     return userType === "agency_owner" ? "Dono de Agência" : "Cliente"
   }
 
-  const { data: ticketsData } = useApi(() => adminApi.getTickets())
   const allTickets = ticketsData?.data || []
 
   const filteredTickets = allTickets.filter((ticket: any) => {

@@ -103,7 +103,7 @@ export default function ClientReportsPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
-                {campaigns.map((campaign) => {
+                {(campaigns || []).map((campaign) => {
                   const percentage = (campaign.spent / campaign.budget) * 100
 
                   return (
@@ -153,7 +153,7 @@ export default function ClientReportsPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {campaigns.map((campaign) => {
+                {(campaigns || []).map((campaign) => {
                   const roi = Math.floor(Math.random() * 200) + 150 // Mock ROI
 
                   return (

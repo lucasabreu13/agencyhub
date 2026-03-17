@@ -182,7 +182,7 @@ export default function CRMPage() {
               </div>
 
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {leads.map((lead) => (
+                {(leads || []).map((lead) => (
                   <Card key={lead.id} className="hover:shadow-lg transition-shadow">
                     <CardHeader>
                       <div className="flex items-start justify-between">
@@ -205,7 +205,7 @@ export default function CRMPage() {
                       <div className="pt-3 border-t">
                         <p className="text-xs font-semibold mb-2">Histórico de Atividades</p>
                         <div className="space-y-1 max-h-32 overflow-y-auto">
-                          {lead.logs.map((log) => (
+                          {(lead.logs || []).map((log) => (
                             <div key={log.id} className="text-xs text-muted-foreground">
                               <p>
                                 <span className="font-medium">{log.user}</span> - {log.action}
@@ -293,7 +293,7 @@ export default function CRMPage() {
                         <div>
                           <p className="text-xs text-muted-foreground">Valor</p>
                           <p className="text-xl font-bold">
-                            {opp.value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                            {(opp.value || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                           </p>
                         </div>
                         <div className="text-right">
@@ -304,7 +304,7 @@ export default function CRMPage() {
                       <div className="pt-3 border-t">
                         <p className="text-xs font-semibold mb-2">Histórico de Atividades</p>
                         <div className="space-y-1 max-h-32 overflow-y-auto">
-                          {opp.logs.map((log) => (
+                          {(opp.logs || []).map((log) => (
                             <div key={log.id} className="text-xs text-muted-foreground">
                               <p>
                                 <span className="font-medium">{log.user}</span> - {log.action}

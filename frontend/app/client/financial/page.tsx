@@ -55,7 +55,7 @@ export default function ClientFinancialPage() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-green-600">
-                  {totalPaid.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                  {(totalPaid || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                 </div>
                 <p className="text-xs text-muted-foreground">{paid.length} faturas pagas</p>
               </CardContent>
@@ -68,7 +68,7 @@ export default function ClientFinancialPage() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-yellow-600">
-                  {totalPending.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                  {(totalPending || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                 </div>
                 <p className="text-xs text-muted-foreground">{pending.length} faturas pendentes</p>
               </CardContent>
@@ -112,7 +112,7 @@ export default function ClientFinancialPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {invoices.map((invoice: any) => (
+                    {(invoices || []).map((invoice: any) => (
                       <TableRow key={invoice.id}>
                         <TableCell>
                           <div className="flex items-center gap-2">
