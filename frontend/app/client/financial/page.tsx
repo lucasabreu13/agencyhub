@@ -2,6 +2,8 @@
 import { formatDate } from "@/lib/utils"
 
 import { useAuth } from "@/hooks/use-auth"
+import { useApi } from "@/hooks/use-api"
+import { clientApi } from "@/lib/api"
 import { ClientSidebar } from "@/components/client/sidebar"
 import { ClientHeader } from "@/components/client/header"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -9,109 +11,66 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { CreditCard, Download, DollarSign, Calendar, FileText } from "lucide-react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useState } from "react"
 
 export default function ClientFinancialPage() {
   const { user, loading, logout } = useAuth("agency_client")
-  const [paymentMethod, setPaymentMethod] = useState("")
-  const [selectedInvoice, setSelectedInvoice] = useState<string | null>(null)
+  const { data: financialData } = useApi(() => clientApi.getFinancial())
 
-  if (loading || !user) {
-    return (
-      <div className="flex h-screen items-center justify-center">
-        <p>Carregando...</p>
-      </div>
-    )
-  }
+  if (loading || !user) return <div className="flex h-screen items-center justify-center">Carregando...</div>
 
-  // Mock invoices from agency
-  const invoices = [
-    {
-      id: "1",
-      invoiceNumber: "NF-2025-001",
-      description: "Serviços de Marketing - Janeiro 2025",
-      issueDate: new Date(2025, 0, 5),
-      dueDate: new Date(2025, 0, 15),
-      amount: 5000,
-      status: "pending" as const,
-    },
-    {
-      id: "2",
-      invoiceNumber: "NF-2024-012",
-      description: "Serviços de Marketing - Dezembro 2024",
-      issueDate: new Date(2024, 11, 5),
-      dueDate: new Date(2024, 11, 15),
-      amount: 5000,
-      status: "paid" as const,
-    },
-    {
-      id: "3",
-      invoiceNumber: "NF-2024-011",
-      description: "Serviços de Marketing - Novembro 2024",
-      issueDate: new Date(2024, 10, 5),
-      dueDate: new Date(2024, 10, 15),
-      amount: 5000,
-      status: "paid" as const,
-    },
-  ]
+  const invoices = financialData?.invoices || financialData?.data || []
+  const summary = financialData?.summary || {}
 
-  const pendingInvoices = invoices.filter((i) => i.status === "pending")
-  const totalPending = pendingInvoices.reduce((acc, i) => acc + i.amount, 0)
-  const totalPaid = invoices.filter((i) => i.status === "paid").reduce((acc, i) => acc + i.amount, 0)
+  const pending = invoices.filter((i: any) => i.status === "pending")
+  const paid = invoices.filter((i: any) => i.status === "paid")
+  const totalPaid = paid.reduce((acc: number, i: any) => acc + (i.amount || 0), 0)
+  const totalPending = pending.reduce((acc: number, i: any) => acc + (i.amount || 0), 0)
 
-  const handlePayment = () => {
-    alert("Redirecionando para pagamento seguro...")
-    // Here would integrate with payment gateway
+  const getStatusBadge = (status: string) => {
+    const map: any = {
+      paid: <Badge className="bg-green-500">Pago</Badge>,
+      pending: <Badge className="bg-yellow-500">Pendente</Badge>,
+      overdue: <Badge variant="destructive">Atrasado</Badge>,
+      cancelled: <Badge variant="outline">Cancelado</Badge>,
+    }
+    return map[status] || <Badge>{status}</Badge>
   }
 
   return (
     <div className="flex h-screen">
       <ClientSidebar onLogout={logout} />
-
       <div className="flex-1 overflow-auto">
         <ClientHeader user={user} title="Financeiro" />
-
         <div className="p-6 space-y-6">
           <div>
-            <h2 className="text-2xl font-bold">Pagamentos</h2>
-            <p className="text-muted-foreground">Gerencie os pagamentos da sua agência</p>
+            <h2 className="text-2xl font-bold">Financeiro</h2>
+            <p className="text-muted-foreground">Acompanhe suas faturas e pagamentos</p>
           </div>
 
-          {/* Stats Cards */}
-          <div className="grid md:grid-cols-3 gap-4">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Faturas Pendentes</CardTitle>
-                <FileText className="h-4 w-4 text-orange-600" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-orange-600">{pendingInvoices.length}</div>
-                <p className="text-xs text-muted-foreground mt-1">
-                  {totalPending.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
-                </p>
-              </CardContent>
-            </Card>
-
+          <div className="grid md:grid-cols-3 gap-6">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium">Total Pago</CardTitle>
-                <DollarSign className="h-4 w-4 text-green-600" />
+                <DollarSign className="h-4 w-4 text-green-500" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-green-600">
                   {totalPaid.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">Últimos 12 meses</p>
+                <p className="text-xs text-muted-foreground">{paid.length} faturas pagas</p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium">Pendente</CardTitle>
+                <CreditCard className="h-4 w-4 text-yellow-500" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-yellow-600">
+                  {totalPending.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                </div>
+                <p className="text-xs text-muted-foreground">{pending.length} faturas pendentes</p>
               </CardContent>
             </Card>
 
@@ -122,115 +81,60 @@ export default function ClientFinancialPage() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
-                  {pendingInvoices.length > 0
-                    ? pendingInvoices[0].formatDate(dueDate)
-                    : "N/A"}
+                  {pending.length > 0 ? formatDate(pending[0].dueDate) : "N/A"}
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">
-                  {pendingInvoices.length > 0 ? pendingInvoices[0].invoiceNumber : "Nenhuma fatura pendente"}
+                <p className="text-xs text-muted-foreground">
+                  {pending.length > 0
+                    ? pending[0].amount?.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
+                    : "Sem pendências"}
                 </p>
               </CardContent>
             </Card>
           </div>
 
-          {/* Invoices Table */}
           <Card>
             <CardHeader>
-              <CardTitle>Faturas</CardTitle>
-              <CardDescription>Histórico de pagamentos à agência</CardDescription>
+              <CardTitle>Histórico de Faturas</CardTitle>
+              <CardDescription>Todas as suas faturas</CardDescription>
             </CardHeader>
             <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Número</TableHead>
-                    <TableHead>Descrição</TableHead>
-                    <TableHead>Emissão</TableHead>
-                    <TableHead>Vencimento</TableHead>
-                    <TableHead>Valor</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Ações</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {invoices.map((invoice) => (
-                    <TableRow key={invoice.id}>
-                      <TableCell className="font-mono">{invoice.invoiceNumber}</TableCell>
-                      <TableCell>{invoice.description}</TableCell>
-                      <TableCell>{invoice.formatDate(issueDate)}</TableCell>
-                      <TableCell>{invoice.formatDate(dueDate)}</TableCell>
-                      <TableCell className="font-semibold">
-                        {invoice.amount.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant={invoice.status === "paid" ? "default" : "secondary"}>
-                          {invoice.status === "paid" ? "Pago" : "Pendente"}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex gap-2">
-                          <Button variant="ghost" size="sm">
+              {invoices.length === 0 ? (
+                <p className="text-center text-muted-foreground py-8">Nenhuma fatura encontrada.</p>
+              ) : (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Descrição</TableHead>
+                      <TableHead>Vencimento</TableHead>
+                      <TableHead>Valor</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead></TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {invoices.map((invoice: any) => (
+                      <TableRow key={invoice.id}>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <FileText className="h-4 w-4 text-muted-foreground" />
+                            <span>{invoice.description || invoice.title || `Fatura #${invoice.id}`}</span>
+                          </div>
+                        </TableCell>
+                        <TableCell>{formatDate(invoice.dueDate)}</TableCell>
+                        <TableCell className="font-medium">
+                          {(invoice.amount || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                        </TableCell>
+                        <TableCell>{getStatusBadge(invoice.status)}</TableCell>
+                        <TableCell>
+                          <Button variant="ghost" size="icon">
                             <Download className="h-4 w-4" />
                           </Button>
-                          {invoice.status === "pending" && (
-                            <Dialog>
-                              <DialogTrigger asChild>
-                                <Button size="sm" onClick={() => setSelectedInvoice(invoice.id)}>
-                                  <CreditCard className="h-4 w-4 mr-2" />
-                                  Pagar
-                                </Button>
-                              </DialogTrigger>
-                              <DialogContent>
-                                <DialogHeader>
-                                  <DialogTitle>Realizar Pagamento</DialogTitle>
-                                  <DialogDescription>Pagamento da fatura {invoice.invoiceNumber}</DialogDescription>
-                                </DialogHeader>
-
-                                <div className="space-y-4 py-4">
-                                  <div className="space-y-2">
-                                    <Label>Valor</Label>
-                                    <div className="text-2xl font-bold">
-                                      {invoice.amount.toLocaleString("pt-BR", {
-                                        style: "currency",
-                                        currency: "BRL",
-                                      })}
-                                    </div>
-                                  </div>
-
-                                  <div className="space-y-2">
-                                    <Label>Vencimento</Label>
-                                    <div className="text-lg">{invoice.formatDate(dueDate)}</div>
-                                  </div>
-
-                                  <div className="space-y-2">
-                                    <Label htmlFor="payment-method">Forma de Pagamento</Label>
-                                    <Select value={paymentMethod} onValueChange={setPaymentMethod}>
-                                      <SelectTrigger id="payment-method">
-                                        <SelectValue placeholder="Selecione..." />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        <SelectItem value="credit">Cartão de Crédito</SelectItem>
-                                        <SelectItem value="debit">Cartão de Débito</SelectItem>
-                                        <SelectItem value="pix">PIX</SelectItem>
-                                        <SelectItem value="boleto">Boleto Bancário</SelectItem>
-                                      </SelectContent>
-                                    </Select>
-                                  </div>
-
-                                  <Button className="w-full" onClick={handlePayment} disabled={!paymentMethod}>
-                                    <CreditCard className="h-4 w-4 mr-2" />
-                                    Confirmar Pagamento
-                                  </Button>
-                                </div>
-                              </DialogContent>
-                            </Dialog>
-                          )}
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
             </CardContent>
           </Card>
         </div>
