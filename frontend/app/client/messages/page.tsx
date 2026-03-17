@@ -58,10 +58,10 @@ export default function ClientMessagesPage() {
             <h2 className="font-semibold">Mensagens</h2>
           </div>
           <ScrollArea className="flex-1">
-            {conversations.length === 0 ? (
+            {(conversations || []).length === 0 ? (
               <p className="p-4 text-sm text-muted-foreground">Nenhuma conversa.</p>
             ) : (
-              conversations.map((conv: any) => (
+              (conversations || []).map((conv: any) => (
                 <div
                   key={conv.id}
                   onClick={() => setSelectedConv(conv.id)}

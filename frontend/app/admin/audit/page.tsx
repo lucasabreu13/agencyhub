@@ -23,7 +23,7 @@ export default function AuditPage() {
   if (loading || !user) return <div className="flex h-screen items-center justify-center">Carregando...</div>
 
   const logs = auditData?.data || auditData || []
-  const filtered = logs.filter((log: any) => {
+  const filtered = (logs || []).filter((log: any) => {
     const matchSearch = log.user?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       log.action?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       log.details?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -81,11 +81,11 @@ export default function AuditPage() {
 
           <Card>
             <CardContent className="p-0">
-              {filtered.length === 0 ? (
+              {(filtered || []).length === 0 ? (
                 <p className="p-6 text-center text-muted-foreground">Nenhum log encontrado.</p>
               ) : (
                 <div className="divide-y">
-                  {filtered.map((log: any) => (
+                  {(filtered || []).map((log: any) => (
                     <div key={log.id} className="flex items-start gap-4 p-4">
                       <div className="mt-1">{getIcon(log.type)}</div>
                       <div className="flex-1 min-w-0">

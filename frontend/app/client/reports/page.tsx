@@ -24,8 +24,8 @@ export default function ClientReportsPage() {
 
   const reports = reportsData?.data || []
 
-  const totalBudget = campaigns.reduce((acc, c) => acc + c.budget, 0)
-  const totalSpent = campaigns.reduce((acc, c) => acc + c.spent, 0)
+  const totalBudget = (campaigns || []).reduce((acc, c) => acc + c.budget, 0)
+  const totalSpent = (campaigns || []).reduce((acc, c) => acc + c.spent, 0)
 
   return (
     <div className="flex h-screen">

@@ -23,7 +23,7 @@ export default function AgencyDocumentsPage() {
   if (!user) return null
 
   const documents = documentsData?.data || documentsData || []
-  const filtered = documents.filter((d: any) =>
+  const filtered = (documents || []).filter((d: any) =>
     d.name?.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
@@ -62,11 +62,11 @@ export default function AgencyDocumentsPage() {
             </div>
           </div>
 
-          {filtered.length === 0 ? (
+          {(filtered || []).length === 0 ? (
             <Card><CardContent className="p-12 text-center text-muted-foreground">Nenhum documento encontrado.</CardContent></Card>
           ) : viewMode === "grid" ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {filtered.map((doc: any) => (
+              {(filtered || []).map((doc: any) => (
                 <Card key={doc.id} className="cursor-pointer hover:shadow-md transition-shadow">
                   <CardContent className="p-4">
                     <div className="flex flex-col items-center text-center space-y-2">
@@ -83,7 +83,7 @@ export default function AgencyDocumentsPage() {
             <Card>
               <CardContent className="p-0">
                 <div className="divide-y">
-                  {filtered.map((doc: any) => (
+                  {(filtered || []).map((doc: any) => (
                     <div key={doc.id} className="flex items-center justify-between p-4">
                       <div className="flex items-center gap-3">
                         {getIcon(doc.type)}

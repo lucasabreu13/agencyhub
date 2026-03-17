@@ -22,9 +22,9 @@ export default function ClientDashboard() {
   }
 
   const campaigns = (dashboardData as any)?.recentCampaigns || []
-  const activeCampaigns = campaigns.filter((c: any) => c.status === "active")
-  const totalBudget = campaigns.reduce((acc: number, c: any) => acc + (c.budget || 0), 0)
-  const totalSpent = campaigns.reduce((acc: number, c: any) => acc + (c.spent || 0), 0)
+  const activeCampaigns = (campaigns || []).filter((c: any) => c.status === "active")
+  const totalBudget = (campaigns || []).reduce((acc: number, c: any) => acc + (c.budget || 0), 0)
+  const totalSpent = (campaigns || []).reduce((acc: number, c: any) => acc + (c.spent || 0), 0)
 
   return (
     <div className="flex h-screen">
@@ -45,7 +45,7 @@ export default function ClientDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{activeCampaigns.length}</div>
-                <p className="text-xs text-muted-foreground mt-1">{campaigns.length} total</p>
+                <p className="text-xs text-muted-foreground mt-1">{(campaigns || []).length} total</p>
               </CardContent>
             </Card>
 

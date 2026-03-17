@@ -29,8 +29,8 @@ export default function FinancialPage() {
   const transactions = financialData?.transactions || financialData?.data || []
   const summary = financialData?.summary || {}
 
-  const totalIncome = summary.totalIncome ?? transactions.filter((t: any) => t.type === "income").reduce((acc: number, t: any) => acc + (t.amount || 0), 0)
-  const totalExpense = summary.totalExpense ?? transactions.filter((t: any) => t.type === "expense").reduce((acc: number, t: any) => acc + (t.amount || 0), 0)
+  const totalIncome = summary.totalIncome ?? (transactions || []).filter((t: any) => t.type === "income").reduce((acc: number, t: any) => acc + (t.amount || 0), 0)
+  const totalExpense = summary.totalExpense ?? (transactions || []).filter((t: any) => t.type === "expense").reduce((acc: number, t: any) => acc + (t.amount || 0), 0)
   const balance = totalIncome - totalExpense
 
   const getStatusBadge = (status: string) => {
@@ -137,7 +137,7 @@ export default function FinancialPage() {
               <CardDescription>Histórico de movimentações financeiras</CardDescription>
             </CardHeader>
             <CardContent>
-              {transactions.length === 0 ? (
+              {(transactions || []).length === 0 ? (
                 <p className="text-muted-foreground text-sm text-center py-8">Nenhuma transação encontrada.</p>
               ) : (
                 <div className="divide-y">

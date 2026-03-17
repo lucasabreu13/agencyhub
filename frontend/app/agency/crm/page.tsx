@@ -82,7 +82,7 @@ export default function CRMPage() {
                 <Users className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{leads.length}</div>
+                <div className="text-2xl font-bold">{(leads || []).length}</div>
               </CardContent>
             </Card>
 
@@ -92,7 +92,7 @@ export default function CRMPage() {
                 <Target className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{leads.filter((l) => l.status === "qualified").length}</div>
+                <div className="text-2xl font-bold">{(leads || []).filter((l) => l.status === "qualified").length}</div>
               </CardContent>
             </Card>
 
@@ -132,7 +132,7 @@ export default function CRMPage() {
 
             <TabsContent value="leads" className="space-y-4">
               <div className="flex justify-between items-center">
-                <p className="text-sm text-muted-foreground">{leads.length} leads cadastrados</p>
+                <p className="text-sm text-muted-foreground">{(leads || []).length} leads cadastrados</p>
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button>

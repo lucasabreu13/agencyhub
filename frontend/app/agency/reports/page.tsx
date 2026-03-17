@@ -24,10 +24,10 @@ export default function ReportsPage() {
   const campaigns = campaignsData?.data || []
   const clients = clientsData?.data || []
 
-  const totalBudget = campaigns.reduce((acc: number, c: any) => acc + (c.budget || 0), 0)
-  const totalSpent = campaigns.reduce((acc: number, c: any) => acc + (c.spent || 0), 0)
-  const activeClients = clients.filter((c: any) => c.status === "active").length
-  const activeCampaigns = campaigns.filter((c: any) => c.status === "active").length
+  const totalBudget = (campaigns || []).reduce((acc: number, c: any) => acc + (c.budget || 0), 0)
+  const totalSpent = (campaigns || []).reduce((acc: number, c: any) => acc + (c.spent || 0), 0)
+  const activeClients = (clients || []).filter((c: any) => c.status === "active").length
+  const activeCampaigns = (campaigns || []).filter((c: any) => c.status === "active").length
 
   return (
     <div className="flex h-screen">
@@ -76,7 +76,7 @@ export default function ReportsPage() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{activeClients}</div>
-                <p className="text-xs text-muted-foreground mt-1">de {clients.length} total</p>
+                <p className="text-xs text-muted-foreground mt-1">de {(clients || []).length} total</p>
               </CardContent>
             </Card>
 
@@ -98,12 +98,11 @@ export default function ReportsPage() {
               <CardDescription>Detalhamento de investimento por campanha ativa</CardDescription>
             </CardHeader>
             <CardContent>
-              {campaigns.filter((c: any) => c.status === "active").length === 0 ? (
+              {(campaigns || []).filter((c: any) => c.status === "active").length === 0 ? (
                 <p className="text-muted-foreground text-sm">Nenhuma campanha ativa encontrada.</p>
               ) : (
                 <div className="space-y-6">
-                  {campaigns
-                    .filter((c: any) => c.status === "active")
+                  {(campaigns || []).filter((c: any) => c.status === "active")
                     .map((campaign: any) => {
                       const percentage = campaign.budget > 0 ? (campaign.spent / campaign.budget) * 100 : 0
                       return (
@@ -140,14 +139,13 @@ export default function ReportsPage() {
               <CardDescription>Investimento mensal por cliente</CardDescription>
             </CardHeader>
             <CardContent>
-              {clients.filter((c: any) => c.status === "active").length === 0 ? (
+              {(clients || []).filter((c: any) => c.status === "active").length === 0 ? (
                 <p className="text-muted-foreground text-sm">Nenhum cliente ativo encontrado.</p>
               ) : (
                 <div className="space-y-4">
-                  {clients
-                    .filter((c: any) => c.status === "active")
+                  {(clients || []).filter((c: any) => c.status === "active")
                     .map((client: any) => {
-                      const clientCampaigns = campaigns.filter((c: any) => c.clientId === client.id)
+                      const clientCampaigns = (campaigns || []).filter((c: any) => c.clientId === client.id)
                       const clientSpent = clientCampaigns.reduce((acc: number, c: any) => acc + (c.spent || 0), 0)
                       return (
                         <div key={client.id} className="flex items-center justify-between border-b pb-3 last:border-0">

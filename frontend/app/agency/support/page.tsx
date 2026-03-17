@@ -28,7 +28,7 @@ export default function AgencySupportPage() {
   if (!user) return null
 
   const tickets = ticketsData?.data || ticketsData || []
-  const filtered = filterStatus === "all" ? tickets : tickets.filter((t: any) => t.status === filterStatus)
+  const filtered = filterStatus === "all" ? tickets : (tickets || []).filter((t: any) => t.status === filterStatus)
 
   const getStatusBadge = (status: string) => {
     const map: any = {
@@ -110,10 +110,10 @@ export default function AgencySupportPage() {
           </div>
 
           <div className="space-y-4">
-            {filtered.length === 0 ? (
+            {(filtered || []).length === 0 ? (
               <Card><CardContent className="p-6 text-center text-muted-foreground">Nenhum ticket encontrado.</CardContent></Card>
             ) : (
-              filtered.map((ticket: any) => (
+              (filtered || []).map((ticket: any) => (
                 <Card key={ticket.id}>
                   <CardContent className="p-4">
                     <div className="flex items-start justify-between">

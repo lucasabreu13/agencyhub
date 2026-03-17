@@ -21,10 +21,10 @@ export default function ClientFinancialPage() {
   const invoices = financialData?.invoices || financialData?.data || []
   const summary = financialData?.summary || {}
 
-  const pending = invoices.filter((i: any) => i.status === "pending")
-  const paid = invoices.filter((i: any) => i.status === "paid")
-  const totalPaid = paid.reduce((acc: number, i: any) => acc + (i.amount || 0), 0)
-  const totalPending = pending.reduce((acc: number, i: any) => acc + (i.amount || 0), 0)
+  const pending = (invoices || []).filter((i: any) => i.status === "pending")
+  const paid = (invoices || []).filter((i: any) => i.status === "paid")
+  const totalPaid = (paid || []).reduce((acc: number, i: any) => acc + (i.amount || 0), 0)
+  const totalPending = (pending || []).reduce((acc: number, i: any) => acc + (i.amount || 0), 0)
 
   const getStatusBadge = (status: string) => {
     const map: any = {
@@ -57,7 +57,7 @@ export default function ClientFinancialPage() {
                 <div className="text-2xl font-bold text-green-600">
                   {(totalPaid || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                 </div>
-                <p className="text-xs text-muted-foreground">{paid.length} faturas pagas</p>
+                <p className="text-xs text-muted-foreground">{(paid || []).length} faturas pagas</p>
               </CardContent>
             </Card>
 
@@ -70,7 +70,7 @@ export default function ClientFinancialPage() {
                 <div className="text-2xl font-bold text-yellow-600">
                   {(totalPending || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                 </div>
-                <p className="text-xs text-muted-foreground">{pending.length} faturas pendentes</p>
+                <p className="text-xs text-muted-foreground">{(pending || []).length} faturas pendentes</p>
               </CardContent>
             </Card>
 
@@ -81,10 +81,10 @@ export default function ClientFinancialPage() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
-                  {pending.length > 0 ? formatDate(pending[0].dueDate) : "N/A"}
+                  {(pending || []).length > 0 ? formatDate(pending[0].dueDate) : "N/A"}
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  {pending.length > 0
+                  {(pending || []).length > 0
                     ? pending[0].amount?.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
                     : "Sem pendências"}
                 </p>
@@ -98,7 +98,7 @@ export default function ClientFinancialPage() {
               <CardDescription>Todas as suas faturas</CardDescription>
             </CardHeader>
             <CardContent>
-              {invoices.length === 0 ? (
+              {(invoices || []).length === 0 ? (
                 <p className="text-center text-muted-foreground py-8">Nenhuma fatura encontrada.</p>
               ) : (
                 <Table>

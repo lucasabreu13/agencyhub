@@ -40,7 +40,7 @@ export default function CalendarPage() {
   const nextMonth = () => setCurrentDate(new Date(year, month + 1, 1))
 
   const getEventsForDay = (day: number) => {
-    return events.filter((e: any) => {
+    return (events || []).filter((e: any) => {
       const d = new Date(e.date || e.startDate)
       return d.getFullYear() === year && d.getMonth() === month && d.getDate() === day
     })

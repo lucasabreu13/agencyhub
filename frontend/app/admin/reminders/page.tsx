@@ -26,8 +26,8 @@ export default function RemindersPage() {
   if (loading || !user) return <div className="flex h-screen items-center justify-center">Carregando...</div>
 
   const reminders = remindersData?.data || remindersData || []
-  const pending = reminders.filter((r: any) => !r.completed)
-  const completed = reminders.filter((r: any) => r.completed)
+  const pending = (reminders || []).filter((r: any) => !r.completed)
+  const completed = (reminders || []).filter((r: any) => r.completed)
 
   const getPriorityBadge = (priority: string) => {
     const map: any = {
@@ -131,11 +131,11 @@ export default function RemindersPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Bell className="h-4 w-4" />Pendentes
-                  <Badge variant="secondary">{pending.length}</Badge>
+                  <Badge variant="secondary">{(pending || []).length}</Badge>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                {pending.length === 0
+                {(pending || []).length === 0
                   ? <p className="text-muted-foreground text-sm text-center py-4">Nenhum lembrete pendente.</p>
                   : pending.map((r: any) => <ReminderCard key={r.id} reminder={r} />)}
               </CardContent>
@@ -145,11 +145,11 @@ export default function RemindersPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4 text-green-500" />Concluídos
-                  <Badge variant="secondary">{completed.length}</Badge>
+                  <Badge variant="secondary">{(completed || []).length}</Badge>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                {completed.length === 0
+                {(completed || []).length === 0
                   ? <p className="text-muted-foreground text-sm text-center py-4">Nenhum lembrete concluído.</p>
                   : completed.map((r: any) => <ReminderCard key={r.id} reminder={r} />)}
               </CardContent>

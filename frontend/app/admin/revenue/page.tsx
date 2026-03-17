@@ -242,7 +242,7 @@ export default function AdminRevenuePage() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold">
-                      {(376100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                      {(376100 || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">Acumulado nos últimos 6 meses</p>
                   </CardContent>
@@ -280,7 +280,7 @@ export default function AdminRevenuePage() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-xl font-bold">
-                      {(avgLTV * 1000).toLocaleString("pt-BR", {
+                      {(avgLTV * 1000 || 0).toLocaleString("pt-BR", {
                         style: "currency",
                         currency: "BRL",
                         minimumFractionDigits: 0,
@@ -538,7 +538,7 @@ export default function AdminRevenuePage() {
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-sm text-muted-foreground">Despesas Projetadas</span>
                           <span className="font-bold text-lg">
-                            {(monthlyExpenses * 12).toLocaleString("pt-BR", {
+                            {(monthlyExpenses * 12 || 0).toLocaleString("pt-BR", {
                               style: "currency",
                               currency: "BRL",
                               minimumFractionDigits: 0,
@@ -554,7 +554,7 @@ export default function AdminRevenuePage() {
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-sm text-muted-foreground">Lucro Projetado</span>
                           <span className="font-bold text-lg text-blue-600">
-                            {(netProfit * 12).toLocaleString("pt-BR", {
+                            {(netProfit * 12 || 0).toLocaleString("pt-BR", {
                               style: "currency",
                               currency: "BRL",
                               minimumFractionDigits: 0,
@@ -693,7 +693,7 @@ export default function AdminRevenuePage() {
                       {(monthlyRevenue || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">
-                      {transactions.filter((t) => t.type === "income").length} lançamentos
+                      {(transactions || []).filter((t) => t.type === "income").length} lançamentos
                     </p>
                   </CardContent>
                 </Card>
@@ -710,7 +710,7 @@ export default function AdminRevenuePage() {
                       {(monthlyExpenses || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">
-                      {transactions.filter((t) => t.type === "expense").length} lançamentos
+                      {(transactions || []).filter((t) => t.type === "expense").length} lançamentos
                     </p>
                   </CardContent>
                 </Card>

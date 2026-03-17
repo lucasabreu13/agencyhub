@@ -52,12 +52,12 @@ export default function AgencyDashboard() {
   const campaigns = campaignsData?.data || []
   const projects = projectsData?.data || []
 
-  const activeClients = clients.filter((c: any) => c.status === "active").length
-  const activeCampaigns = campaigns.filter((c: any) => c.status === "active").length
-  const activeProjects = projects.filter((p: any) => p.status === "in_progress").length
+  const activeClients = (clients || []).filter((c: any) => c.status === "active").length
+  const activeCampaigns = (campaigns || []).filter((c: any) => c.status === "active").length
+  const activeProjects = (projects || []).filter((p: any) => p.status === "in_progress").length
 
-  const totalBudget = campaigns.reduce((acc: number, c: any) => acc + Number(c.budget), 0)
-  const totalSpent = campaigns.reduce((acc: number, c: any) => acc + Number(c.spent), 0)
+  const totalBudget = (campaigns || []).reduce((acc: number, c: any) => acc + Number(c.budget), 0)
+  const totalSpent = (campaigns || []).reduce((acc: number, c: any) => acc + Number(c.spent), 0)
 
   const campaignPerformanceData = [
     { name: "Sem 1", impressoes: 45000, conversoes: 1200 },
@@ -99,7 +99,7 @@ export default function AgencyDashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{activeClients}</div>
-                  <p className="text-xs text-muted-foreground mt-1">{clients.length} total</p>
+                  <p className="text-xs text-muted-foreground mt-1">{(clients || []).length} total</p>
                 </CardContent>
               </Card>
             </Link>
@@ -112,7 +112,7 @@ export default function AgencyDashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{activeCampaigns}</div>
-                  <p className="text-xs text-muted-foreground mt-1">{campaigns.length} total</p>
+                  <p className="text-xs text-muted-foreground mt-1">{(campaigns || []).length} total</p>
                 </CardContent>
               </Card>
             </Link>
@@ -125,7 +125,7 @@ export default function AgencyDashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{activeProjects}</div>
-                  <p className="text-xs text-muted-foreground mt-1">{projects.length} total</p>
+                  <p className="text-xs text-muted-foreground mt-1">{(projects || []).length} total</p>
                 </CardContent>
               </Card>
             </Link>
@@ -190,8 +190,7 @@ export default function AgencyDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {projects
-                    .filter((p) => p.status === "in_progress" || p.status === "planning")
+                  {(projects || []).filter((p) => p.status === "in_progress" || p.status === "planning")
                     .slice(0, 3)
                     .map((project) => {
                       const client = clients.find((c) => c.id === project.clientId)
@@ -291,8 +290,7 @@ export default function AgencyDashboard() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {campaigns
-                  .filter((c) => c.status === "active")
+                {(campaigns || []).filter((c) => c.status === "active")
                   .map((campaign) => {
                     const client = clients.find((c) => c.id === campaign.clientId)
                     const percentage = (campaign.spent / campaign.budget) * 100

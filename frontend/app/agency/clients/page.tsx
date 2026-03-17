@@ -50,7 +50,7 @@ export default function ClientsPage() {
 
   const clients = clientsData?.data || []
 
-  const filteredClients = clients.filter((client) => {
+  const filteredClients = (clients || []).filter((client) => {
     const search = searchTerm.toLowerCase()
     return (
       client.company.toLowerCase().includes(search) ||
@@ -177,7 +177,7 @@ export default function ClientsPage() {
           </div>
 
           <p className="text-sm text-muted-foreground">
-            {filteredClients.length} {filteredClients.length === 1 ? "cliente encontrado" : "clientes encontrados"}
+            {(filteredClients || []).length} {(filteredClients || []).length === 1 ? "cliente encontrado" : "clientes encontrados"}
           </p>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -375,7 +375,7 @@ export default function ClientsPage() {
             ))}
           </div>
 
-          {filteredClients.length === 0 && (
+          {(filteredClients || []).length === 0 && (
             <div className="text-center py-12">
               <p className="text-muted-foreground">Nenhum cliente encontrado com os critérios de pesquisa.</p>
             </div>

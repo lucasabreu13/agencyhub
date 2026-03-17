@@ -23,7 +23,7 @@ export default function ClientDocumentsPage() {
   if (loading || !user) return <div className="flex h-screen items-center justify-center">Carregando...</div>
 
   const documents = documentsData?.data || documentsData || []
-  const filtered = documents.filter((doc: any) => {
+  const filtered = (documents || []).filter((doc: any) => {
     const matchSearch = doc.name?.toLowerCase().includes(searchTerm.toLowerCase())
     const matchType = filterType === "all" || doc.type === filterType
     return matchSearch && matchType
@@ -80,13 +80,13 @@ export default function ClientDocumentsPage() {
             </Select>
           </div>
 
-          {filtered.length === 0 ? (
+          {(filtered || []).length === 0 ? (
             <Card><CardContent className="p-12 text-center text-muted-foreground">Nenhum documento encontrado.</CardContent></Card>
           ) : (
             <Card>
               <CardContent className="p-0">
                 <div className="divide-y">
-                  {filtered.map((doc: any) => (
+                  {(filtered || []).map((doc: any) => (
                     <div key={doc.id} className="flex items-center justify-between p-4">
                       <div className="flex items-center gap-3">
                         {getIcon(doc.type)}

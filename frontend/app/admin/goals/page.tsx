@@ -117,9 +117,9 @@ export default function AdminGoalsPage() {
     return styles[status] || ""
   }
 
-  const completedGoals = goals.filter((g) => g.status === "completed").length
-  const onTrackGoals = goals.filter((g) => g.status === "on-track").length
-  const atRiskGoals = goals.filter((g) => g.status === "at-risk").length
+  const completedGoals = (goals || []).filter((g) => g.status === "completed").length
+  const onTrackGoals = (goals || []).filter((g) => g.status === "on-track").length
+  const atRiskGoals = (goals || []).filter((g) => g.status === "at-risk").length
 
   return (
     <div className="flex h-screen">
@@ -203,7 +203,7 @@ export default function AdminGoalsPage() {
                 <Target className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{goals.length}</div>
+                <div className="text-2xl font-bold">{(goals || []).length}</div>
               </CardContent>
             </Card>
 

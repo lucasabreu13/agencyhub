@@ -72,9 +72,9 @@ export default function GoalsPage() {
     }
   }
 
-  const totalGoals = goals.length
-  const completedGoals = goals.filter((g) => g.current >= g.target).length
-  const inProgressGoals = goals.filter((g) => g.current < g.target && g.current > 0).length
+  const totalGoals = (goals || []).length
+  const completedGoals = (goals || []).filter((g) => g.current >= g.target).length
+  const inProgressGoals = (goals || []).filter((g) => g.current < g.target && g.current > 0).length
 
   return (
     <div className="flex h-screen">
@@ -140,8 +140,8 @@ export default function GoalsPage() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
-                  {goals.length > 0
-                    ? (goals.reduce((acc, g) => acc + (g.current / g.target) * 100, 0) / goals.length).toFixed(0)
+                  {(goals || []).length > 0
+                    ? ((goals || []).reduce((acc, g) => acc + (g.current / g.target) * 100, 0) / (goals || []).length).toFixed(0)
                     : 0}
                   %
                 </div>
@@ -225,7 +225,7 @@ export default function GoalsPage() {
             })}
           </div>
 
-          {goals.length === 0 && (
+          {(goals || []).length === 0 && (
             <Card>
               <CardContent className="py-12 text-center">
                 <Target className="h-12 w-12 mx-auto text-muted-foreground mb-4" />

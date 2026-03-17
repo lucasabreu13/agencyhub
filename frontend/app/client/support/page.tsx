@@ -167,9 +167,9 @@ export default function ClientSupportPage() {
     )
   }
 
-  const openTickets = tickets.filter((t) => t.status === "open").length
-  const inProgressTickets = tickets.filter((t) => t.status === "in_progress").length
-  const resolvedTickets = tickets.filter((t) => t.status === "resolved").length
+  const openTickets = (tickets || []).filter((t) => t.status === "open").length
+  const inProgressTickets = (tickets || []).filter((t) => t.status === "in_progress").length
+  const resolvedTickets = (tickets || []).filter((t) => t.status === "resolved").length
 
   return (
     <div className="flex h-screen">
@@ -258,7 +258,7 @@ export default function ClientSupportPage() {
                 <CardTitle className="text-sm font-medium">Total de Chamados</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{tickets.length}</div>
+                <div className="text-2xl font-bold">{(tickets || []).length}</div>
               </CardContent>
             </Card>
 
@@ -301,7 +301,7 @@ export default function ClientSupportPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {tickets.length === 0 ? (
+                {(tickets || []).length === 0 ? (
                   <div className="text-center py-12">
                     <HeadphonesIcon className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                     <p className="text-muted-foreground">Nenhum chamado aberto</p>
@@ -311,7 +311,7 @@ export default function ClientSupportPage() {
                     </Button>
                   </div>
                 ) : (
-                  tickets.map((ticket) => (
+                  (tickets || []).map((ticket) => (
                     <Card
                       key={ticket.id}
                       className="hover:bg-muted/50 transition-colors cursor-pointer"
