@@ -1,8 +1,16 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
 import { databaseConfig } from './config/database.config';
+
+// Novos módulos
+import { UploadModule } from './modules/upload/upload.module';
+import { EmailModule } from './modules/email/email.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
+import { WebhooksModule } from './modules/webhooks/webhooks.module';
 
 // Admin modules
 import { AdminAgenciesModule } from './modules/admin/agencies/agencies.module';
@@ -12,6 +20,7 @@ import { AdminRevenueModule } from './modules/admin/revenue/revenue.module';
 import { AdminGoalsModule } from './modules/admin/goals/goals.module';
 import { AdminRemindersModule } from './modules/admin/reminders/reminders.module';
 import { AdminAuditModule } from './modules/admin/audit/audit.module';
+import { AdminDashboardModule } from './modules/admin/dashboard/dashboard.module';
 
 // Agency modules
 import { AgencyClientsModule } from './modules/agency/clients/clients.module';
@@ -30,9 +39,6 @@ import { AgencyUsersModule } from './modules/agency/users/users.module';
 import { AgencyFinancialModule } from './modules/agency/financial/financial.module';
 import { AgencySettingsModule } from './modules/agency/settings/settings.module';
 
-// Admin extra
-import { AdminDashboardModule } from './modules/admin/dashboard/dashboard.module';
-
 // Client modules
 import { ClientDashboardModule } from './modules/client/dashboard/dashboard.module';
 import { ClientCampaignsModule } from './modules/client/campaigns/campaigns.module';
@@ -47,8 +53,20 @@ import { ClientMessagesModule } from './modules/client/messages/messages.module'
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
     TypeOrmModule.forRootAsync({ useFactory: databaseConfig }),
 
+    // Servir arquivos de upload como estáticos
+    ServeStaticModule.forRoot({
+      rootPath: join(process.cwd(), 'uploads'),
+      serveRoot: '/uploads',
+    }),
+
     // Auth
     AuthModule,
+
+    // Infra
+    EmailModule,
+    NotificationsModule,
+    UploadModule,
+    WebhooksModule,
 
     // Admin
     AdminDashboardModule,
