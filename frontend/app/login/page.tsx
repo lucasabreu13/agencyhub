@@ -10,7 +10,7 @@ export default function LoginPage() {
         <div className="text-center space-y-2">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Target className="h-8 w-8 text-primary" />
-            <span className="font-bold text-2xl">AgencyHub</span>
+            <span className="font-bold text-2xl">Spherum</span>
           </div>
           <h1 className="text-3xl font-bold">Escolha sua área de acesso</h1>
           <p className="text-muted-foreground">Selecione o portal adequado para fazer login</p>

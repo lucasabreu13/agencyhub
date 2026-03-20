@@ -90,12 +90,12 @@ export default function AdminSettingsPage() {
               <Card>
                 <CardHeader>
                   <CardTitle>Informações da Plataforma</CardTitle>
-                  <CardDescription>Configurações básicas do AgencyHub</CardDescription>
+                  <CardDescription>Configurações básicas do Spherum</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label>Nome da Plataforma</Label>
-                    <Input defaultValue="AgencyHub" />
+                    <Input defaultValue="Spherum" />
                   </div>
 
                   <div className="space-y-2">

@@ -59,7 +59,7 @@ const mockTickets: Ticket[] = [
       {
         id: "r1",
         message: "Olá! Claro, ficarei feliz em explicar. Quais métricas específicas você tem dúvida?",
-        author: "Suporte AgencyHub",
+        author: "Suporte Spherum",
         createdAt: new Date(2025, 0, 2, 14, 30),
         isAdmin: true,
       },
@@ -74,7 +74,7 @@ const mockTickets: Ticket[] = [
         id: "r3",
         message:
           "CTR (Click-Through Rate) é a porcentagem de pessoas que clicaram no seu anúncio. Taxa de conversão é quantas dessas pessoas realizaram a ação desejada. Preparei um documento explicativo que será enviado por email.",
-        author: "Suporte AgencyHub",
+        author: "Suporte Spherum",
         createdAt: new Date(2025, 0, 3, 10, 0),
         isAdmin: true,
       },
@@ -92,7 +92,7 @@ const mockTickets: Ticket[] = [
       {
         id: "r4",
         message: "Recebemos sua solicitação. Para qual valor você gostaria de ajustar?",
-        author: "Suporte AgencyHub",
+        author: "Suporte Spherum",
         createdAt: new Date(2025, 0, 4, 11, 0),
         isAdmin: true,
       },
