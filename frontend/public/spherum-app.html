@@ -54,7 +54,9 @@ body {
 }
 
 /* ── PORTAL SWITCHER ── */
-#portal-switcher {
+#portal-switcher { display: none !important; /* hidden - user sees only their portal */ 
+  position: fixed;
+  top: 0; left: 0; right: 0;
   position: fixed;
   top: 0; left: 0; right: 0;
   height: 44px;
@@ -5661,14 +5663,7 @@ function doLogin() {
 }
 
 // ── PORTAL SWITCHING ──
-function switchPortal(p) {
-  document.querySelectorAll('.portal').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.ps-btn').forEach(el => {
-    el.classList.toggle('active', el.getAttribute('onclick') === "switchPortal('" + p + "')");
-  });
-  document.getElementById('portal-' + p).classList.add('active');
-  window.scrollTo(0, 0);
-}
+// switchPortal definido abaixo com autenticação
 
 // ── VIEW SWITCHING ──
 function showView(portal, view) {
@@ -5741,6 +5736,17 @@ function goToLP() {
 // ══════════════════════════════════════
 //  AUTENTICAÇÃO REAL — BACKEND API
 // ══════════════════════════════════════
+
+// Verificação de autenticação ao carregar
+(function() {
+  var token = sessionStorage.getItem('spherum_token');
+  var portal = sessionStorage.getItem('spherum_portal');
+  if (!token || !portal) {
+    // Sem sessão — mostrar LP
+    document.body.classList.remove('state-login', 'state-app');
+  }
+})();
+
 var API_URL = 'https://agencyhub-backend.onrender.com/api/v1';
 
 // Ao carregar, verificar se já tem sessão válida
