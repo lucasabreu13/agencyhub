@@ -1728,9 +1728,42 @@ body.state-app #page-app  { display: block; }
           <div id="login-error-msg" style="display:none;color:#fb7185;font-size:12px;margin-top:4px">Email ou senha incorretos.</div>
         </div>
         <button type="submit" class="login-btn">Entrar</button>
+        <div style="text-align:center;margin-top:12px">
+          <a onclick="showForgotPassword()" style="color:var(--gold);font-size:12px;cursor:pointer;text-decoration:underline">
+            Esqueci minha senha
+          </a>
+        </div>
       </form>
 
       <div class="login-back"><a onclick="doLogout()">← Voltar para o início</a></div>
+    <!-- TELA RESET DE SENHA -->
+    <div id="forgot-screen" style="display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px">
+      <div style="width:100%;max-width:400px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:32px">
+        <div style="text-align:center;margin-bottom:24px">
+          <div style="font-family:Sora,sans-serif;font-size:20px;font-weight:700;margin-bottom:8px">Redefinir Senha</div>
+          <div style="color:var(--text2);font-size:13px">Digite seu email e enviaremos as instruções</div>
+        </div>
+        <div id="forgot-success" style="display:none;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3);border-radius:8px;padding:12px;margin-bottom:16px;color:#34d399;font-size:13px;text-align:center">
+          Email enviado! Verifique sua caixa de entrada.
+        </div>
+        <div id="forgot-error" style="display:none;background:rgba(251,113,133,0.1);border:1px solid rgba(251,113,133,0.3);border-radius:8px;padding:12px;margin-bottom:16px;color:#fb7185;font-size:13px;text-align:center">
+          Email não encontrado.
+        </div>
+        <div style="margin-bottom:16px">
+          <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:6px">Email</label>
+          <input id="forgot-email" type="email" placeholder="seu@email.com"
+            style="width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-size:13px;outline:none">
+        </div>
+        <button onclick="doForgotPassword()" id="forgot-btn"
+          style="width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;border-radius:8px;padding:12px;color:#fff;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:12px">
+          Enviar Email
+        </button>
+        <div style="text-align:center">
+          <a onclick="hideForgotPassword()" style="color:var(--text2);font-size:12px;cursor:pointer">← Voltar ao login</a>
+        </div>
+      </div>
+    </div>
+
     </div>
   </div>
 </div>
@@ -1743,6 +1776,13 @@ body.state-app #page-app  { display: block; }
 <!-- ═══════════════════════════════════════
      PORTAL SWITCHER
 ═══════════════════════════════════════ -->
+<button id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <line x1="3" y1="6" x2="21" y2="6"/>
+    <line x1="3" y1="12" x2="21" y2="12"/>
+    <line x1="3" y1="18" x2="21" y2="18"/>
+  </svg>
+</button>
 <div id="portal-switcher">
   <span class="ps-label">Portal:</span>
   <button class="ps-btn active" onclick="switchPortal('agency')">Agência</button>
@@ -5673,7 +5713,7 @@ function showView(portal, view) {
   var target = document.getElementById(portal + '-' + view);
   if (target) target.classList.add('active');
   // update sidebar nav
-  var sidebar = document.querySelector('#portal-' + portal + ' .nav');
+  var sidebar = document.querySelector('#portal-' + portal + ' .sidebar-nav');
   if (sidebar) {
     sidebar.querySelectorAll('.nav-item').forEach(function(btn) {
       var onclick = btn.getAttribute('onclick') || '';
@@ -5886,6 +5926,72 @@ function goToLP() {
   document.body.classList.remove('state-login', 'state-app');
   window.scrollTo(0, 0);
 }
+
+
+
+function showForgotPassword() {
+  document.querySelector('#page-login form') && (document.querySelector('#page-login form').closest('.login-box') || document.querySelector('#page-login > div')).style.display = 'none';
+  document.getElementById('forgot-screen').style.display = 'flex';
+}
+
+function hideForgotPassword() {
+  document.getElementById('forgot-screen').style.display = 'none';
+  document.getElementById('forgot-success').style.display = 'none';
+  document.getElementById('forgot-error').style.display = 'none';
+  // Reexibir o form de login
+  var loginInner = document.querySelector('#page-login > div:not(#forgot-screen)');
+  if (loginInner) loginInner.style.display = '';
+}
+
+function doForgotPassword() {
+  var email = document.getElementById('forgot-email').value.trim();
+  var btn = document.getElementById('forgot-btn');
+  var successEl = document.getElementById('forgot-success');
+  var errorEl = document.getElementById('forgot-error');
+
+  if (!email) return;
+
+  btn.textContent = 'Enviando...';
+  btn.disabled = true;
+  successEl.style.display = 'none';
+  errorEl.style.display = 'none';
+
+  fetch(API_URL + '/auth/forgot-password', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    btn.textContent = 'Enviar Email';
+    btn.disabled = false;
+    if (data.message || res.ok) {
+      successEl.style.display = 'block';
+    } else {
+      errorEl.style.display = 'block';
+    }
+  })
+  .catch(function() {
+    btn.textContent = 'Enviar Email';
+    btn.disabled = false;
+    // Mesmo em caso de erro, mostrar sucesso por segurança (não revelar se email existe)
+    successEl.style.display = 'block';
+  });
+}
+
+function toggleMobileMenu() {
+  var sidebars = document.querySelectorAll('.portal.active .sidebar');
+  sidebars.forEach(function(s) { s.classList.toggle('open'); });
+}
+
+// Fechar menu ao clicar em item
+document.addEventListener('click', function(e) {
+  if (e.target.closest('.nav-item')) {
+    document.querySelectorAll('.sidebar').forEach(function(s) {
+      s.classList.remove('open');
+    });
+  }
+});
 
 // ── PRICING TOGGLE ──
 function togglePricing(btn) {
