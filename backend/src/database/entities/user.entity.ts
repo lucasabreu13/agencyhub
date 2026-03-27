@@ -1,13 +1,7 @@
 import { Entity, Column, BeforeInsert, BeforeUpdate } from 'typeorm';
 import { BaseEntity } from './base.entity';
+import { UserRole } from '../../common/enums';
 import * as bcrypt from 'bcrypt';
-
-export enum UserRole {
-  SUPER_ADMIN   = 'super_admin',
-  AGENCY_OWNER  = 'agency_owner',
-  AGENCY_MEMBER = 'agency_member',
-  AGENCY_CLIENT = 'agency_client',
-}
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -32,7 +26,6 @@ export class User extends BaseEntity {
   @Column({ name: 'last_login', type: 'timestamp', nullable: true })
   lastLogin: Date;
 
-  // Campos para reset de senha
   @Column({ name: 'reset_password_token', length: 100, nullable: true })
   resetPasswordToken: string;
 
