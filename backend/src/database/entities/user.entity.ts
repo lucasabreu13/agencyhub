@@ -3,6 +3,9 @@ import { BaseEntity } from './base.entity';
 import { UserRole } from '../../common/enums';
 import * as bcrypt from 'bcrypt';
 
+// Re-exportar para compatibilidade com imports existentes
+export { UserRole } from '../../common/enums';
+
 @Entity('users')
 export class User extends BaseEntity {
   @Column({ length: 255 })
