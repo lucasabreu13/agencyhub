@@ -105,6 +105,79 @@ export class EmailService {
     });
   }
 
+  async sendAgencyWelcome(to: string, ownerName: string, agencyName: string, plan: string) {
+    const portalUrl = process.env.FRONTEND_URL || 'https://agencyhub-ruddy.vercel.app';
+    const planLabel = plan === 'basic' ? 'Básico' : plan === 'pro' ? 'Pro' : 'Enterprise';
+    const planFeatures: Record<string, string[]> = {
+      basic: ['Até 5 clientes', 'Campanhas ilimitadas', 'Relatórios mensais', 'Suporte por email'],
+      pro: ['Clientes ilimitados', 'CRM completo', 'Kanban e Projetos', 'Relatórios avançados', 'Suporte prioritário'],
+      enterprise: ['Tudo do Pro', 'Multi-usuário', 'API dedicada', 'SLA garantido', 'Gerente de conta'],
+    };
+    const features = planFeatures[plan] || planFeatures['basic'];
+
+    return this.send({
+      to,
+      subject: `🚀 Bem-vindo ao AgencyHub, ${ownerName}! Sua agência está pronta`,
+      html: `
+        <div style="font-family:sans-serif;max-width:600px;margin:auto;background:#ffffff">
+          <!-- Header -->
+          <div style="background:linear-gradient(135deg,#7c3aed,#4f46e5);padding:40px 32px;border-radius:12px 12px 0 0;text-align:center">
+            <h1 style="color:white;margin:0;font-size:28px;font-weight:700">AgencyHub</h1>
+            <p style="color:rgba(255,255,255,0.85);margin:8px 0 0;font-size:15px">Plataforma de gestão para agências</p>
+          </div>
+
+          <!-- Body -->
+          <div style="padding:40px 32px">
+            <h2 style="color:#1e1b4b;margin:0 0 8px;font-size:22px">Olá, ${ownerName}! 👋</h2>
+            <p style="color:#374151;font-size:16px;line-height:1.6;margin:0 0 24px">
+              Sua agência <strong>${agencyName}</strong> foi criada com sucesso no plano <strong>${planLabel}</strong>.
+              Você já pode acessar seu painel e começar a gerenciar clientes, campanhas e muito mais.
+            </p>
+
+            <!-- Plan badge -->
+            <div style="background:#f5f3ff;border:1px solid #ddd6fe;border-radius:8px;padding:20px 24px;margin-bottom:28px">
+              <p style="margin:0 0 12px;font-weight:600;color:#7c3aed;font-size:14px;text-transform:uppercase;letter-spacing:0.05em">
+                ✦ Plano ${planLabel} ativado
+              </p>
+              <ul style="margin:0;padding:0;list-style:none">
+                ${features.map(f => `<li style="padding:4px 0;color:#374151;font-size:14px">✓ ${f}</li>`).join('')}
+              </ul>
+            </div>
+
+            <!-- CTA -->
+            <div style="text-align:center;margin:32px 0">
+              <a href="${portalUrl}/login/agency"
+                 style="display:inline-block;background:#7c3aed;color:white;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:600;font-size:16px">
+                Acessar meu painel →
+              </a>
+            </div>
+
+            <!-- Quick start -->
+            <div style="border-top:1px solid #e5e7eb;padding-top:28px">
+              <p style="color:#6b7280;font-size:14px;font-weight:600;margin:0 0 12px;text-transform:uppercase;letter-spacing:0.05em">
+                Próximos passos sugeridos
+              </p>
+              <ol style="margin:0;padding-left:20px;color:#374151;font-size:14px;line-height:2">
+                <li>Complete o perfil da sua agência em <strong>Configurações</strong></li>
+                <li>Cadastre seu primeiro cliente em <strong>Clientes</strong></li>
+                <li>Crie uma campanha e acompanhe as métricas</li>
+                <li>Explore o CRM para gerenciar seus leads</li>
+              </ol>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div style="background:#f9fafb;padding:20px 32px;border-radius:0 0 12px 12px;border-top:1px solid #e5e7eb;text-align:center">
+            <p style="color:#9ca3af;font-size:12px;margin:0">
+              AgencyHub — O sistema nervoso central da sua agência<br>
+              Dúvidas? Responda este email que nossa equipe te ajuda.
+            </p>
+          </div>
+        </div>
+      `,
+    });
+  }
+
   async sendPasswordReset(to: string, name: string, resetUrl: string) {
     return this.send({
       to,

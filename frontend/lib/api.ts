@@ -78,9 +78,21 @@ export interface Paginated<T> {
 
 // ─── Auth ─────────────────────────────────────────────────────────────────────
 
+export interface RegisterAgencyPayload {
+  agencyName: string
+  plan: "basic" | "pro" | "enterprise"
+  ownerName: string
+  ownerEmail: string
+  ownerPassword: string
+  ownerPhone?: string
+}
+
 export const authApi = {
   login: (email: string, password: string) =>
     api.post<{ access_token: string; user: ApiUser }>("/auth/login", { email, password }),
+
+  register: (payload: RegisterAgencyPayload) =>
+    api.post<{ access_token: string; user: ApiUser }>("/auth/register", payload),
 
   me: () => api.get<ApiUser>("/auth/me"),
 

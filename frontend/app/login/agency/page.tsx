@@ -14,6 +14,12 @@ export default function AgencyLoginPage() {
           </Link>
         </Button>
         <LoginForm type="agency" />
+        <p className="text-center text-sm text-muted-foreground">
+          Ainda não tem conta?{" "}
+          <Link href="/register" className="text-primary font-medium hover:underline">
+            Cadastre sua agência grátis
+          </Link>
+        </p>
       </div>
     </div>
   )

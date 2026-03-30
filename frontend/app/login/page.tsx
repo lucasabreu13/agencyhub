@@ -57,7 +57,14 @@ export default function LoginPage() {
           </Card>
         </div>
 
-        <div className="text-center">
+        <div className="text-center space-y-3">
+          <div className="rounded-xl border-2 border-dashed border-primary/30 bg-primary/5 p-5">
+            <p className="text-sm font-medium">Ainda não tem uma agência no AgencyHub?</p>
+            <p className="text-sm text-muted-foreground mt-1">Crie sua conta em menos de 2 minutos e comece grátis por 14 dias.</p>
+            <Button className="mt-3" asChild>
+              <Link href="/register">Cadastrar minha agência →</Link>
+            </Button>
+          </div>
           <Button variant="ghost" asChild>
             <Link href="/">Voltar para Home</Link>
           </Button>

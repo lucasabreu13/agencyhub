@@ -1,7 +1,7 @@
 import { Controller, Post, Get, Body, UseGuards, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { LoginDto } from './dto/auth.dto';
+import { LoginDto, RegisterAgencyDto } from './dto/auth.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { CurrentUser } from './decorators/user.decorator';
 import { User } from '../database/entities/user.entity';
@@ -18,6 +18,15 @@ export class AuthController {
   @ApiResponse({ status: 401, description: 'Email ou senha inválidos' })
   login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
+  }
+
+  @Post('register')
+  @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({ summary: 'Cadastro público de nova agência' })
+  @ApiResponse({ status: 201, description: 'Agência criada e token retornado para auto-login' })
+  @ApiResponse({ status: 409, description: 'Email já cadastrado' })
+  register(@Body() dto: RegisterAgencyDto) {
+    return this.authService.register(dto);
   }
 
   @Get('me')

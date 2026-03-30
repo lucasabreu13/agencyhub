@@ -6,10 +6,12 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { User } from '../database/entities/user.entity';
+import { Agency } from '../database/entities/agency.entity';
+import { OnboardingModule } from '../modules/onboarding/onboarding.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Agency]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       useFactory: () => ({
@@ -19,6 +21,7 @@ import { User } from '../database/entities/user.entity';
         },
       }),
     }),
+    OnboardingModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],
