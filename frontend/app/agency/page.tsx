@@ -195,7 +195,7 @@ export default function AgencyDashboard() {
                     .map((project) => {
                       const client = clients.find((c) => c.id === project.clientId)
                       const daysUntilDue = Math.ceil(
-                        (project.dueDate.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
+                        (new Date(project.dueDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
                       )
 
                       return (

@@ -216,7 +216,7 @@ export default function ClientsPage() {
                   </div>
                   <div>
                     <p className="text-xs text-muted-foreground mb-1">Cliente desde</p>
-                    <p className="text-sm">{client.formatDate(startDate)}</p>
+                    <p className="text-sm">{formatDate(client.startDate)}</p>
                   </div>
                   <Dialog
                     open={showDetailsDialog && selectedClient?.id === client.id}
@@ -285,7 +285,7 @@ export default function ClientsPage() {
                             </div>
                             <div>
                               <p className="text-sm font-medium text-muted-foreground">Cliente desde</p>
-                              <p className="text-base">{client.formatDate(startDate)}</p>
+                              <p className="text-base">{formatDate(client.startDate)}</p>
                             </div>
                           </div>
                           <div className="pt-4 border-t">

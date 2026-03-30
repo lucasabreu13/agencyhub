@@ -58,7 +58,7 @@ export default function ProjectsPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {(projects || []).map((project) => {
               const client = getClientById(project.clientId)
-              const daysUntilDue = Math.ceil((project.dueDate.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))
+              const daysUntilDue = Math.ceil((new Date(project.dueDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))
 
               return (
                 <Card key={project.id} className="hover:shadow-lg transition-shadow">
@@ -86,7 +86,7 @@ export default function ProjectsPage() {
                         <Calendar className="h-4 w-4" />
                         <span>
                           {project.status === "completed"
-                            ? `Concluído em ${project.formatDate(dueDate)}`
+                            ? `Concluído em ${formatDate(project.dueDate)}`
                             : `${daysUntilDue} dias restantes`}
                         </span>
                       </div>

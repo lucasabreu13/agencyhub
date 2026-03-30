@@ -116,7 +116,7 @@ export default function AdminDashboard() {
                       <div>
                         <p className="font-medium">{agency.name}</p>
                         <p className="text-sm text-muted-foreground">
-                          Desde {agency.formatDate(createdAt)}
+                          Desde {formatDate(agency.createdAt)}
                         </p>
                       </div>
                       <Badge variant="default">

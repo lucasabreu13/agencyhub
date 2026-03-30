@@ -273,7 +273,7 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
                                 {history.newPlan}
                               </p>
                               <p className="text-sm text-muted-foreground">
-                                {history.formatDate(date)}
+                                {formatDate(history.date)}
                               </p>
                             </div>
                             <p className="text-sm text-muted-foreground mt-1">Responsável: {history.responsibleUser}</p>
@@ -340,8 +340,8 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
                               </div>
                               <div className="flex items-center gap-1 text-xs text-muted-foreground mt-2">
                                 <Clock className="h-3 w-3" />
-                                Último acesso: {user.formatDate(lastAccess)} às{" "}
-                                {user.lastAccess.toLocaleTimeString("pt-BR", {
+                                Último acesso: {formatDate(user.lastAccess)} às{" "}
+                                {new Date(user.lastAccess).toLocaleTimeString("pt-BR", {
                                   hour: "2-digit",
                                   minute: "2-digit",
                                 })}
@@ -408,7 +408,7 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
                               </div>
                               <div>
                                 <p className="text-xs text-muted-foreground">Data de Início</p>
-                                <p className="text-sm font-medium">{client.formatDate(startDate)}</p>
+                                <p className="text-sm font-medium">{formatDate(client.startDate)}</p>
                               </div>
                               <div>
                                 <p className="text-xs text-muted-foreground">Receita Mensal</p>
@@ -493,7 +493,7 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
                           {filteredLogs.map((log) => (
                             <tr key={log.id} className="border-t hover:bg-muted/30">
                               <td className="p-3 text-sm">
-                                <div>{log.formatDate(timestamp)}</div>
+                                <div>{formatDate(log.timestamp)}</div>
                                 <div className="text-xs text-muted-foreground">
                                   {log.timestamp.toLocaleTimeString("pt-BR", {
                                     hour: "2-digit",
