@@ -1139,33 +1139,6 @@ body.state-app #page-app  { display: block; }
 .login-logo-dot { width:12px; height:12px; border-radius:50%; background:#a78bfa; box-shadow:0 0 18px rgba(139,92,246,0.6); }
 .login-title { font-family:'Sora',sans-serif; font-size:22px; font-weight:700; letter-spacing:-0.03em; text-align:center; margin-bottom:6px; color:#fff; }
 .login-sub { font-size:13px; color:rgba(255,255,255,0.45); text-align:center; margin-bottom:28px; }
-.login-demos { display:flex; flex-direction:column; gap:8px; margin-bottom:24px; }
-.login-demo-btn {
-  width:100%; padding:10px 14px; border-radius:9px; cursor:pointer;
-  font-size:12px; font-weight:600; font-family:'DM Sans',sans-serif;
-  display:flex; align-items:center; gap:10px; border:1px solid; transition:all .2s; text-align:left;
-}
-.login-demo-btn:hover { transform:translateX(2px); }
-.demo-agency  { background:rgba(139,92,246,0.08); border-color:rgba(139,92,246,0.3); color:#c4b5fd; }
-.demo-agency:hover  { background:rgba(139,92,246,0.14); }
-.demo-client  { background:rgba(52,211,153,0.08); border-color:rgba(52,211,153,0.3); color:#6ee7b7; }
-.demo-client:hover  { background:rgba(52,211,153,0.14); }
-.demo-admin   { background:rgba(0,242,255,0.08); border-color:rgba(0,242,255,0.3); color:#67e8f9; }
-.demo-admin:hover   { background:rgba(0,242,255,0.14); }
-.demo-icon { width:28px; height:28px; border-radius:7px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.demo-agency  .demo-icon { background:rgba(139,92,246,0.2); }
-.demo-client  .demo-icon { background:rgba(52,211,153,0.2); }
-.demo-admin   .demo-icon { background:rgba(0,242,255,0.2); }
-.demo-text { flex:1; }
-.demo-name { font-size:13px; font-weight:700; margin-bottom:1px; }
-.demo-cred { font-size:11px; opacity:0.7; }
-.demo-arrow { opacity:0.5; }
-.login-divider { text-align:center; font-size:11px; color:rgba(255,255,255,0.3); margin:20px 0 20px; position:relative; }
-.login-divider::before, .login-divider::after {
-  content:''; position:absolute; top:50%; width:calc(50% - 24px); height:1px; background:rgba(255,255,255,0.08);
-}
-.login-divider::before { left:0; }
-.login-divider::after  { right:0; }
 .login-form-group { margin-bottom:14px; }
 .login-form-group label { display:block; font-size:12px; font-weight:600; color:rgba(255,255,255,0.55); margin-bottom:6px; }
 .login-input {
@@ -1679,43 +1652,7 @@ body.state-app #page-app  { display: block; }
         Spherum
       </div>
       <div class="login-title">Bem-vindo de volta</div>
-      <div class="login-sub">Acesse sua conta ou experimente um demo</div>
-
-      <!-- DEMO LOGINS -->
-      <div class="login-demos">
-        <button class="login-demo-btn demo-agency" onclick="enterDemo('agency')">
-          <div class="demo-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-          </div>
-          <div class="demo-text">
-            <div class="demo-name">Demo — Portal Agência</div>
-            <div class="demo-cred"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7d1c1a18131e141c3d19181012531e1210">[email&#160;protected]</a> · demo123</div>
-          </div>
-          <svg class="demo-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </button>
-        <button class="login-demo-btn demo-client" onclick="enterDemo('client')">
-          <div class="demo-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          </div>
-          <div class="demo-text">
-            <div class="demo-name">Demo — Portal Cliente</div>
-            <div class="demo-cred"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c2a1aeaba7acb6a782a6a7afadeca1adaf">[email&#160;protected]</a> · demo123</div>
-          </div>
-          <svg class="demo-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </button>
-        <button class="login-demo-btn demo-admin" onclick="enterDemo('admin')">
-          <div class="demo-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-          </div>
-          <div class="demo-text">
-            <div class="demo-name">Demo — Portal Admin</div>
-            <div class="demo-cred"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bbdadfd6d2d5fbdfded6d495d8d4d6">[email&#160;protected]</a> · demo123</div>
-          </div>
-          <svg class="demo-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </button>
-      </div>
-
-      <div class="login-divider">ou entre com sua conta</div>
+      <div class="login-sub">Acesse sua conta</div>
 
       <form onsubmit="handleLogin(event)">
         <div class="login-form-group">
@@ -5703,19 +5640,6 @@ var API_URL = 'https://agencyhub-backend.onrender.com/api/v1';
   }
 })();
 
-function enterDemo(portal) {
-  // Botões de acesso rápido — usa credenciais reais do seed
-  var credMap = {
-    'agency': { email: 'mariana@pixelagency.com.br', pass: 'Owner@123' },
-    'client':  { email: 'pedro@techstart.com.br',    pass: 'Cliente@123' },
-    'admin':   { email: 'admin@agencyhub.com',        pass: 'Admin@123' },
-  };
-  var cred = credMap[portal];
-  if (!cred) return;
-  document.getElementById('login-email').value = cred.email;
-  document.getElementById('login-pass').value  = cred.pass;
-  handleLogin({ preventDefault: function(){} });
-}
 
 function handleLogin(e) {
   e.preventDefault();
