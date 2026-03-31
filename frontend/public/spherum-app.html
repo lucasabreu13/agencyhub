@@ -5621,89 +5621,6 @@ White label</textarea>
 
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// ═══════════════════════════════════
-// PAGE NAVIGATION
-// ═══════════════════════════════════
-var DEMO_USERS = {
-  'agencia@demo.com':    { pass: 'Demo@2026',  portal: 'agency' },
-  'cliente@demo.com':    { pass: 'Demo@2026',  portal: 'client' },
-  'admin@spherum.com':   { pass: 'Admin@2026', portal: 'admin'  }
-};
-
-function goToLp() {
-  document.getElementById('page-lp').style.display = 'block';
-  document.getElementById('page-login').style.display = 'none';
-  document.getElementById('page-app').style.display = 'none';
-  window.scrollTo(0, 0);
-}
-
-function goToLogin() {
-  document.getElementById('page-lp').style.display = 'none';
-  document.getElementById('page-login').style.display = 'block';
-  document.getElementById('page-app').style.display = 'none';
-  window.scrollTo(0, 0);
-}
-
-function goToApp(portal) {
-  document.getElementById('page-lp').style.display = 'none';
-  document.getElementById('page-login').style.display = 'none';
-  document.getElementById('page-app').style.display = 'block';
-  switchPortal(portal || 'agency');
-  window.scrollTo(0, 0);
-}
-
-function loginDemo(portal) {
-  var emailMap = {
-    'agency': 'agencia@demo.com',
-    'client': 'cliente@demo.com',
-    'admin':  'admin@spherum.com'
-  };
-  var passMap = {
-    'agency': 'Demo@2026',
-    'client': 'Demo@2026',
-    'admin':  'Admin@2026'
-  };
-  document.getElementById('login-email').value = emailMap[portal];
-  document.getElementById('login-password').value = passMap[portal];
-  document.getElementById('login-error').style.display = 'none';
-  // animate then go
-  var btn = document.getElementById('login-btn');
-  btn.textContent = 'Entrando...';
-  setTimeout(function() {
-    btn.textContent = 'Entrar';
-    goToApp(portal);
-  }, 600);
-}
-
-function doLogin() {
-  var email = document.getElementById('login-email').value.trim().toLowerCase();
-  var pass  = document.getElementById('login-password').value;
-  var user  = DEMO_USERS[email];
-  var errEl = document.getElementById('login-error');
-  if (user && user.pass === pass) {
-    errEl.style.display = 'none';
-    var btn = document.getElementById('login-btn');
-    btn.textContent = 'Entrando...';
-    btn.style.opacity = '0.7';
-    setTimeout(function() {
-      btn.textContent = 'Entrar';
-      btn.style.opacity = '1';
-      goToApp(user.portal);
-    }, 700);
-  } else {
-    errEl.style.display = 'block';
-    var inp = document.getElementById('login-password');
-    inp.style.borderColor = 'rgba(251,113,133,0.5)';
-    inp.style.background  = 'rgba(251,113,133,0.04)';
-    setTimeout(function() {
-      inp.style.borderColor = 'rgba(255,255,255,0.1)';
-      inp.style.background  = 'rgba(255,255,255,0.04)';
-    }, 1500);
-  }
-}
-
-// ── PORTAL SWITCHING ──
-// switchPortal definido abaixo com autenticação
 
 // ── VIEW SWITCHING ──
 function showView(portal, view) {
@@ -5756,20 +5673,6 @@ function switchFinTab(tab) {
   document.querySelectorAll('.fin-panel').forEach(function(p) {
     p.style.display = p.getAttribute('data-panel') === tab ? '' : 'none';
   });
-}
-
-// ══════════════════════════════════════
-//  LP → LOGIN → APP NAVIGATION
-// ══════════════════════════════════════
-function goToLogin() {
-  document.body.classList.remove('state-app');
-  document.body.classList.add('state-login');
-  window.scrollTo(0, 0);
-}
-
-function goToLP() {
-  document.body.classList.remove('state-login', 'state-app');
-  window.scrollTo(0, 0);
 }
 
 
@@ -5965,7 +5868,7 @@ function doForgotPassword() {
   .then(function(data) {
     btn.textContent = 'Enviar Email';
     btn.disabled = false;
-    if (data.message || res.ok) {
+    if (data.message) {
       successEl.style.display = 'block';
     } else {
       errorEl.style.display = 'block';
