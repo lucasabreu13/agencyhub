@@ -831,6 +831,14 @@ body.state-login #page-login { display: flex; align-items:center; justify-conten
 body.state-app #page-lp  { display: none; }
 body.state-app #page-login { display: none; }
 body.state-app #page-app  { display: block; }
+#page-register { display: none;
+  background:radial-gradient(ellipse 70% 60% at 50% -5%,rgba(139,92,246,0.15) 0%,transparent 65%),
+             linear-gradient(180deg,#0b1220 0%,#0d0d10 100%);
+  min-height:100vh; }
+body.state-register #page-lp    { display: none; }
+body.state-register #page-login { display: none; }
+body.state-register #page-app   { display: none; }
+body.state-register #page-register { display: block; }
 
 /* ══════════════════════════════════════
    LP — GLOBAL
@@ -1204,7 +1212,7 @@ body.state-app #page-app  { display: block; }
         Saia do caos operacional. Centralize processos, automatize entregas e escale sua operação com o Spherum — a plataforma que une o time e o cliente em um só lugar.
       </p>
       <div class="lp-hero-actions">
-        <button class="lp-btn lp-btn-primary" onclick="goToLogin()">Começar Teste Gratuito</button>
+        <button class="lp-btn lp-btn-primary" onclick="goToRegister()">Começar Teste Gratuito</button>
       </div>
       <div class="lp-hero-note">Sem cartão · Setup em minutos · Portal para clientes</div>
     </div>
@@ -1500,7 +1508,7 @@ body.state-app #page-app  { display: block; }
       <div class="lp-annual-badge">Economize até 20%</div>
     </div>
     <div class="lp-pricing-grid">
-      <div class="lp-glass lp-price-card sr">
+      <div class="lp-glass lp-price-card">
         <div class="lp-price-name">Starter</div>
         <div class="lp-price-sub">Para operação previsível</div>
         <div class="lp-price-amount"><span id="price-starter">R$ 197</span></div>
@@ -1514,11 +1522,11 @@ body.state-app #page-app  { display: block; }
           <li class="lp-price-item"><span class="lp-price-check">✓</span>Suporte por email</li>
         </ul>
         <div class="lp-price-actions">
-          <button class="lp-btn lp-btn-ghost" style="flex:1;border-radius:8px" onclick="goToLogin()">Começar</button>
+          <button class="lp-btn lp-btn-ghost" style="flex:1;border-radius:8px" onclick="goToRegister()">Começar</button>
           <button class="lp-btn lp-btn-ghost" style="flex:1;border-radius:8px" onclick="goToLogin()">Demo</button>
         </div>
       </div>
-      <div class="lp-glass lp-price-card highlighted sr" style="transition-delay:80ms">
+      <div class="lp-glass lp-price-card highlighted" style="transition-delay:80ms">
         <div class="lp-price-name">Pro</div>
         <div class="lp-price-highlight">Mais vendido</div>
         <div class="lp-price-amount"><span id="price-pro">R$ 397</span></div>
@@ -1533,11 +1541,11 @@ body.state-app #page-app  { display: block; }
           <li class="lp-price-item"><span class="lp-price-check">✓</span>Suporte prioritário</li>
         </ul>
         <div class="lp-price-actions">
-          <button class="lp-btn lp-btn-primary" style="flex:1;border-radius:8px" onclick="goToLogin()">Começar</button>
+          <button class="lp-btn lp-btn-primary" style="flex:1;border-radius:8px" onclick="goToRegister()">Começar</button>
           <button class="lp-btn lp-btn-ghost" style="flex:1;border-radius:8px" onclick="goToLogin()">Demo</button>
         </div>
       </div>
-      <div class="lp-glass lp-price-card sr" style="transition-delay:160ms">
+      <div class="lp-glass lp-price-card" style="transition-delay:160ms">
         <div class="lp-price-name">Scale</div>
         <div class="lp-price-sub">Para operação previsível</div>
         <div class="lp-price-amount"><span id="price-scale">R$ 797</span></div>
@@ -1552,11 +1560,11 @@ body.state-app #page-app  { display: block; }
           <li class="lp-price-item"><span class="lp-price-check">✓</span>Onboarding personalizado</li>
         </ul>
         <div class="lp-price-actions">
-          <button class="lp-btn lp-btn-ghost" style="flex:1;border-radius:8px" onclick="goToLogin()">Começar</button>
+          <button class="lp-btn lp-btn-ghost" style="flex:1;border-radius:8px" onclick="goToRegister()">Começar</button>
           <button class="lp-btn lp-btn-ghost" style="flex:1;border-radius:8px" onclick="goToLogin()">Demo</button>
         </div>
       </div>
-      <div class="lp-glass lp-price-card sr" style="transition-delay:240ms">
+      <div class="lp-glass lp-price-card" style="transition-delay:240ms">
         <div class="lp-price-name">Personalizado</div>
         <div class="lp-price-sub">Para operação previsível</div>
         <div class="lp-price-amount" style="font-size:20px">Sob consulta</div>
@@ -1622,7 +1630,7 @@ body.state-app #page-app  { display: block; }
           <p class="lp-final-desc">Centralize processos, automatize entregas e dê ao seu cliente um portal premium. Teste o Spherum sem fricção.</p>
         </div>
         <div class="lp-final-actions">
-          <button class="lp-btn lp-btn-primary" onclick="goToLogin()">Começar Teste Gratuito</button>
+          <button class="lp-btn lp-btn-primary" onclick="goToRegister()">Começar Teste Gratuito</button>
         </div>
       </div>
     </div>
@@ -1701,6 +1709,46 @@ body.state-app #page-app  { display: block; }
       </div>
     </div>
 
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     REGISTER PAGE
+═══════════════════════════════════════ -->
+<div id="page-register">
+  <div class="login-wrap">
+    <div class="login-box">
+      <div class="login-logo">
+        <span class="login-logo-dot"></span>
+        Spherum
+      </div>
+      <div class="login-title">Criar sua conta</div>
+      <div class="login-sub" style="margin-bottom:20px">7 dias grátis, sem cartão de crédito</div>
+      <form onsubmit="handleRegister(event)">
+        <div class="login-form-group">
+          <label>Seu nome</label>
+          <input id="reg-name" class="login-input" type="text" placeholder="Ex: Mariana Costa" required>
+        </div>
+        <div class="login-form-group">
+          <label>Email</label>
+          <input id="reg-email" class="login-input" type="email" placeholder="seu@email.com" required>
+        </div>
+        <div class="login-form-group">
+          <label>Senha</label>
+          <input id="reg-pass" class="login-input" type="password" placeholder="Mínimo 8 caracteres" required>
+        </div>
+        <div class="login-form-group">
+          <label>Nome da agência</label>
+          <input id="reg-agency" class="login-input" type="text" placeholder="Ex: Pixel Agency" required>
+        </div>
+        <div id="reg-error-msg" style="display:none;color:#fb7185;font-size:12px;margin-bottom:12px;text-align:center;padding:8px;background:rgba(251,113,133,0.08);border-radius:8px"></div>
+        <button type="submit" class="login-btn" id="reg-btn">Criar conta grátis</button>
+      </form>
+      <div style="text-align:center;margin-top:16px;font-size:12px;color:rgba(255,255,255,0.5)">
+        Já tem uma conta? <a onclick="goToLogin()" style="color:var(--gold);cursor:pointer;text-decoration:underline">Entrar</a>
+      </div>
+      <div class="login-back"><a onclick="doLogout()">← Voltar para o início</a></div>
     </div>
   </div>
 </div>
@@ -5722,7 +5770,7 @@ function doLogout() {
   sessionStorage.removeItem('spherum_token');
   sessionStorage.removeItem('spherum_portal');
   sessionStorage.removeItem('spherum_user');
-  document.body.classList.remove('state-app', 'state-login');
+  document.body.classList.remove('state-app', 'state-login', 'state-register');
   window.scrollTo(0, 0);
 }
 
@@ -5744,14 +5792,70 @@ function switchPortal(p) {
 }
 
 function goToLogin() {
-  document.body.classList.remove('state-app');
+  document.body.classList.remove('state-app', 'state-register');
   document.body.classList.add('state-login');
   window.scrollTo(0, 0);
 }
 
-function goToLP() {
-  document.body.classList.remove('state-login', 'state-app');
+function goToRegister() {
+  document.body.classList.remove('state-app', 'state-login');
+  document.body.classList.add('state-register');
   window.scrollTo(0, 0);
+}
+
+function goToLP() {
+  document.body.classList.remove('state-login', 'state-app', 'state-register');
+  window.scrollTo(0, 0);
+}
+
+function handleRegister(e) {
+  e.preventDefault();
+  var name   = document.getElementById('reg-name').value.trim();
+  var email  = document.getElementById('reg-email').value.trim();
+  var pass   = document.getElementById('reg-pass').value;
+  var agency = document.getElementById('reg-agency').value.trim();
+  var errEl  = document.getElementById('reg-error-msg');
+  var btn    = document.getElementById('reg-btn');
+
+  errEl.style.display = 'none';
+  btn.textContent = 'Criando conta...';
+  btn.disabled = true;
+
+  fetch(API_URL + '/auth/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      ownerName: name,
+      ownerEmail: email,
+      ownerPassword: pass,
+      agencyName: agency,
+      plan: 'basic'
+    })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    btn.textContent = 'Criar conta grátis';
+    btn.disabled = false;
+    if (!data.access_token) {
+      var msg = Array.isArray(data.message) ? data.message[0] : (data.message || 'Erro ao criar conta. Tente novamente.');
+      errEl.textContent = msg;
+      errEl.style.display = 'block';
+      return;
+    }
+    sessionStorage.setItem('spherum_token', data.access_token);
+    sessionStorage.setItem('spherum_portal', 'agency');
+    sessionStorage.setItem('spherum_user', JSON.stringify(data.user || {}));
+    document.body.classList.remove('state-register');
+    document.body.classList.add('state-app');
+    window.scrollTo(0, 0);
+    setTimeout(function() { switchPortal('agency'); }, 50);
+  })
+  .catch(function() {
+    btn.textContent = 'Criar conta grátis';
+    btn.disabled = false;
+    errEl.textContent = 'Erro de conexão. Verifique sua internet e tente novamente.';
+    errEl.style.display = 'block';
+  });
 }
 
 
