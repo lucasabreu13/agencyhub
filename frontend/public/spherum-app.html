@@ -1192,7 +1192,19 @@ body.state-register #page-register { display: block; }
         <a href="#pilares">Pilares</a>
         <a href="#features">Recursos</a>
         <a href="#pricing">Planos</a>
+        <a href="#" onclick="showParceirosEmBreve(event)">Parceiros</a>
       </nav>
+
+      <!-- Modal "Em breve" Parceiros -->
+      <div id="parceiros-modal" onclick="hideParceirosEmBreve()" style="display:none;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center;background:rgba(0,0,0,0.55);backdrop-filter:blur(4px)">
+        <div onclick="event.stopPropagation()" style="background:#111318;border:1px solid rgba(139,92,246,0.35);border-radius:16px;padding:40px 48px;text-align:center;max-width:360px;width:90%;box-shadow:0 0 40px rgba(139,92,246,0.18)">
+          <div style="width:48px;height:48px;border-radius:12px;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:22px">🤝</div>
+          <div style="font-size:11px;font-weight:600;letter-spacing:0.12em;color:#8b5cf6;text-transform:uppercase;margin-bottom:10px">Programa de Parceiros</div>
+          <div style="font-size:22px;font-weight:700;color:#fff;margin-bottom:10px">Em breve</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6">Estamos preparando algo especial para agências parceiras. Fique de olho!</div>
+          <button onclick="hideParceirosEmBreve()" style="margin-top:28px;padding:10px 28px;border-radius:8px;border:1px solid rgba(139,92,246,0.4);background:rgba(139,92,246,0.1);color:#a78bfa;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s" onmouseover="this.style.background='rgba(139,92,246,0.2)'" onmouseout="this.style.background='rgba(139,92,246,0.1)'">Entendido</button>
+        </div>
+      </div>
       <div class="lp-header-cta">
         <button class="lp-btn lp-btn-primary" onclick="goToLogin()">Entrar</button>
       </div>
@@ -1671,6 +1683,7 @@ body.state-register #page-register { display: block; }
           <label>Senha</label>
           <input id="login-pass" class="login-input" type="password" placeholder="••••••••" value="">
           <div id="login-error-msg" style="display:none;color:#fb7185;font-size:12px;margin-top:4px">Email ou senha incorretos.</div>
+          <div id="login-wait-msg" style="display:none;color:#a78bfa;font-size:12px;margin-top:4px">O servidor está iniciando, aguarde...</div>
         </div>
         <button type="submit" class="login-btn">Entrar</button>
         <div style="text-align:center;margin-top:12px">
@@ -5694,23 +5707,46 @@ function handleLogin(e) {
   var email    = document.getElementById('login-email').value.trim();
   var pass     = document.getElementById('login-pass').value.trim();
   var submitBtn = document.querySelector('.login-submit-btn') || document.querySelector('button[type="submit"]');
+  var errEl    = document.getElementById('login-error-msg');
+  var waitEl   = document.getElementById('login-wait-msg');
 
   if (!email || !pass) {
     shakeInput();
     return;
   }
 
+  // Resetar mensagens
+  if (errEl)  { errEl.style.display  = 'none'; }
+  if (waitEl) { waitEl.style.display = 'none'; }
+
   // Mostrar loading
   if (submitBtn) { submitBtn.textContent = 'Entrando...'; submitBtn.disabled = true; }
+
+  var controller = new AbortController();
+  var hardTimeout = setTimeout(function() { controller.abort(); }, 60000);
+
+  // Após 5s sem resposta, avisar que o servidor está acordando
+  var wakeTimer = setTimeout(function() {
+    if (waitEl) waitEl.style.display = 'block';
+    if (submitBtn) submitBtn.textContent = 'Aguardando servidor...';
+  }, 5000);
+
+  function resetBtn() {
+    clearTimeout(wakeTimer);
+    clearTimeout(hardTimeout);
+    if (submitBtn) { submitBtn.textContent = 'Entrar'; submitBtn.disabled = false; }
+    if (waitEl) waitEl.style.display = 'none';
+  }
 
   fetch(API_URL + '/auth/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: email, password: pass })
+    body: JSON.stringify({ email: email, password: pass }),
+    signal: controller.signal
   })
   .then(function(res) { return res.json(); })
   .then(function(data) {
-    if (submitBtn) { submitBtn.textContent = 'Entrar'; submitBtn.disabled = false; }
+    resetBtn();
 
     if (!data.access_token) {
       shakeInput();
@@ -5746,10 +5782,28 @@ function handleLogin(e) {
     window.scrollTo(0, 0);
     setTimeout(function() { switchPortal(portal); }, 50);
   })
-  .catch(function() {
-    if (submitBtn) { submitBtn.textContent = 'Entrar'; submitBtn.disabled = false; }
-    shakeInput();
+  .catch(function(err) {
+    resetBtn();
+    if (err && err.name === 'AbortError') {
+      // Timeout de 60s — servidor não respondeu
+      if (errEl) { errEl.textContent = 'Servidor não respondeu. Tente novamente.'; errEl.style.display = 'block'; }
+      var input = document.getElementById('login-email');
+      if (input) { input.style.borderColor = 'rgba(251,113,133,0.6)'; input.style.background = 'rgba(251,113,133,0.06)'; setTimeout(function() { input.style.borderColor = ''; input.style.background = ''; }, 2000); }
+    } else {
+      shakeInput();
+    }
   });
+}
+
+function showParceirosEmBreve(e) {
+  e.preventDefault();
+  var modal = document.getElementById('parceiros-modal');
+  if (modal) { modal.style.display = 'flex'; }
+}
+
+function hideParceirosEmBreve() {
+  var modal = document.getElementById('parceiros-modal');
+  if (modal) { modal.style.display = 'none'; }
 }
 
 function shakeInput() {
