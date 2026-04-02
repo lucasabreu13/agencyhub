@@ -6011,6 +6011,14 @@ function togglePricing(btn) {
   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll('.sr').forEach(function(el) { obs.observe(el); });
 })();
+
+// ── KEEP-ALIVE: ping o backend a cada 10 minutos para evitar hibernação ──
+(function() {
+  function pingBackend() {
+    fetch(API_URL + '/health', { method: 'GET', mode: 'no-cors' }).catch(function() {});
+  }
+  setInterval(pingBackend, 10 * 60 * 1000);
+})();
 </script>
 </body>
 </html>
