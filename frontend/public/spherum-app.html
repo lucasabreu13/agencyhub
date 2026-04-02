@@ -5759,7 +5759,7 @@ function handleLogin(e) {
     // Determinar portal pelo role
     var role   = data.user && data.user.role;
     var portal = 'agency';
-    if (role === 'super_admin')   portal = 'admin';
+    if (role === 'admin')   portal = 'admin';
     else if (role === 'agency_client') portal = 'client';
     else if (role === 'agency_owner')  portal = 'agency';
 
@@ -5772,7 +5772,7 @@ function handleLogin(e) {
         el.textContent = data.user.name || email;
       });
       document.querySelectorAll('.sidebar-user-role').forEach(function(el) {
-        el.textContent = role === 'super_admin' ? 'Administrador' : role === 'agency_client' ? 'Cliente' : 'Agência';
+        el.textContent = role === 'admin' ? 'Administrador' : role === 'agency_client' ? 'Cliente' : 'Agência';
       });
     }
 
