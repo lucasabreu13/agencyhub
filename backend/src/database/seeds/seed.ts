@@ -24,14 +24,13 @@ export async function seed(dataSource: DataSource) {
 
   let admin: User;
   if (!existingAdmin) {
-    admin = adminRepo.create({
-      name: 'Admin AgencyHub',
-      email: 'admin@agencyhub.com',
-      passwordHash: await hash('Admin@123'),
-      role: UserRole.ADMIN,
-      isActive: true,
-    });
-    await adminRepo.save(admin);
+    // Usa query direta para evitar hooks @BeforeInsert/@BeforeUpdate da entidade
+    await dataSource.query(
+      `INSERT INTO users (id, name, email, password_hash, role, is_active, created_at, updated_at)
+       VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, NOW(), NOW())`,
+      ['Admin AgencyHub', 'admin@agencyhub.com', await hash('Admin@123'), UserRole.ADMIN, true],
+    );
+    admin = await adminRepo.findOne({ where: { email: 'admin@agencyhub.com' } });
     console.log('  ✅ Admin criado: admin@agencyhub.com / Admin@123');
   } else {
     admin = existingAdmin;
