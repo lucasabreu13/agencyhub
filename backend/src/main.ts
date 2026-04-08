@@ -21,7 +21,12 @@ async function bootstrap() {
   app.setGlobalPrefix(apiPrefix);
 
   // CORS
-  const corsOrigins = process.env.CORS_ORIGINS?.split(',') || ['http://localhost:3000'];
+  const corsOrigins = process.env.CORS_ORIGINS?.split(',') || [
+    'http://localhost:3000',
+    'https://spherum.com.br',
+    'https://www.spherum.com.br',
+    'https://agencyhub-ruddy.vercel.app',
+  ];
   app.enableCors({
     origin: corsOrigins,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
