@@ -1167,13 +1167,134 @@ body.state-register #page-register { display: block; }
 .login-back a:hover { color:#a78bfa; }
 
 
+
+/* ── HAMBURGER (MOBILE NAV) ── */
+.lp-hamburger {
+  display: none;
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px;
+  transition: all .2s;
+}
+.lp-hamburger:hover { background: rgba(255,255,255,0.08); }
+.lp-hamburger span {
+  display: block;
+  width: 18px; height: 2px;
+  background: rgba(255,255,255,0.7);
+  border-radius: 2px;
+  transition: all .3s;
+}
+.lp-hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.lp-hamburger.open span:nth-child(2) { opacity: 0; }
+.lp-hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+.lp-mobile-menu {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(8,12,20,0.97);
+  backdrop-filter: blur(20px);
+  z-index: 49;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  opacity: 0;
+  transition: opacity .3s;
+}
+.lp-mobile-menu.open { display: flex; opacity: 1; }
+.lp-mobile-menu a {
+  font-size: 20px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  font-family: 'Sora', sans-serif;
+  transition: color .2s;
+}
+.lp-mobile-menu a:hover { color: #a78bfa; }
+
+/* ── PRICING CARDS (NEW STYLE) ── */
+.lp-price-card-new {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  transition: border-color .25s, transform .25s;
+}
+.lp-price-card-new:hover { border-color: rgba(139,92,246,0.3); transform: translateY(-3px); }
+.lp-price-card-featured {
+  background: linear-gradient(180deg,rgba(88,28,220,0.25),rgba(139,92,246,0.08)) !important;
+  border-color: rgba(139,92,246,0.5) !important;
+  box-shadow: 0 0 50px rgba(139,92,246,0.15);
+}
+.lp-price-popular-badge {
+  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(135deg,#8b5cf6,#7c3aed);
+  color: #fff; font-size: 11px; font-weight: 700;
+  padding: 4px 16px; border-radius: 99px; white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(139,92,246,0.4);
+}
+.lp-price-name-new { font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 700; color: #fff; }
+.lp-price-sub-new { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: -10px; }
+.lp-price-amount-new {
+  font-family: 'Sora', sans-serif; font-size: 42px; font-weight: 800; letter-spacing: -0.05em;
+}
+.lp-price-period-new { font-size: 13px; color: rgba(255,255,255,0.4); margin-top: -10px; }
+.lp-price-divider-new { border: none; border-top: 1px solid rgba(255,255,255,0.07); margin: 0; }
+.lp-price-features-new { display: flex; flex-direction: column; gap: 10px; }
+.lp-price-feature-new { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: rgba(255,255,255,0.75); }
+.lp-price-check-new {
+  flex-shrink: 0; width: 18px; height: 18px; border-radius: 50%;
+  background: rgba(139,92,246,0.2); border: 1px solid rgba(139,92,246,0.4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: #a78bfa; margin-top: 1px;
+}
+
+/* ── BLOG / PARTNERS PAGES ── */
+#page-blog, #page-partners { display: none; }
+body.state-blog #page-lp { display: none; }
+body.state-blog #page-blog { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+body.state-partners #page-lp { display: none; }
+body.state-partners #page-partners { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+body.state-login #page-blog, body.state-login #page-partners { display: none; }
+body.state-app #page-blog, body.state-app #page-partners { display: none; }
+body.state-register #page-blog, body.state-register #page-partners { display: none; }
+
+/* ── RESPONSIVE ADDITIONS (MOBILE) ── */
+@media (max-width: 768px) {
+  .lp-nav { display: none !important; }
+  .lp-header-cta { gap: 6px !important; }
+  .lp-hamburger { display: flex; }
+  .lp-hero { padding: 32px 20px 40px !important; }
+  .lp-hero-h1 { font-size: clamp(28px, 7vw, 42px) !important; }
+  .lp-hero-p { font-size: 14px !important; }
+  .lp-metric-grid { grid-template-columns: 1fr !important; }
+  .lp-feat-grid { grid-template-columns: 1fr !important; }
+  .lp-pricing-grid { grid-template-columns: 1fr !important; }
+  .lp-pilares-grid { grid-template-columns: 1fr !important; }
+}
+@media (max-width: 1024px) {
+  .lp-hero { grid-template-columns: 1fr !important; gap: 40px; text-align: center; }
+  .lp-hero-actions { justify-content: center; }
+  .lp-feat-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .lp-pricing-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .lp-pilares-grid { grid-template-columns: repeat(2, 1fr) !important; }
+}
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════════════════
-     PAGE: LANDING PAGE
-═══════════════════════════════════════════════════════════ -->
 <!-- ═══════════════════════════════════════
      LANDING PAGE
 ═══════════════════════════════════════ -->
@@ -1189,97 +1310,166 @@ body.state-register #page-register { display: block; }
       </a>
       <nav class="lp-nav">
         <a href="#ecosistema">Ecossistema</a>
-        <a href="#pilares">Pilares</a>
         <a href="#features">Recursos</a>
         <a href="#pricing">Planos</a>
-        <a href="#" onclick="showParceirosEmBreve(event)">Parceiros</a>
+        <a href="#" onclick="goToBlog();return false;">Blog</a>
+        <a href="#" onclick="goToPartners();return false;">Parceiros</a>
       </nav>
-
-      <!-- Modal "Em breve" Parceiros -->
-      <div id="parceiros-modal" onclick="hideParceirosEmBreve()" style="display:none;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center;background:rgba(0,0,0,0.55);backdrop-filter:blur(4px)">
-        <div onclick="event.stopPropagation()" style="background:#111318;border:1px solid rgba(139,92,246,0.35);border-radius:16px;padding:40px 48px;text-align:center;max-width:360px;width:90%;box-shadow:0 0 40px rgba(139,92,246,0.18)">
-          <div style="width:48px;height:48px;border-radius:12px;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:22px">🤝</div>
-          <div style="font-size:11px;font-weight:600;letter-spacing:0.12em;color:#8b5cf6;text-transform:uppercase;margin-bottom:10px">Programa de Parceiros</div>
-          <div style="font-size:22px;font-weight:700;color:#fff;margin-bottom:10px">Em breve</div>
-          <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6">Estamos preparando algo especial para agências parceiras. Fique de olho!</div>
-          <button onclick="hideParceirosEmBreve()" style="margin-top:28px;padding:10px 28px;border-radius:8px;border:1px solid rgba(139,92,246,0.4);background:rgba(139,92,246,0.1);color:#a78bfa;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s" onmouseover="this.style.background='rgba(139,92,246,0.2)'" onmouseout="this.style.background='rgba(139,92,246,0.1)'">Entendido</button>
-        </div>
-      </div>
       <div class="lp-header-cta">
+        <button class="lp-hamburger" onclick="toggleMobileMenu()" aria-label="Menu de navegação">
+          <span></span><span></span><span></span>
+        </button>
         <button class="lp-btn lp-btn-primary" onclick="goToLogin()">Entrar</button>
       </div>
     </div>
   </header>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="lp-mobile-menu" id="lp-mobile-menu">
+    <a href="#ecosistema" onclick="closeMobileMenu()">Ecossistema</a>
+    <a href="#features" onclick="closeMobileMenu()">Recursos</a>
+    <a href="#pricing" onclick="closeMobileMenu()">Planos</a>
+    <a href="#" onclick="closeMobileMenu();goToBlog();return false;">Blog</a>
+    <a href="#" onclick="closeMobileMenu();goToPartners();return false;">Parceiros</a>
+    <button class="lp-btn lp-btn-primary" style="margin-top:12px" onclick="closeMobileMenu();goToLogin()">Entrar</button>
+  </div>
 
   <!-- HERO -->
   <section class="lp-hero">
     <div>
       <div class="lp-badge-pill">
         <span class="lp-badge-dot"></span>
-        O sistema que sua agência necessita
+        Para agências que querem parar de improvisar
       </div>
-      <h1 class="lp-hero-h1">Organize, Automate, Scale.</h1>
+      <h1 class="lp-hero-h1">Sua agência cresce.<br>Sua operação não acompanha.</h1>
       <p class="lp-hero-p">
-        <strong>O sistema nervoso central da sua agência de marketing.</strong>
-        Saia do caos operacional. Centralize processos, automatize entregas e escale sua operação com o Spherum — a plataforma que une o time e o cliente em um só lugar.
+        <strong>O Spherum resolve isso.</strong>
+        Centraliza clientes, campanhas, tarefas e financeiro em um único lugar — para seu time executar com clareza e seu cliente acompanhar em tempo real.
       </p>
       <div class="lp-hero-actions">
-        <button class="lp-btn lp-btn-primary" onclick="goToRegister()">Começar Teste Gratuito</button>
+        <button class="lp-btn lp-btn-primary" onclick="goToLogin()">Começar Teste Gratuito</button>
       </div>
-      <div class="lp-hero-note">Sem cartão · Setup em minutos · Portal para clientes</div>
+      <!-- Social proof -->
+      <div style="display:flex;align-items:center;gap:12px;margin-top:20px">
+        <div style="display:flex;align-items:center">
+          <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#c084fc,#a855f7);border:2px solid rgba(13,13,16,0.9);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;z-index:4">A</div>
+          <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#818cf8,#6366f1);border:2px solid rgba(13,13,16,0.9);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;margin-left:-8px;z-index:3">B</div>
+          <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#e879f9,#c026d3);border:2px solid rgba(13,13,16,0.9);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;margin-left:-8px;z-index:2">C</div>
+          <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#a78bfa,#8b5cf6);border:2px solid rgba(13,13,16,0.9);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;margin-left:-8px;z-index:1">D</div>
+        </div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.75)"><strong style="color:#fff">+150</strong> agências já usam o Spherum</div>
+      </div>
+      <div class="lp-hero-note" style="margin-top:14px">
+        <span>✓ 14 dias grátis</span>
+        <span style="margin:0 10px">·</span>
+        <span>✓ Cancele quando quiser</span>
+        <span style="margin:0 10px">·</span>
+        <span>✓ Portal para clientes incluso</span>
+      </div>
     </div>
     <div class="lp-analytics">
+      <!-- Metric cards -->
       <div class="lp-metric-grid">
         <div class="lp-metric-card">
           <div class="lp-metric-icon mi-pos">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7-7 7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <div class="lp-metric-label">ROAS Médio</div>
-          <div class="lp-metric-val">4.2x</div>
-          <div class="lp-metric-change" style="color:#34d399">+12% este mês</div>
+          <div class="lp-metric-val">4.2<span style="font-size:15px;opacity:.7">x</span></div>
+          <div class="lp-metric-change" style="color:#34d399">↑ +12% este mês</div>
+          <div style="position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#34d399,transparent);opacity:.5"></div>
         </div>
         <div class="lp-metric-card">
           <div class="lp-metric-icon mi-neg">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M19 12l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <div class="lp-metric-label">CAC Médio</div>
-          <div class="lp-metric-val">R$ 38</div>
-          <div class="lp-metric-change" style="color:#fb7185">-9% este mês</div>
+          <div class="lp-metric-val">R$<span style="font-size:22px;letter-spacing:-0.2px"> 38</span></div>
+          <div class="lp-metric-change" style="color:#fb7185">↓ -9% este mês</div>
+          <div style="position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#fb7185,transparent);opacity:.5"></div>
         </div>
         <div class="lp-metric-card">
           <div class="lp-metric-icon mi-pos">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke-linecap="round"/></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
           </div>
-          <div class="lp-metric-label">Aprovações</div>
-          <div class="lp-metric-val">92%</div>
-          <div class="lp-metric-change" style="color:#34d399">+18% este mês</div>
+          <div class="lp-metric-label">Taxa de Conversão</div>
+          <div class="lp-metric-val">3.8<span style="font-size:15px;opacity:.7">%</span></div>
+          <div class="lp-metric-change" style="color:#34d399">↑ +18% este mês</div>
+          <div style="position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#a78bfa,transparent);opacity:.5"></div>
         </div>
       </div>
+
+      <!-- Chart card -->
       <div class="lp-chart-card">
         <div class="lp-chart-top">
           <div style="display:flex;align-items:center;gap:8px">
-            <div class="lp-badge-pill" style="margin:0;padding:6px 10px;font-size:11px">
+            <div class="lp-badge-pill" style="margin:0;padding:5px 10px;font-size:11px">
               <span class="lp-badge-dot"></span>Agency Analytics
+            </div>
+            <div style="display:flex;align-items:center;gap:5px">
+              <span style="width:8px;height:2px;background:#a78bfa;border-radius:2px;display:inline-block"></span>
+              <span style="font-size:10px;color:rgba(255,255,255,0.4)">ROAS</span>
+              <span style="width:8px;height:2px;background:rgba(255,255,255,0.3);border-radius:2px;display:inline-block;margin-left:6px"></span>
+              <span style="font-size:10px;color:rgba(255,255,255,0.4)">Média setor</span>
             </div>
           </div>
           <div class="lp-chart-period">Últimos 12 meses</div>
         </div>
-        <div style="margin-bottom:8px;font-size:11px;font-weight:500;color:rgba(255,255,255,0.7)">Performance ROAS</div>
-        <div class="lp-bars">
-          <div class="lp-bar-wrap"><div class="lp-bar" style="height:47%"></div></div>
-          <div class="lp-bar-wrap"><div class="lp-bar" style="height:65%"></div></div>
-          <div class="lp-bar-wrap"><div class="lp-bar" style="height:60%"></div></div>
-          <div class="lp-bar-wrap"><div class="lp-bar" style="height:76%"></div></div>
-          <div class="lp-bar-wrap"><div class="lp-bar" style="height:71%"></div></div>
-          <div class="lp-bar-wrap"><div class="lp-bar" style="height:84%"></div></div>
-          <div class="lp-bar-wrap"><div class="lp-bar" style="height:78%"></div></div>
-          <div class="lp-bar-wrap"><div class="lp-bar" style="height:96%"></div></div>
-          <div class="lp-bar-wrap"><div class="lp-bar" style="height:92%"></div></div>
-          <div class="lp-bar-wrap"><div class="lp-bar" style="height:98%"></div></div>
-          <div class="lp-bar-wrap"><div class="lp-bar" style="height:93%"></div></div>
-          <div class="lp-bar-wrap"><div class="lp-bar" style="height:100%"></div></div>
+
+        <!-- SVG Line Chart -->
+        <div style="position:relative;height:90px;margin-top:4px">
+          <svg viewBox="0 0 420 90" preserveAspectRatio="none" style="width:100%;height:100%;overflow:visible">
+            <defs>
+              <linearGradient id="lp-grad-roas" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.35"/>
+                <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0"/>
+              </linearGradient>
+              <linearGradient id="lp-grad-avg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"/>
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <!-- Grid lines -->
+            <line x1="0" y1="22" x2="420" y2="22" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+            <line x1="0" y1="45" x2="420" y2="45" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+            <line x1="0" y1="68" x2="420" y2="68" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+            <!-- Sector average area -->
+            <path d="M0,58 C35,56 70,54 105,52 C140,50 175,50 210,49 C245,48 280,47 315,46 C350,45 385,45 420,44 L420,90 L0,90 Z" fill="url(#lp-grad-avg)"/>
+            <!-- Sector average line -->
+            <path d="M0,58 C35,56 70,54 105,52 C140,50 175,50 210,49 C245,48 280,47 315,46 C350,45 385,45 420,44" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <!-- ROAS area fill -->
+            <path d="M0,72 C35,65 70,60 105,52 C140,44 175,38 210,32 C245,26 280,20 315,15 C350,10 385,7 420,4 L420,90 L0,90 Z" fill="url(#lp-grad-roas)"/>
+            <!-- ROAS line -->
+            <path d="M0,72 C35,65 70,60 105,52 C140,44 175,38 210,32 C245,26 280,20 315,15 C350,10 385,7 420,4" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"/>
+            <!-- Data points -->
+            <circle cx="105" cy="52" r="3" fill="#8b5cf6" stroke="rgba(13,13,16,0.9)" stroke-width="1.5"/>
+            <circle cx="210" cy="32" r="3" fill="#8b5cf6" stroke="rgba(13,13,16,0.9)" stroke-width="1.5"/>
+            <circle cx="315" cy="15" r="3" fill="#8b5cf6" stroke="rgba(13,13,16,0.9)" stroke-width="1.5"/>
+            <!-- Last point highlighted -->
+            <circle cx="420" cy="4" r="4.5" fill="#a78bfa" stroke="rgba(13,13,16,0.9)" stroke-width="2"/>
+            <circle cx="420" cy="4" r="8" fill="rgba(139,92,246,0.2)"/>
+            <!-- Tooltip on last point -->
+            <rect x="358" y="-18" width="52" height="18" rx="5" fill="rgba(139,92,246,0.9)"/>
+            <text x="384" y="-5" text-anchor="middle" font-size="9" font-weight="700" fill="#fff" font-family="Sora, sans-serif">4.2x</text>
+          </svg>
+          <!-- Y-axis labels -->
+          <div style="position:absolute;left:0;top:0;height:100%;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none">
+            <span style="font-size:8px;color:rgba(255,255,255,0.25)">5x</span>
+            <span style="font-size:8px;color:rgba(255,255,255,0.25)">3x</span>
+            <span style="font-size:8px;color:rgba(255,255,255,0.25)">1x</span>
+          </div>
+          <!-- X-axis labels -->
+          <div style="display:flex;justify-content:space-between;margin-top:4px">
+            <span style="font-size:8px;color:rgba(255,255,255,0.25)">Jan</span>
+            <span style="font-size:8px;color:rgba(255,255,255,0.25)">Abr</span>
+            <span style="font-size:8px;color:rgba(255,255,255,0.25)">Jul</span>
+            <span style="font-size:8px;color:rgba(255,255,255,0.25)">Out</span>
+            <span style="font-size:8px;color:rgba(255,255,255,0.25)">Dez</span>
+          </div>
         </div>
       </div>
+
+      <!-- Trust badge -->
       <div class="lp-chart-proof">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Dados verificados de +150 agências parceiras
@@ -1310,153 +1500,71 @@ body.state-register #page-register { display: block; }
 
   <!-- ECOSISTEMA -->
   <section id="ecosistema" class="lp-section">
-    <div class="sr">
-      <h2 style="font-family:'Sora',sans-serif;font-size:clamp(24px,3.5vw,36px);letter-spacing:-0.4px;margin-bottom:12px">Dois portais. Uma operação. Zero ruído.</h2>
-      <p style="font-size:14px;color:rgba(255,255,255,0.7);max-width:680px;line-height:1.7">O Spherum separa o que é execução pesada do que é experiência premium. Seu time trabalha com dados e automações — e seu cliente acompanha tudo com clareza, em um portal dedicado.</p>
+    <div class="sr" style="text-align:center;margin-bottom:48px">
+      <h2 style="font-family:'Sora',sans-serif;font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-0.5px;margin-bottom:16px">
+        Dois portais. Uma operação. <span style="color:#a78bfa">Zero ruído.</span>
+      </h2>
+      <p style="font-size:15px;color:rgba(255,255,255,0.6);max-width:620px;margin:0 auto;line-height:1.7">O Spherum separa o que é execução pesada do que é experiência premium. Seu time trabalha com dados e automações — e seu cliente acompanha tudo com clareza, em um portal dedicado.</p>
     </div>
-  </section>
 
-  <!-- PORTAL AGENCIA -->
-  <section class="lp-section" style="padding-top:0">
-    <div class="sr">
-      <h2 style="font-family:'Sora',sans-serif;font-size:clamp(22px,3vw,32px);letter-spacing:-0.4px;margin-bottom:12px">Portal da Agência: Operação & Controle</h2>
-      <p style="font-size:14px;color:rgba(255,255,255,0.7);max-width:680px;line-height:1.7;margin-bottom:28px">Centralize toda a operação da sua agência em um único lugar. Gestão completa de projetos, automações e dados para seu time executar sem fricção.</p>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
-      <!-- Screenshot placeholder left -->
-      <div class="lp-glass" style="display:flex;align-items:center;justify-content:center;padding:32px;min-height:300px">
-        <div style="width:100%;aspect-ratio:4/3;border-radius:14px;border:1px solid rgba(255,255,255,0.08);background:linear-gradient(135deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px">
-          <svg viewBox="0 0 24 24" width="52" height="52" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M2 8h20M8 3v5"/><circle cx="8" cy="13" r="1.5" fill="rgba(255,255,255,0.25)" stroke="none"/><circle cx="16" cy="13" r="1.5" fill="rgba(255,255,255,0.25)" stroke="none"/><circle cx="12" cy="17" r="1.5" fill="rgba(255,255,255,0.25)" stroke="none"/></svg>
-          <p style="font-size:13px;color:rgba(255,255,255,0.35);text-align:center;line-height:1.5">Adicione uma screenshot do<br>Portal da Agência aqui</p>
-        </div>
-      </div>
-      <!-- 4 Features right -->
-      <div class="lp-glass" style="padding:32px;display:flex;flex-direction:column;gap:20px">
-        <div style="display:flex;align-items:flex-start;gap:14px">
-          <div style="width:36px;height:36px;border-radius:10px;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <div>
-            <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:600;margin-bottom:4px">Pipeline & CRM completo</div>
-            <p style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.6">Gerencie leads, propostas e projetos em um pipeline visual. Acompanhe cada etapa do funil comercial.</p>
-          </div>
-        </div>
-        <div style="display:flex;align-items:flex-start;gap:14px">
-          <div style="width:36px;height:36px;border-radius:10px;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3" stroke-linecap="round"/></svg>
-          </div>
-          <div>
-            <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:600;margin-bottom:4px">Automação de processos</div>
-            <p style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.6">Automatize relatórios, aprovações e notificações. Seu time foca no que importa: resultados.</p>
-          </div>
-        </div>
-        <div style="display:flex;align-items:flex-start;gap:14px">
-          <div style="width:36px;height:36px;border-radius:10px;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8"><path d="M3 3v18h18" stroke-linecap="round"/><path d="M7 16l4-4 3 3 5-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <div>
-            <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:600;margin-bottom:4px">Lucratividade em tempo real</div>
-            <p style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.6">Veja lucro, margem e rentabilidade de cada cliente e projeto. Tome decisões baseadas em dados reais.</p>
-          </div>
-        </div>
-        <div style="display:flex;align-items:flex-start;gap:14px">
-          <div style="width:36px;height:36px;border-radius:10px;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke-linecap="round"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke-linecap="round"/></svg>
-          </div>
-          <div>
-            <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:600;margin-bottom:4px">Gestão de equipes</div>
-            <p style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.6">Distribua tarefas, acompanhe produtividade e mantenha a comunicação centralizada por projeto.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
 
-  <!-- PORTAL CLIENTE -->
-  <section class="lp-section" style="padding-top:48px">
-    <div class="sr">
-      <h2 style="font-family:'Sora',sans-serif;font-size:clamp(22px,3vw,32px);letter-spacing:-0.4px;margin-bottom:12px">Portal do Cliente: Transparência que vende</h2>
-      <p style="font-size:14px;color:rgba(255,255,255,0.7);max-width:680px;line-height:1.7;margin-bottom:28px">Dê ao seu cliente uma experiência premium com acesso direto aos resultados, aprovações rápidas e total transparência do projeto.</p>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
-      <!-- Features left -->
-      <div class="lp-glass" style="padding:32px;display:flex;flex-direction:column;gap:20px">
-        <div style="display:flex;align-items:flex-start;gap:14px">
-          <div style="width:36px;height:36px;border-radius:10px;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8"><path d="M9 11l3 3L22 4" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke-linecap="round"/></svg>
-          </div>
-          <div>
-            <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:600;margin-bottom:4px">Aprovações em 1 clique</div>
-            <p style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.6">Cliente aprova criativos, campanhas e relatórios direto na plataforma. Sem WhatsApp, sem email perdido.</p>
-          </div>
+      <!-- Portal da Agência card -->
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:36px;display:flex;flex-direction:column;gap:20px;transition:border-color .25s" onmouseover="this.style.borderColor='rgba(139,92,246,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)'">
+        <div style="width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,#8b5cf6,#6d28d9);display:flex;align-items:center;justify-content:center">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
         </div>
-        <div style="display:flex;align-items:flex-start;gap:14px">
-          <div style="width:36px;height:36px;border-radius:10px;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-          </div>
-          <div>
-            <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:600;margin-bottom:4px">Dashboard em tempo real</div>
-            <p style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.6">Métricas atualizadas automaticamente. Seu cliente vê resultados, investimento e ROI sem precisar perguntar.</p>
-          </div>
+        <div>
+          <div style="font-family:'Sora',sans-serif;font-size:20px;font-weight:700;margin-bottom:8px">Portal da Agência</div>
+          <p style="font-size:14px;color:rgba(255,255,255,0.6);line-height:1.65">Workspace completo com analytics avançados, fluxos de automação e ferramentas de colaboração em equipe.</p>
         </div>
-        <div style="display:flex;align-items:flex-start;gap:14px">
-          <div style="width:36px;height:36px;border-radius:10px;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke-linecap="round"/></svg>
-          </div>
-          <div>
-            <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:600;margin-bottom:4px">Relatórios automáticos</div>
-            <p style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.6">Relatórios gerados e enviados automaticamente. Menos tempo em reuniões de apresentação, mais tempo executando.</p>
-          </div>
-        </div>
-        <div style="display:flex;align-items:flex-start;gap:14px">
-          <div style="width:36px;height:36px;border-radius:10px;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2" stroke-linecap="round"/></svg>
-          </div>
-          <div>
-            <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:600;margin-bottom:4px">Histórico completo</div>
-            <p style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.6">Todo o histórico de ações, campanhas e resultados em um só lugar. Transparência total para o cliente.</p>
-          </div>
-        </div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px">
+          <li style="display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,0.75)"><span style="width:7px;height:7px;border-radius:50%;background:#a78bfa;flex-shrink:0"></span>Gestão e otimização de campanhas</li>
+          <li style="display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,0.75)"><span style="width:7px;height:7px;border-radius:50%;background:#a78bfa;flex-shrink:0"></span>Analytics de performance em tempo real</li>
+          <li style="display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,0.75)"><span style="width:7px;height:7px;border-radius:50%;background:#a78bfa;flex-shrink:0"></span>Relatórios e workflows automatizados</li>
+          <li style="display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,0.75)"><span style="width:7px;height:7px;border-radius:50%;background:#a78bfa;flex-shrink:0"></span>Ferramentas de colaboração em equipe</li>
+          <li style="display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,0.75)"><span style="width:7px;height:7px;border-radius:50%;background:#a78bfa;flex-shrink:0"></span>Dashboard de gestão de clientes</li>
+        </ul>
+        <button style="background:none;border:none;padding:0;cursor:pointer;display:flex;align-items:center;gap:6px;color:#a78bfa;font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;margin-top:4px;transition:gap .2s" onclick="openPortalModal('agency')" onmouseover="this.style.gap='10px'" onmouseout="this.style.gap='6px'">
+          Saber mais <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+
+        </button>
       </div>
-      <!-- Screenshot placeholder right -->
-      <div class="lp-glass" style="display:flex;align-items:center;justify-content:center;padding:32px;min-height:300px">
-        <div style="width:100%;aspect-ratio:4/3;border-radius:14px;border:1px solid rgba(255,255,255,0.08);background:linear-gradient(135deg,rgba(139,92,246,0.08),rgba(255,255,255,0.02));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px">
-          <svg viewBox="0 0 24 24" width="52" height="52" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/><circle cx="15" cy="15" r="2" fill="rgba(255,255,255,0.25)" stroke="none"/></svg>
-          <p style="font-size:13px;color:rgba(255,255,255,0.35);text-align:center;line-height:1.5">Adicione uma screenshot do<br>Portal do Cliente aqui</p>
+
+      <!-- Portal do Cliente card -->
+      <div style="background:rgba(139,92,246,0.05);border:1px solid rgba(139,92,246,0.2);border-radius:20px;padding:36px;display:flex;flex-direction:column;gap:20px;transition:border-color .25s" onmouseover="this.style.borderColor='rgba(139,92,246,0.4)'" onmouseout="this.style.borderColor='rgba(139,92,246,0.2)'">
+        <div style="width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,#c084fc,#9333ea);display:flex;align-items:center;justify-content:center">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
         </div>
+        <div>
+          <div style="font-family:'Sora',sans-serif;font-size:20px;font-weight:700;margin-bottom:8px">Portal do Cliente</div>
+          <p style="font-size:14px;color:rgba(255,255,255,0.6);line-height:1.65">Interface linda e intuitiva onde clientes acompanham progresso e acessam insights — tudo em um só lugar.</p>
+        </div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px">
+          <li style="display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,0.75)"><span style="width:7px;height:7px;border-radius:50%;background:#c084fc;flex-shrink:0"></span>Insights de campanha em tempo real</li>
+          <li style="display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,0.75)"><span style="width:7px;height:7px;border-radius:50%;background:#c084fc;flex-shrink:0"></span>Relatórios e métricas de performance</li>
+          <li style="display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,0.75)"><span style="width:7px;height:7px;border-radius:50%;background:#c084fc;flex-shrink:0"></span>Canal de comunicação direta</li>
+          <li style="display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,0.75)"><span style="width:7px;height:7px;border-radius:50%;background:#c084fc;flex-shrink:0"></span>Histórico completo e rastreável</li>
+          <li style="display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,0.75)"><span style="width:7px;height:7px;border-radius:50%;background:#c084fc;flex-shrink:0"></span>Experiência white-label personalizável</li>
+        </ul>
+        <button style="background:none;border:none;padding:0;cursor:pointer;display:flex;align-items:center;gap:6px;color:#c084fc;font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;margin-top:4px;transition:gap .2s" onclick="openPortalModal('client')" onmouseover="this.style.gap='10px'" onmouseout="this.style.gap='6px'">
+          Saber mais <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Sync badge -->
+    <div style="display:flex;justify-content:center;margin-top:32px">
+      <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.25);border-radius:99px;padding:8px 18px;font-size:13px;color:rgba(255,255,255,0.8)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+        Sincronizados em tempo real, sem esforço
       </div>
     </div>
   </section>
 
-  <!-- PILARES -->
-  <section id="pilares" class="lp-section" style="padding-top:0">
-    <div class="sr">
-      <h2 style="font-family:'Sora',sans-serif;font-size:clamp(22px,3vw,32px);letter-spacing:-0.4px;margin-bottom:12px">Do improviso ao previsível</h2>
-      <p style="font-size:14px;color:rgba(255,255,255,0.7);max-width:680px;line-height:1.7">Três pilares para tirar sua agência do improviso e colocar sua operação em modo previsível e escalável.</p>
-    </div>
-    <div class="lp-pilares-grid">
-      <div class="lp-glass sr" style="padding:24px;transition-delay:0ms">
-        <div style="font-family:'Sora',sans-serif;font-size:15px;margin-bottom:8px">Organize</div>
-        <p style="font-size:12px;color:rgba(255,255,255,0.7);line-height:1.6">Chega de 15 abas abertas. Briefings, arquivos e conversas centralizados.</p>
-      </div>
-      <div class="lp-glass sr" style="padding:24px;transition-delay:100ms">
-        <div style="font-family:'Sora',sans-serif;font-size:15px;margin-bottom:8px">Automatize</div>
-        <p style="font-size:12px;color:rgba(255,255,255,0.7);line-height:1.6">Gatilhos inteligentes que movem o projeto sozinho — do onboarding ao fechamento do mês.</p>
-      </div>
-      <div class="lp-glass sr" style="padding:24px;transition-delay:200ms">
-        <div style="font-family:'Sora',sans-serif;font-size:15px;margin-bottom:8px">Escale</div>
-        <p style="font-size:12px;color:rgba(255,255,255,0.7);line-height:1.6">Visão clara de KPIs para você focar no crescimento, não no microgerenciamento.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- FEATURES -->
+<!-- FEATURES -->
   <section id="features" class="lp-section" style="padding-top:0">
     <div class="sr" style="text-align:center">
-      <div style="display:inline-flex;align-items:center;gap:8px;border-radius:99px;border:1px solid rgba(139,92,246,0.3);background:rgba(139,92,246,0.1);padding:8px 16px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.85);margin-bottom:16px">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke-linejoin="round"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        All-in-One
-      </div>
       <h2 style="font-family:'Sora',sans-serif;font-size:clamp(22px,3vw,32px);letter-spacing:-0.4px;margin-bottom:12px">Tudo o que sua agência precisa em um só lugar</h2>
       <p style="font-size:14px;color:rgba(255,255,255,0.7);max-width:680px;line-height:1.7;margin:0 auto">Esqueça a bagunça de ferramentas desconectadas. O Spherum centraliza gestão, automação, relatórios e comunicação em uma plataforma completa.</p>
     </div>
@@ -1492,23 +1600,22 @@ body.state-register #page-register { display: block; }
         <p class="lp-feat-desc">Horas, custos e margem por cliente para decisões rápidas e seguras.</p>
       </div>
     </div>
-    <div class="sr" style="text-align:center;margin-top:40px;transition-delay:500ms">
-      <div class="lp-glass" style="display:inline-flex;align-items:center;gap:12px;padding:16px 24px">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <div style="text-align:left">
-          <div style="font-family:'Sora',sans-serif;font-size:14px;margin-bottom:3px">Integrado nativamente</div>
-          <p style="font-size:12px;color:rgba(255,255,255,0.7)">Dados fluem entre módulos sem sincronizações manuais ou exportações</p>
-        </div>
-      </div>
-    </div>
+    <div class="sr" style="text-align:center;margin-top:40px;transition-delay:500ms"></div>
   </section>
 
   <!-- PRICING -->
   <section id="pricing" class="lp-section" style="padding-top:0">
-    <div class="sr">
-      <h2 style="font-family:'Sora',sans-serif;font-size:clamp(22px,3vw,32px);letter-spacing:-0.4px;margin-bottom:12px">Planos para sua agência escalar com previsibilidade</h2>
-      <p style="font-size:14px;color:rgba(255,255,255,0.7);max-width:680px;line-height:1.7">Escolha o plano ideal para o momento da sua agência e escale conforme cresce.</p>
+    <div class="sr" style="text-align:center;margin-bottom:40px">
+      <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.3);border-radius:99px;padding:6px 16px;font-size:12px;color:#a78bfa;font-weight:600;margin-bottom:20px">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Planos
+      </div>
+      <h2 style="font-family:'Sora',sans-serif;font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-0.5px;margin-bottom:16px">
+        Escolha o <span style="color:#a78bfa">plano perfeito</span>
+      </h2>
+      <p style="font-size:15px;color:rgba(255,255,255,0.6);max-width:520px;margin:0 auto;line-height:1.65">Preços simples e transparentes que crescem com você. Todos os planos incluem 14 dias de teste grátis.</p>
     </div>
+
     <div class="lp-price-toggle">
       <div class="lp-toggle-wrap">
         <span class="lp-toggle-label" id="lbl-monthly" style="color:#fff">Mensal</span>
@@ -1517,148 +1624,460 @@ body.state-register #page-register { display: block; }
         </div>
         <span class="lp-toggle-label" id="lbl-annual" style="color:rgba(255,255,255,0.5)">Anual</span>
       </div>
-      <div class="lp-annual-badge">Economize até 20%</div>
     </div>
-    <div class="lp-pricing-grid">
-      <div class="lp-glass lp-price-card">
-        <div class="lp-price-name">Starter</div>
-        <div class="lp-price-sub">Para operação previsível</div>
-        <div class="lp-price-amount"><span id="price-starter">R$ 197</span></div>
-        <div class="lp-price-per">/mês</div>
-        <ul class="lp-price-list">
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>Até 3 colaboradores</li>
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>Até 5 clientes ativos</li>
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>Onboarding + tarefas + aprovações</li>
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>Portal do cliente básico</li>
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>Relatórios essenciais</li>
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>Suporte por email</li>
+
+    <div class="lp-pricing-grid" style="margin-top:32px">
+
+      <!-- Starter -->
+      <div class="lp-price-card-new sr">
+        <div class="lp-price-name-new">Starter</div>
+        <div class="lp-price-sub-new">Para agências iniciantes</div>
+        <div class="lp-price-amount-new"><span id="price-starter">R$ 197</span><span class="lp-price-mo">/mês</span></div>
+        <div class="lp-price-save" id="save-starter" style="opacity:0">Economize R$360/ano</div>
+        <ul class="lp-price-list-new">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Até 3 colaboradores</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Até 5 clientes ativos</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Onboarding + tarefas</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Portal do cliente básico</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Relatórios essenciais</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Suporte por email</li>
         </ul>
-        <div class="lp-price-actions">
-          <button class="lp-btn lp-btn-ghost" style="flex:1;border-radius:8px" onclick="goToRegister()">Começar</button>
-          <button class="lp-btn lp-btn-ghost" style="flex:1;border-radius:8px" onclick="goToLogin()">Demo</button>
-        </div>
+        <button class="lp-price-btn-ghost" onclick="goToLogin()">Iniciar Teste Grátis</button>
       </div>
-      <div class="lp-glass lp-price-card highlighted" style="transition-delay:80ms">
-        <div class="lp-price-name">Pro</div>
-        <div class="lp-price-highlight">Mais vendido</div>
-        <div class="lp-price-amount"><span id="price-pro">R$ 397</span></div>
-        <div class="lp-price-per">/mês</div>
-        <ul class="lp-price-list">
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>Até 10 colaboradores</li>
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>Até 15 clientes ativos</li>
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>Workflows + automações avançadas</li>
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>Dashboards com KPIs em tempo real</li>
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>Portal do cliente premium</li>
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>Relatórios automáticos</li>
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>Suporte prioritário</li>
+
+      <!-- Pro — Mais Popular -->
+      <div class="lp-price-card-new lp-price-card-featured sr" style="transition-delay:80ms">
+        <div class="lp-price-popular-badge">Mais Popular</div>
+        <div class="lp-price-name-new">Professional</div>
+        <div class="lp-price-sub-new">Para agências e equipes em crescimento</div>
+        <div class="lp-price-amount-new"><span id="price-pro">R$ 397</span><span class="lp-price-mo">/mês</span></div>
+        <div class="lp-price-save" id="save-pro" style="opacity:0">Economize R$948/ano no plano anual</div>
+        <ul class="lp-price-list-new">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Até 15 membros da equipe</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Campanhas ilimitadas</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Analytics avançado e relatórios</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Suporte prioritário</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>50GB de armazenamento</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Portal do cliente com branding</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Workflows de automação</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Acesso à API</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Integrações personalizadas</li>
         </ul>
-        <div class="lp-price-actions">
-          <button class="lp-btn lp-btn-primary" style="flex:1;border-radius:8px" onclick="goToRegister()">Começar</button>
-          <button class="lp-btn lp-btn-ghost" style="flex:1;border-radius:8px" onclick="goToLogin()">Demo</button>
-        </div>
+        <button class="lp-price-btn-featured" onclick="goToLogin()">Iniciar Teste Grátis</button>
       </div>
-      <div class="lp-glass lp-price-card" style="transition-delay:160ms">
-        <div class="lp-price-name">Scale</div>
-        <div class="lp-price-sub">Para operação previsível</div>
-        <div class="lp-price-amount"><span id="price-scale">R$ 797</span></div>
-        <div class="lp-price-per">/mês</div>
-        <ul class="lp-price-list">
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>Até 25 colaboradores</li>
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>Até 50 clientes ativos</li>
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>Multi-squads + governança</li>
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>Lucratividade em tempo real</li>
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>API e integrações customizadas</li>
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>Suporte prioritário 24/7</li>
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>Onboarding personalizado</li>
+
+      <!-- Scale -->
+      <div class="lp-price-card-new sr" style="transition-delay:160ms">
+        <div class="lp-price-name-new">Scale</div>
+        <div class="lp-price-sub-new">Para grandes operações</div>
+        <div class="lp-price-amount-new"><span id="price-scale">R$ 797</span><span class="lp-price-mo">/mês</span></div>
+        <div class="lp-price-save" id="save-scale" style="opacity:0">Economize R$1.908/ano</div>
+        <ul class="lp-price-list-new">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Até 25 colaboradores</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Até 50 clientes ativos</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Multi-squads + governança</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Lucratividade em tempo real</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>API e integrações customizadas</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>SLA garantido + suporte 24/7</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Onboarding personalizado</li>
         </ul>
-        <div class="lp-price-actions">
-          <button class="lp-btn lp-btn-ghost" style="flex:1;border-radius:8px" onclick="goToRegister()">Começar</button>
-          <button class="lp-btn lp-btn-ghost" style="flex:1;border-radius:8px" onclick="goToLogin()">Demo</button>
-        </div>
+        <button class="lp-price-btn-ghost" onclick="goToLogin()">Iniciar Teste Grátis</button>
       </div>
-      <div class="lp-glass lp-price-card" style="transition-delay:240ms">
-        <div class="lp-price-name">Personalizado</div>
-        <div class="lp-price-sub">Para operação previsível</div>
-        <div class="lp-price-amount" style="font-size:20px">Sob consulta</div>
-        <div class="lp-price-per">/mês</div>
-        <ul class="lp-price-list">
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>Colaboradores ilimitados</li>
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>Clientes ilimitados</li>
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>Infraestrutura dedicada</li>
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>Integrações customizadas</li>
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>CSM dedicado</li>
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>Treinamento personalizado</li>
-          <li class="lp-price-item"><span class="lp-price-check">✓</span>SLA premium garantido</li>
+
+      <!-- Personalizado / Enterprise -->
+      <div class="lp-price-card-new sr" style="transition-delay:240ms">
+        <div class="lp-price-name-new">Enterprise</div>
+        <div class="lp-price-sub-new">Para grandes operações</div>
+        <div class="lp-price-amount-new" style="font-size:26px;letter-spacing:-0.02em">Sob consulta</div>
+        <div class="lp-price-save" style="opacity:0">—</div>
+        <ul class="lp-price-list-new">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Colaboradores ilimitados</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Clientes ilimitados</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Infraestrutura dedicada</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Integrações customizadas</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>CSM dedicado</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>SLA premium garantido</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Suporte 24/7 prioritário</li>
         </ul>
-        <div class="lp-price-actions">
-          <button class="lp-btn lp-btn-ghost" style="flex:1;border-radius:8px" onclick="goToLogin()">Falar com time</button>
+        <button class="lp-price-btn-ghost" onclick="goToLogin()">Falar com o Time</button>
+      </div>
+
+    </div>
+
+    <!-- 5. Selos de segurança abaixo dos planos -->
+    <div style="margin-top:28px;text-align:center">
+      <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:20px">Todos os planos incluem 14 dias de teste grátis · Cancele quando quiser</div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:rgba(255,255,255,0.55)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Pagamento Seguro
+        </div>
+        <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:rgba(255,255,255,0.55)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          SSL Criptografado
+        </div>
+        <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:rgba(255,255,255,0.55)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          ISO 27001
+        </div>
+        <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:rgba(255,255,255,0.55)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          LGPD Compliant
         </div>
       </div>
     </div>
-    <div class="lp-price-note">Todos os planos incluem 14 dias de teste gratuito · Sem cartão · Cancele quando quiser</div>
   </section>
 
-  <!-- FAQ -->
-  <section class="lp-section-sm" style="padding-top:0">
-    <div class="sr" style="text-align:center">
-      <h2 style="font-family:'Sora',sans-serif;font-size:clamp(22px,3vw,32px);letter-spacing:-0.4px;margin-bottom:12px">Perguntas Frequentes</h2>
-      <p style="font-size:14px;color:rgba(255,255,255,0.7)">Tudo o que você precisa saber sobre o Spherum</p>
-    </div>
-    <div class="lp-faq-list">
-      <div class="lp-glass sr" style="padding:20px 24px;transition-delay:0ms">
-        <div class="lp-faq-q">O Spherum serve para agências pequenas?</div>
-        <p class="lp-faq-a">Sim. Você começa simples (onboarding, tarefas, aprovações) e vai ativando automações e dashboards conforme cresce. O plano Starter é perfeito para começar.</p>
-      </div>
-      <div class="lp-glass sr" style="padding:20px 24px;transition-delay:80ms">
-        <div class="lp-faq-q">Como funciona a integração com ferramentas que já uso?</div>
-        <p class="lp-faq-a">O Spherum se integra com as principais ferramentas do mercado (Meta Ads, Google Ads, Analytics, etc.) para centralizar dados e relatórios em um único lugar.</p>
-      </div>
-      <div class="lp-glass sr" style="padding:20px 24px;transition-delay:160ms">
-        <div class="lp-faq-q">Preciso migrar tudo de uma vez?</div>
-        <p class="lp-faq-a">Não. Você pode iniciar por um squad/conta e expandir conforme o playbook fica redondo. A migração é gradual e sem fricção.</p>
-      </div>
-      <div class="lp-glass sr" style="padding:20px 24px;transition-delay:240ms">
-        <div class="lp-faq-q">Qual o tempo de implementação?</div>
-        <p class="lp-faq-a">Setup em minutos. Você pode começar a usar imediatamente e ir configurando automações e personalizações conforme sua operação evolui.</p>
-      </div>
-      <div class="lp-glass sr" style="padding:20px 24px;transition-delay:320ms">
-        <div class="lp-faq-q">Os dados dos meus clientes ficam seguros?</div>
-        <p class="lp-faq-a">Sim. Utilizamos criptografia de ponta a ponta, servidores em cloud com certificações de segurança e backups automáticos diários.</p>
-      </div>
-      <div class="lp-glass sr" style="padding:20px 24px;transition-delay:400ms">
-        <div class="lp-faq-q">Posso cancelar a qualquer momento?</div>
-        <p class="lp-faq-a">Sim, sem multas ou burocracias. Você mantém acesso aos seus dados por 30 dias após o cancelamento para exportar o que precisar.</p>
-      </div>
-    </div>
-    <div class="lp-faq-foot">Não encontrou o que procurava? <a onclick="goToLogin()">Entre em contato conosco.</a></div>
-  </section>
-
-  <!-- FINAL CTA -->
+<!-- DEPOIMENTOS -->
   <section class="lp-section" style="padding-top:0">
-    <div class="lp-glass lp-final-cta">
-      <div class="lp-final-cta-inner">
-        <div>
-          <div class="lp-final-title">Pare de operar no caos. Comece a escalar com padrão.</div>
-          <p class="lp-final-desc">Centralize processos, automatize entregas e dê ao seu cliente um portal premium. Teste o Spherum sem fricção.</p>
+    <div class="sr" style="text-align:center;margin-bottom:48px">
+      <h2 style="font-family:'Sora',sans-serif;font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-0.5px;margin-bottom:14px">
+        Amado por <span style="color:#a78bfa">agências no mundo todo</span>
+      </h2>
+      <p style="font-size:15px;color:rgba(255,255,255,0.55);max-width:520px;margin:0 auto">Junte-se a centenas de agências que transformaram suas operações com o Spherum</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:48px">
+
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:28px;position:relative;transition:border-color .25s" onmouseover="this.style.borderColor='rgba(139,92,246,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">
+        <div style="color:#f59e0b;font-size:16px;letter-spacing:1px;margin-bottom:16px">★★★★★</div>
+        <div style="position:absolute;top:20px;right:24px;font-size:48px;color:rgba(255,255,255,0.06);font-family:Georgia,serif;line-height:1">"</div>
+        <p style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:22px">"O Spherum transformou como nossa agência opera. O sistema de portais duplos é genial — nossa equipe se mantém organizada enquanto os clientes têm uma experiência premium. ROI aumentou 147% em apenas 3 meses."</p>
+        <div style="display:flex;align-items:center;gap:10px">
+          <img src="https://images.unsplash.com/photo-1623594675959-02360202d4d6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=80&q=80" alt="Sarah Mitchell" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,0.15);flex-shrink:0">
+          <div>
+            <div style="font-size:13px;font-weight:700;color:#fff">Sarah Mitchell</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.45)">CEO, Agência Digital Growth</div>
+          </div>
         </div>
-        <div class="lp-final-actions">
-          <button class="lp-btn lp-btn-primary" onclick="goToRegister()">Começar Teste Gratuito</button>
+      </div>
+
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:28px;position:relative;transition:border-color .25s" onmouseover="this.style.borderColor='rgba(139,92,246,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">
+        <div style="color:#f59e0b;font-size:16px;letter-spacing:1px;margin-bottom:16px">★★★★★</div>
+        <div style="position:absolute;top:20px;right:24px;font-size:48px;color:rgba(255,255,255,0.06);font-family:Georgia,serif;line-height:1">"</div>
+        <p style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:22px">"Os recursos de automação economizam mais de 20 horas por semana. Mas o que realmente se destaca é como melhorou nossos relacionamentos com clientes. Eles adoram ter acesso em tempo real aos dados."</p>
+        <div style="display:flex;align-items:center;gap:10px">
+          <img src="https://images.unsplash.com/photo-1769636930047-4478f12cf430?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=80&q=80" alt="Marcus Chen" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,0.15);flex-shrink:0">
+          <div>
+            <div style="font-size:13px;font-weight:700;color:#fff">Marcus Chen</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.45)">Fundador, Velocity Marketing</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:28px;position:relative;transition:border-color .25s" onmouseover="this.style.borderColor='rgba(139,92,246,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">
+        <div style="color:#f59e0b;font-size:16px;letter-spacing:1px;margin-bottom:16px">★★★★★</div>
+        <div style="position:absolute;top:20px;right:24px;font-size:48px;color:rgba(255,255,255,0.06);font-family:Georgia,serif;line-height:1">"</div>
+        <p style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:22px">"Testamos 5 plataformas diferentes antes do Spherum. Nenhuma chegou perto. Os analytics são incrivelmente profundos, mas a interface permanece intuitiva. Nossa taxa de retenção subiu para 95%."</p>
+        <div style="display:flex;align-items:center;gap:10px">
+          <img src="https://images.unsplash.com/photo-1650784854945-264d5b0b6b07?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=80&q=80" alt="Elena Rodriguez" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,0.15);flex-shrink:0">
+          <div>
+            <div style="font-size:13px;font-weight:700;color:#fff">Elena Rodriguez</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.45)">Diretora de Operações, Scale Media</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Stats row -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding:36px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);border-radius:18px">
+      <div style="text-align:center">
+        <div style="font-family:'Sora',sans-serif;font-size:32px;font-weight:800;color:#a78bfa;letter-spacing:-0.05em;margin-bottom:6px">150+</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.5)">Agências Parceiras</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-family:'Sora',sans-serif;font-size:32px;font-weight:800;color:#a78bfa;letter-spacing:-0.05em;margin-bottom:6px">4.9/5</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.5)">Avaliação Média</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-family:'Sora',sans-serif;font-size:32px;font-weight:800;color:#a78bfa;letter-spacing:-0.05em;margin-bottom:6px">95%</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.5)">Retenção de Clientes</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-family:'Sora',sans-serif;font-size:32px;font-weight:800;color:#a78bfa;letter-spacing:-0.05em;margin-bottom:6px">24/7</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.5)">Suporte Disponível</div>
+      </div>
+    </div>
+  </section>
+
+<!-- FAQ -->
+  <section id="faq" class="lp-section" style="padding-top:0">
+    <div style="max-width:760px;margin:0 auto">
+      <div class="sr" style="text-align:center;margin-bottom:48px">
+        <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3);border-radius:99px;padding:6px 16px;font-size:12px;color:#a78bfa;font-weight:600;margin-bottom:18px">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          FAQ
+        </div>
+        <h2 style="font-family:'Sora',sans-serif;font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-0.5px;margin-bottom:14px">
+          Perguntas <span style="background:linear-gradient(135deg,#a78bfa,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">frequentes</span>
+        </h2>
+        <p style="font-size:15px;color:rgba(255,255,255,0.55)">Tudo que você precisa saber sobre o Spherum</p>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px">
+
+        <div class="lp-faq-item lp-glass" onclick="lpFaqToggle(this)" style="padding:0;cursor:pointer;border-radius:16px;overflow:hidden">
+          <div style="padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+            <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:600;color:#fff">Como funciona o teste grátis de 14 dias?</div>
+            <svg class="lp-faq-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" style="flex-shrink:0;transition:transform .3s"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="lp-faq-body" style="max-height:0;overflow:hidden;transition:max-height .35s ease">
+            <p style="padding:0 24px 20px;font-size:14px;color:rgba(255,255,255,0.65);line-height:1.7;margin:0;border-top:1px solid rgba(255,255,255,0.06)">Comece a usar o Spherum imediatamente com acesso completo a todos os recursos. Após 14 dias, escolha o plano ideal e continue. Não há cobrança automática — você decide quando e se quer assinar.</p>
+          </div>
+        </div>
+
+        <div class="lp-faq-item lp-glass" onclick="lpFaqToggle(this)" style="padding:0;cursor:pointer;border-radius:16px;overflow:hidden">
+          <div style="padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+            <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:600;color:#fff">Posso mudar de plano a qualquer momento?</div>
+            <svg class="lp-faq-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" style="flex-shrink:0;transition:transform .3s"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="lp-faq-body" style="max-height:0;overflow:hidden;transition:max-height .35s ease">
+            <p style="padding:0 24px 20px;font-size:14px;color:rgba(255,255,255,0.65);line-height:1.7;margin:0;border-top:1px solid rgba(255,255,255,0.06)">Absolutamente! Você pode fazer upgrade ou downgrade do seu plano a qualquer momento. As alterações entram em vigor imediatamente e faremos o rateio proporcional de qualquer diferença no seu ciclo de cobrança.</p>
+          </div>
+        </div>
+
+        <div class="lp-faq-item lp-glass" onclick="lpFaqToggle(this)" style="padding:0;cursor:pointer;border-radius:16px;overflow:hidden">
+          <div style="padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+            <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:600;color:#fff">O que está incluído no portal do cliente?</div>
+            <svg class="lp-faq-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" style="flex-shrink:0;transition:transform .3s"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="lp-faq-body" style="max-height:0;overflow:hidden;transition:max-height .35s ease">
+            <p style="padding:0 24px 20px;font-size:14px;color:rgba(255,255,255,0.65);line-height:1.7;margin:0;border-top:1px solid rgba(255,255,255,0.06)">O portal do cliente oferece insights de campanha em tempo real, relatórios de performance, canais de comunicação direta e uma experiência totalmente personalizável nos planos Professional e Enterprise.</p>
+          </div>
+        </div>
+
+        <div class="lp-faq-item lp-glass" onclick="lpFaqToggle(this)" style="padding:0;cursor:pointer;border-radius:16px;overflow:hidden">
+          <div style="padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+            <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:600;color:#fff">Vocês oferecem soluções enterprise personalizadas?</div>
+            <svg class="lp-faq-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" style="flex-shrink:0;transition:transform .3s"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="lp-faq-body" style="max-height:0;overflow:hidden;transition:max-height .35s ease">
+            <p style="padding:0 24px 20px;font-size:14px;color:rgba(255,255,255,0.65);line-height:1.7;margin:0;border-top:1px solid rgba(255,255,255,0.06)">Sim! Nosso plano Enterprise inclui integrações personalizadas, suporte dedicado, contratos customizados, acordos de SLA e um gerente de conta dedicado. Entre em contato com nossa equipe para discutir suas necessidades específicas.</p>
+          </div>
+        </div>
+
+        <div class="lp-faq-item lp-glass" onclick="lpFaqToggle(this)" style="padding:0;cursor:pointer;border-radius:16px;overflow:hidden">
+          <div style="padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+            <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:600;color:#fff">Quão seguros são meus dados?</div>
+            <svg class="lp-faq-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" style="flex-shrink:0;transition:transform .3s"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="lp-faq-body" style="max-height:0;overflow:hidden;transition:max-height .35s ease">
+            <p style="padding:0 24px 20px;font-size:14px;color:rgba(255,255,255,0.65);line-height:1.7;margin:0;border-top:1px solid rgba(255,255,255,0.06)">Levamos segurança muito a sério. Todos os dados são criptografados em trânsito e em repouso usando criptografia de nível bancário. Somos compatíveis com ISO 27001, LGPD e realizamos auditorias de segurança regulares.</p>
+          </div>
+        </div>
+
+        <div class="lp-faq-item lp-glass" onclick="lpFaqToggle(this)" style="padding:0;cursor:pointer;border-radius:16px;overflow:hidden">
+          <div style="padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+            <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:600;color:#fff">Posso importar dados de outras plataformas?</div>
+            <svg class="lp-faq-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" style="flex-shrink:0;transition:transform .3s"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="lp-faq-body" style="max-height:0;overflow:hidden;transition:max-height .35s ease">
+            <p style="padding:0 24px 20px;font-size:14px;color:rgba(255,255,255,0.65);line-height:1.7;margin:0;border-top:1px solid rgba(255,255,255,0.06)">Sim! O Spherum se integra com as principais plataformas de marketing (Meta Ads, Google Ads, Analytics) e fornece ferramentas fáceis de importação. Nossa equipe pode ajudá-lo a migrar com tempo mínimo de inatividade.</p>
+          </div>
+        </div>
+
+        <div class="lp-faq-item lp-glass" onclick="lpFaqToggle(this)" style="padding:0;cursor:pointer;border-radius:16px;overflow:hidden">
+          <div style="padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+            <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:600;color:#fff">Qual é a política de cancelamento?</div>
+            <svg class="lp-faq-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" style="flex-shrink:0;transition:transform .3s"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="lp-faq-body" style="max-height:0;overflow:hidden;transition:max-height .35s ease">
+            <p style="padding:0 24px 20px;font-size:14px;color:rgba(255,255,255,0.65);line-height:1.7;margin:0;border-top:1px solid rgba(255,255,255,0.06)">Você pode cancelar sua assinatura a qualquer momento, sem multas ou taxas ocultas. Se cancelar, terá acesso até o final do seu período de cobrança atual.</p>
+          </div>
+        </div>
+
+        <div class="lp-faq-item lp-glass" onclick="lpFaqToggle(this)" style="padding:0;cursor:pointer;border-radius:16px;overflow:hidden">
+          <div style="padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+            <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:600;color:#fff">Vocês oferecem treinamento e onboarding?</div>
+            <svg class="lp-faq-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" style="flex-shrink:0;transition:transform .3s"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="lp-faq-body" style="max-height:0;overflow:hidden;transition:max-height .35s ease">
+            <p style="padding:0 24px 20px;font-size:14px;color:rgba(255,255,255,0.65);line-height:1.7;margin:0;border-top:1px solid rgba(255,255,255,0.06)">Sim! Todos os planos incluem documentação completa e tutoriais em vídeo. Os planos Professional e Enterprise incluem sessões de onboarding personalizadas com nossa equipe para garantir que você aproveite ao máximo o Spherum.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Ainda tem dúvidas? -->
+      <div style="margin-top:40px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:40px;text-align:center">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.5" style="margin:0 auto 16px;display:block"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <div style="font-family:'Sora',sans-serif;font-size:20px;font-weight:700;margin-bottom:8px">Ainda tem dúvidas?</div>
+        <p style="font-size:14px;color:rgba(255,255,255,0.55);margin-bottom:24px">Nossa equipe de suporte está sempre pronta para ajudar você</p>
+        <button onclick="goToContact();return false;" style="padding:12px 32px;border-radius:99px;border:none;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 4px 18px rgba(139,92,246,0.35);transition:all .2s" onmouseover="this.style.boxShadow='0 6px 28px rgba(139,92,246,0.55)';this.style.transform='translateY(-1px)'" onmouseout="this.style.boxShadow='0 4px 18px rgba(139,92,246,0.35)';this.style.transform='none'">Falar com o Suporte</button>
+      </div>
+    </div>
+  </section>
+
+<!-- FINAL CTA -->
+  <section class="lp-section" style="padding-top:0;padding-bottom:0">
+    <div style="border-radius:24px;overflow:hidden;background:linear-gradient(135deg,#1e1333 0%,#3b1d6e 30%,#6d28d9 65%,#7c3aed 100%);padding:72px 48px;text-align:center;position:relative">
+      <!-- Background glow -->
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(0,0,0,0.3),transparent);pointer-events:none"></div>
+      <div style="position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:400px;height:200px;background:rgba(255,255,255,0.04);border-radius:50%;filter:blur(40px);pointer-events:none"></div>
+      <div style="position:relative">
+        <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:99px;padding:6px 16px;font-size:12px;color:rgba(255,255,255,0.85);font-weight:600;margin-bottom:24px">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Pronto para transformar?
+        </div>
+        <h2 style="font-family:'Sora',sans-serif;font-size:clamp(32px,5vw,52px);font-weight:800;letter-spacing:-0.05em;color:#fff;margin-bottom:16px;line-height:1.1">
+          Comece a escalar sua<br><span style="color:#f0abfc">agência hoje</span>
+        </h2>
+        <p style="font-size:15px;color:rgba(255,255,255,0.75);max-width:520px;margin:0 auto 36px;line-height:1.65">Junte-se a centenas de agências que já transformaram sua operação com o Spherum. Inicie seu teste grátis de 14 dias hoje.</p>
+
+        <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:20px">
+          <button onclick="goToLogin()" style="padding:14px 32px;border-radius:99px;border:none;background:#fff;color:#7c3aed;font-size:15px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif;box-shadow:0 8px 32px rgba(0,0,0,0.25);transition:all .2s;display:flex;align-items:center;gap:8px" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 12px 40px rgba(0,0,0,0.35)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 8px 32px rgba(0,0,0,0.25)'">
+            Começar Teste Grátis
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;font-size:12px;color:rgba(255,255,255,0.65);margin-bottom:36px">
+          <span style="display:flex;align-items:center;gap:5px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#86efac" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>14 dias de teste grátis</span>
+          <span style="display:flex;align-items:center;gap:5px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#86efac" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Cancele quando quiser</span>
+        </div>
+
+        <!-- Social proof -->
+        <div style="display:flex;align-items:center;justify-content:center;gap:12px">
+          <div style="display:flex;align-items:center">
+            <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#c084fc,#a855f7);border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;z-index:5">A</div>
+            <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#818cf8,#6366f1);border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;margin-left:-8px;z-index:4">B</div>
+            <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#e879f9,#c026d3);border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;margin-left:-8px;z-index:3">C</div>
+            <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#f472b6,#ec4899);border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;margin-left:-8px;z-index:2">D</div>
+            <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#a78bfa,#8b5cf6);border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;margin-left:-8px;z-index:1">E</div>
+          </div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.8)">Mais de <strong style="color:#fff">150 agências</strong> já estão usando o Spherum</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer class="lp-footer">
-    <div>© 2026 Spherum. Todos os direitos reservados.</div>
-    <div class="lp-footer-links">
-      <a href="#">Segurança</a>
-      <a href="#">Privacidade</a>
-      <a href="#">Suporte</a>
-      <a href="#">Status</a>
-      <a href="#">Termos</a>
+<!-- FOOTER -->
+  <footer style="background:rgba(6,8,15,0.95);border-top:1px solid rgba(255,255,255,0.07);margin-top:0;padding:0">
+    <div style="max-width:1152px;margin:0 auto;padding:64px 40px 0">
+
+      <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr 1fr;gap:40px;padding-bottom:48px">
+
+        <!-- Brand -->
+        <div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+            <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);display:flex;align-items:center;justify-content:center">
+              <span style="width:8px;height:8px;border-radius:50%;background:#fff"></span>
+            </div>
+            <span style="font-family:'Sora',sans-serif;font-size:17px;font-weight:700;letter-spacing:-0.02em;color:#fff">Spherum</span>
+          </div>
+          <p style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.7;max-width:200px;margin-bottom:22px">O sistema nervoso central da sua agência de marketing. Organize, automatize e escale.</p>
+          <div style="display:flex;gap:8px">
+            <a href="#" style="width:36px;height:36px;border-radius:9px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.5);text-decoration:none;transition:all .2s;cursor:pointer" onmouseover="this.style.borderColor='rgba(139,92,246,0.4)';this.style.color='#a78bfa';this.style.background='rgba(139,92,246,0.08)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)';this.style.color='rgba(255,255,255,0.5)';this.style.background='rgba(255,255,255,0.04)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+            <a href="#" style="width:36px;height:36px;border-radius:9px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.5);text-decoration:none;transition:all .2s;cursor:pointer" onmouseover="this.style.borderColor='rgba(139,92,246,0.4)';this.style.color='#a78bfa';this.style.background='rgba(139,92,246,0.08)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)';this.style.color='rgba(255,255,255,0.5)';this.style.background='rgba(255,255,255,0.04)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+            
+            <a href="#" style="width:36px;height:36px;border-radius:9px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.5);text-decoration:none;transition:all .2s;cursor:pointer" onmouseover="this.style.borderColor='rgba(139,92,246,0.4)';this.style.color='#a78bfa';this.style.background='rgba(139,92,246,0.08)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)';this.style.color='rgba(255,255,255,0.5)';this.style.background='rgba(255,255,255,0.04)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+          </div>
+        </div>
+
+        <!-- Produto -->
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:16px">Produto</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <a href="#features" style="font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,0.9)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Recursos</a>
+            <a href="#pricing" style="font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,0.9)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Planos</a>
+            <a href="#ecosistema" style="font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,0.9)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Ecossistema</a>
+
+            <a href="#" onclick="goToLogin();return false;" style="font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,0.9)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Acessar plataforma</a>
+          </div>
+        </div>
+
+        <!-- Empresa -->
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:16px">Empresa</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <a href="#" style="font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,0.9)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Sobre</a>
+            <a href="#" style="font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,0.9)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Blog</a>
+            <a href="#" style="font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,0.9)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Contato</a>
+            <a href="#" style="font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,0.9)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Parceiros</a>
+          </div>
+        </div>
+
+        <!-- Recursos -->
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:16px">Recursos</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <a href="#" style="font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,0.9)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Documentação</a>
+            <a href="#" style="font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,0.9)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Central de Ajuda</a>
+            <a href="#" style="font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,0.9)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Status</a>
+            <a href="#faq" style="font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,0.9)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">FAQ</a>
+          </div>
+        </div>
+
+        <!-- Legal -->
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:16px">Legal</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <a href="#" style="font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,0.9)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Privacidade</a>
+            <a href="#" style="font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,0.9)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Termos</a>
+            <a href="#" style="font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,0.9)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Segurança</a>
+            <a href="#" style="font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,0.9)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Cookies</a>
+            <a href="#" style="font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,0.9)'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">LGPD</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Newsletter -->
+      <div style="border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px 32px;margin-bottom:32px;display:flex;align-items:center;justify-content:space-between;gap:24px;background:rgba(255,255,255,0.02)">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <div style="font-size:14px;font-weight:700;color:#fff">Fique por dentro</div>
+          </div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.45)">Receba as últimas novidades, dicas e atualizações do Spherum</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-shrink:0">
+          <input type="email" placeholder="seu@email.com" style="padding:10px 16px;border-radius:9px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;width:220px" onfocus="this.style.borderColor='rgba(139,92,246,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
+          <button onclick="goToLogin()" style="padding:10px 20px;border-radius:9px;border:none;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap">Inscrever</button>
+        </div>
+      </div>
+
+      <!-- Bottom bar -->
+      <div style="border-top:1px solid rgba(255,255,255,0.07);padding:22px 0;display:flex;align-items:center;justify-content:space-between">
+        <div style="font-size:12px;color:rgba(255,255,255,0.3)">© 2026 Spherum. Todos os direitos reservados.</div>
+        <div style="display:flex;gap:20px">
+          <a href="#" style="font-size:12px;color:rgba(255,255,255,0.3);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">Política de Privacidade</a>
+          <a href="#" style="font-size:12px;color:rgba(255,255,255,0.3);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">Termos de Serviço</a>
+          <a href="#" style="font-size:12px;color:rgba(255,255,255,0.3);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">Política de Cookies</a>
+        </div>
+      </div>
+
     </div>
   </footer>
+</div>
+
+
+<!-- ============================
+     PAGE: BLOG (Em breve)
+============================ -->
+<div id="page-blog">
+  <div style="text-align:center;max-width:480px;padding:40px 24px">
+    <div style="width:64px;height:64px;border-radius:16px;background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.25);display:flex;align-items:center;justify-content:center;margin:0 auto 28px;font-size:28px">&#9997;</div>
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.14em;color:#8b5cf6;text-transform:uppercase;margin-bottom:12px">Blog</div>
+    <h1 style="font-family:'Sora',sans-serif;font-size:clamp(28px,5vw,40px);font-weight:800;letter-spacing:-0.03em;color:#fff;margin-bottom:16px">Em breve</h1>
+    <p style="font-size:14px;color:rgba(255,255,255,0.5);line-height:1.7;margin-bottom:32px">Estamos preparando conte&uacute;do exclusivo sobre marketing digital, gest&atilde;o de ag&ecirc;ncias e muito mais.</p>
+    <button onclick="goToLP()" style="padding:12px 28px;border-radius:10px;border:1px solid rgba(139,92,246,0.3);background:rgba(139,92,246,0.08);color:#a78bfa;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s" onmouseover="this.style.background='rgba(139,92,246,0.18)'" onmouseout="this.style.background='rgba(139,92,246,0.08)'">&#8592; Voltar</button>
+  </div>
+</div>
+
+<!-- ============================
+     PAGE: PARCEIROS (Em breve)
+============================ -->
+<div id="page-partners">
+  <div style="text-align:center;max-width:480px;padding:40px 24px">
+    <div style="width:64px;height:64px;border-radius:16px;background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.25);display:flex;align-items:center;justify-content:center;margin:0 auto 28px;font-size:28px">&#129309;</div>
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.14em;color:#8b5cf6;text-transform:uppercase;margin-bottom:12px">Programa de Parceiros</div>
+    <h1 style="font-family:'Sora',sans-serif;font-size:clamp(28px,5vw,40px);font-weight:800;letter-spacing:-0.03em;color:#fff;margin-bottom:16px">Em breve</h1>
+    <p style="font-size:14px;color:rgba(255,255,255,0.5);line-height:1.7;margin-bottom:32px">Estamos preparando algo especial para ag&ecirc;ncias parceiras. Em breve voc&ecirc; poder&aacute; se cadastrar no programa.</p>
+    <button onclick="goToLP()" style="padding:12px 28px;border-radius:10px;border:1px solid rgba(139,92,246,0.3);background:rgba(139,92,246,0.08);color:#a78bfa;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s" onmouseover="this.style.background='rgba(139,92,246,0.18)'" onmouseout="this.style.background='rgba(139,92,246,0.08)'">&#8592; Voltar</button>
+  </div>
 </div>
 
 <!-- ═══════════════════════════════════════
@@ -5795,17 +6214,6 @@ function handleLogin(e) {
   });
 }
 
-function showParceirosEmBreve(e) {
-  e.preventDefault();
-  var modal = document.getElementById('parceiros-modal');
-  if (modal) { modal.style.display = 'flex'; }
-}
-
-function hideParceirosEmBreve() {
-  var modal = document.getElementById('parceiros-modal');
-  if (modal) { modal.style.display = 'none'; }
-}
-
 function shakeInput() {
   var input = document.getElementById('login-email');
   if (!input) return;
@@ -5824,7 +6232,7 @@ function doLogout() {
   sessionStorage.removeItem('spherum_token');
   sessionStorage.removeItem('spherum_portal');
   sessionStorage.removeItem('spherum_user');
-  document.body.classList.remove('state-app', 'state-login', 'state-register');
+  document.body.classList.remove('state-app', 'state-login', 'state-register', 'state-blog', 'state-partners');
   window.scrollTo(0, 0);
 }
 
@@ -5846,19 +6254,56 @@ function switchPortal(p) {
 }
 
 function goToLogin() {
-  document.body.classList.remove('state-app', 'state-register');
+  document.body.classList.remove('state-app', 'state-register', 'state-blog', 'state-partners');
   document.body.classList.add('state-login');
   window.scrollTo(0, 0);
 }
 
 function goToRegister() {
-  document.body.classList.remove('state-app', 'state-login');
+  document.body.classList.remove('state-app', 'state-login', 'state-blog', 'state-partners');
   document.body.classList.add('state-register');
   window.scrollTo(0, 0);
 }
 
+
+function goToBlog() {
+  document.body.classList.remove('state-app', 'state-login', 'state-register', 'state-partners');
+  document.body.classList.add('state-blog');
+  window.scrollTo(0, 0);
+}
+
+function goToPartners() {
+  document.body.classList.remove('state-app', 'state-login', 'state-register', 'state-blog');
+  document.body.classList.add('state-partners');
+  window.scrollTo(0, 0);
+}
+
+function toggleMobileMenu() {
+  var menu = document.getElementById('lp-mobile-menu');
+  var btn = document.querySelector('.lp-hamburger');
+  if (!menu || !btn) return;
+  var isOpen = menu.classList.contains('open');
+  if (isOpen) {
+    menu.classList.remove('open');
+    btn.classList.remove('open');
+    document.body.style.overflow = '';
+  } else {
+    menu.classList.add('open');
+    btn.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeMobileMenu() {
+  var menu = document.getElementById('lp-mobile-menu');
+  var btn = document.querySelector('.lp-hamburger');
+  if (menu) menu.classList.remove('open');
+  if (btn) btn.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
 function goToLP() {
-  document.body.classList.remove('state-login', 'state-app', 'state-register');
+  document.body.classList.remove('state-login', 'state-app', 'state-register', 'state-blog', 'state-partners');
   window.scrollTo(0, 0);
 }
 
