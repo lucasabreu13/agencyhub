@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException, ConflictException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 import { User } from '../../../database/entities/user.entity';
 import { UserRole } from '../../../common/enums';
 import { CreateUserDto, UpdateUserDto, ChangePasswordDto, UserFilterDto } from './dto/user.dto';
@@ -88,7 +89,7 @@ export class UsersService {
     const user = await this.userRepository.findOne({ where: { id } });
     if (!user) throw new NotFoundException('Usuário não encontrado');
 
-    user.passwordHash = dto.password; // @BeforeUpdate faz o hash
+    user.passwordHash = await bcrypt.hash(dto.password, 10);
     await this.userRepository.save(user);
     return { message: 'Senha atualizada com sucesso' };
   }

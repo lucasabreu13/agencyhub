@@ -49,7 +49,7 @@ export class AgencySettingsService {
     if (!user) throw new NotFoundException('Usuário não encontrado');
     const valid = await bcrypt.compare(dto.currentPassword, user.passwordHash);
     if (!valid) throw new UnauthorizedException('Senha atual incorreta');
-    user.passwordHash = dto.newPassword; // @BeforeInsert/@BeforeUpdate faz o hash
+    user.passwordHash = await bcrypt.hash(dto.newPassword, 10);
     await this.userRepository.save(user);
     return { message: 'Senha alterada com sucesso' };
   }

@@ -36,7 +36,6 @@ export class User extends BaseEntity {
   resetPasswordExpiry: Date;
 
   @BeforeInsert()
-  @BeforeUpdate()
   async hashPassword() {
     if (this.passwordHash && !/^\$2[ab]\$/.test(this.passwordHash)) {
       this.passwordHash = await bcrypt.hash(this.passwordHash, 10);

@@ -34,7 +34,17 @@ export async function seed(dataSource: DataSource) {
     console.log('  ✅ Admin criado: admin@agencyhub.com / Admin@123');
   } else {
     admin = existingAdmin;
-    console.log('  ℹ️  Admin já existe');
+    // Verifica se a senha está válida; corrige se estava corrompida por re-hash
+    const isValid = await bcrypt.compare('Admin@123', existingAdmin.passwordHash);
+    if (!isValid) {
+      await dataSource.query(
+        `UPDATE users SET password_hash = $1 WHERE email = $2`,
+        [await hash('Admin@123'), 'admin@agencyhub.com'],
+      );
+      console.log('  🔧 Senha do admin estava corrompida — corrigida');
+    } else {
+      console.log('  ℹ️  Admin já existe');
+    }
   }
 
   // =============================================
