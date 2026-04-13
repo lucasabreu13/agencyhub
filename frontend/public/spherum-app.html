@@ -54,9 +54,7 @@ body {
 }
 
 /* ── PORTAL SWITCHER ── */
-#portal-switcher { display: none !important; /* hidden - user sees only their portal */ 
-  position: fixed;
-  top: 0; left: 0; right: 0;
+#portal-switcher { display: none !important; /* hidden - user sees only their portal */
   position: fixed;
   top: 0; left: 0; right: 0;
   height: 44px;
@@ -97,7 +95,7 @@ body {
 }
 
 /* ── PORTAL CONTAINER ── */
-.portal { display: none; padding-top: 44px; min-height: 100vh; }
+.portal { display: none; min-height: 100vh; }
 .portal.active { display: flex; }
 
 /* ── SIDEBAR ── */
@@ -226,7 +224,7 @@ body {
 .av-client { background: linear-gradient(135deg, var(--blue), #0099bb); color: #000; }
 .av-admin { background: var(--red); color: #fff; }
 .user-info { flex: 1; min-width: 0; }
-.user-name { font-size: 12px; font-weight: 500; color: var(--text); truncate: true; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.user-name { font-size: 12px; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .user-role { font-size: 11px; color: var(--text3); }
 .logout-btn {
   display: flex;
