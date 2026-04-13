@@ -847,6 +847,31 @@ body.state-trial #page-app     { display: none; }
 body.state-trial #page-register { display: none; }
 body.state-trial #page-trial   { display: flex; align-items:center; justify-content:center; }
 
+/* ── BLOCKED STATE (trial expirado) ── */
+#page-blocked { display: none;
+  background:radial-gradient(ellipse 70% 60% at 50% -5%,rgba(139,92,246,0.18) 0%,transparent 65%),
+             linear-gradient(180deg,#0b1220 0%,#0d0d10 100%);
+  min-height:100vh; }
+body.state-blocked #page-lp       { display: none; }
+body.state-blocked #page-login    { display: none; }
+body.state-blocked #page-app      { display: none; }
+body.state-blocked #page-register { display: none; }
+body.state-blocked #page-trial    { display: none; }
+body.state-blocked #page-blocked  { display: flex; align-items:center; justify-content:center; }
+
+/* ── CHECKOUT SUCCESS STATE ── */
+#page-checkout-success { display: none;
+  background:radial-gradient(ellipse 70% 60% at 50% -5%,rgba(52,211,153,0.14) 0%,transparent 65%),
+             linear-gradient(180deg,#0b1220 0%,#0d0d10 100%);
+  min-height:100vh; }
+body.state-checkout-success #page-lp               { display: none; }
+body.state-checkout-success #page-login            { display: none; }
+body.state-checkout-success #page-app              { display: none; }
+body.state-checkout-success #page-register         { display: none; }
+body.state-checkout-success #page-trial            { display: none; }
+body.state-checkout-success #page-blocked          { display: none; }
+body.state-checkout-success #page-checkout-success { display: flex; align-items:center; justify-content:center; }
+
 /* ── TRIAL SUCCESS SCREEN ── */
 .trial-wrap { max-width: 780px; width: 100%; padding: 48px 24px; text-align: center; }
 .trial-badge {
@@ -1329,6 +1354,8 @@ body.state-partners #page-partners { display: flex; align-items: center; justify
 body.state-login #page-blog, body.state-login #page-partners { display: none; }
 body.state-app #page-blog, body.state-app #page-partners { display: none; }
 body.state-register #page-blog, body.state-register #page-partners { display: none; }
+body.state-blocked #page-blog, body.state-blocked #page-partners { display: none; }
+body.state-checkout-success #page-blog, body.state-checkout-success #page-partners { display: none; }
 
 /* ── RESPONSIVE ADDITIONS (MOBILE) ── */
 @media (max-width: 768px) {
@@ -2234,6 +2261,11 @@ body.state-register #page-blog, body.state-register #page-partners { display: no
           <input id="reg-agency" class="login-input" type="text" placeholder="Ex: Pixel Agency" required>
         </div>
         <div id="reg-error-msg" style="display:none;color:#fb7185;font-size:12px;margin-bottom:12px;text-align:center;padding:8px;background:rgba(251,113,133,0.08);border-radius:8px"></div>
+        <div id="reg-email-notice" style="display:none;color:#34d399;font-size:13px;margin-bottom:12px;text-align:center;padding:12px 16px;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.25);border-radius:8px;line-height:1.5">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:middle;margin-right:6px"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          Conta criada! Verifique seu e-mail para confirmar sua conta.<br>
+          <span style="color:rgba(255,255,255,0.4);font-size:11px">Redirecionando para o painel em instantes...</span>
+        </div>
         <button type="submit" class="login-btn" id="reg-btn">Criar conta grátis</button>
       </form>
       <div style="text-align:center;margin-top:16px;font-size:12px;color:rgba(255,255,255,0.5)">
@@ -2301,6 +2333,84 @@ body.state-register #page-blog, body.state-register #page-partners { display: no
     </div>
 
     <p class="trial-skip" onclick="enterApp()">Configurar depois — entrar no painel agora</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     BLOCKED PAGE (trial expirado)
+═══════════════════════════════════════ -->
+<div id="page-blocked">
+  <div class="trial-wrap">
+    <div class="trial-badge" style="background:rgba(251,113,133,0.12);border-color:rgba(251,113,133,0.3);color:#fb7185">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Acesso bloqueado
+    </div>
+    <h1 class="trial-title">Seu período de teste encerrou</h1>
+    <p class="trial-sub">Para continuar usando o Spherum, escolha um plano abaixo.<br>Seus dados estão seguros e disponíveis assim que você assinar.</p>
+
+    <div class="trial-plans">
+      <!-- Starter -->
+      <div class="trial-plan">
+        <div class="trial-plan-name">Starter</div>
+        <div class="trial-plan-price">R$ 197<span>/mês</span></div>
+        <ul class="trial-plan-features">
+          <li>Até 5 clientes</li>
+          <li>Campanhas ilimitadas</li>
+          <li>Relatórios básicos</li>
+          <li>Suporte por email</li>
+        </ul>
+        <button class="trial-plan-btn" id="btn-blocked-starter" onclick="goToCheckout('starter', this)">Escolher Starter</button>
+      </div>
+      <!-- Pro -->
+      <div class="trial-plan featured">
+        <div class="trial-plan-badge">Mais Popular</div>
+        <div class="trial-plan-name">Pro</div>
+        <div class="trial-plan-price">R$ 397<span>/mês</span></div>
+        <ul class="trial-plan-features">
+          <li>Até 20 clientes</li>
+          <li>Campanhas ilimitadas</li>
+          <li>Relatórios avançados</li>
+          <li>CRM completo</li>
+          <li>Suporte prioritário</li>
+        </ul>
+        <button class="trial-plan-btn featured-btn" id="btn-blocked-pro" onclick="goToCheckout('pro', this)">Escolher Pro</button>
+      </div>
+      <!-- Scale -->
+      <div class="trial-plan">
+        <div class="trial-plan-name">Scale</div>
+        <div class="trial-plan-price">R$ 797<span>/mês</span></div>
+        <ul class="trial-plan-features">
+          <li>Clientes ilimitados</li>
+          <li>Multi-usuário</li>
+          <li>API de integração</li>
+          <li>Relatórios white-label</li>
+          <li>Gerente de conta dedicado</li>
+        </ul>
+        <button class="trial-plan-btn" id="btn-blocked-scale" onclick="goToCheckout('scale', this)">Escolher Scale</button>
+      </div>
+    </div>
+
+    <p style="margin-top:16px">
+      <a href="https://wa.me/5511999999999" target="_blank" class="trial-skip" style="color:rgba(139,92,246,0.7)">Falar com suporte</a>
+    </p>
+    <p class="trial-skip" style="margin-top:12px" onclick="doLogout()">← Sair da conta</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     CHECKOUT SUCCESS PAGE
+═══════════════════════════════════════ -->
+<div id="page-checkout-success">
+  <div class="trial-wrap" style="max-width:520px">
+    <div class="trial-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      Pagamento confirmado!
+    </div>
+    <h1 class="trial-title" style="font-size:28px">Bem-vindo ao Spherum!</h1>
+    <p class="trial-sub">Seu pagamento foi processado com sucesso.<br>Sua assinatura está ativa e sua conta está pronta para uso.</p>
+    <button class="trial-plan-btn featured-btn" style="width:100%;max-width:320px;padding:16px 32px;font-size:15px;font-weight:600" onclick="enterApp()">
+      Entrar no painel →
+    </button>
   </div>
 </div>
 
@@ -6232,6 +6342,16 @@ var API_URL = 'https://agencyhub-backend.onrender.com/api/v1';
 (function() {
   var token = sessionStorage.getItem('spherum_token');
   var portal = sessionStorage.getItem('spherum_portal');
+
+  // Verificar retorno do Stripe com checkout=success
+  var urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('checkout') === 'success' && token) {
+    document.body.classList.add('state-checkout-success');
+    // Limpa o param da URL sem recarregar a página
+    window.history.replaceState({}, '', window.location.pathname);
+    return;
+  }
+
   if (token && portal) {
     // Já logado — ir direto para o app
     document.body.classList.add('state-app');
@@ -6314,6 +6434,21 @@ function handleLogin(e) {
       });
     }
 
+    // Verificar se o trial da agência expirou
+    var agency = data.agency || {};
+    var isAgencyRole = (role === 'agency_owner' || role === 'agency_member');
+    var isTrialExpired = isAgencyRole &&
+      agency.subscriptionStatus === 'trial' &&
+      agency.trialEndsAt &&
+      new Date(agency.trialEndsAt) < new Date();
+
+    if (isTrialExpired) {
+      document.body.classList.remove('state-login');
+      document.body.classList.add('state-blocked');
+      window.scrollTo(0, 0);
+      return;
+    }
+
     // Entrar no app
     document.body.classList.remove('state-login');
     document.body.classList.add('state-app');
@@ -6351,7 +6486,7 @@ function doLogout() {
   sessionStorage.removeItem('spherum_token');
   sessionStorage.removeItem('spherum_portal');
   sessionStorage.removeItem('spherum_user');
-  document.body.classList.remove('state-app', 'state-login', 'state-register', 'state-blog', 'state-partners');
+  document.body.classList.remove('state-app', 'state-login', 'state-register', 'state-blog', 'state-partners', 'state-blocked', 'state-checkout-success');
   window.scrollTo(0, 0);
 }
 
@@ -6463,9 +6598,24 @@ function handleRegister(e) {
     sessionStorage.setItem('spherum_token', data.access_token);
     sessionStorage.setItem('spherum_portal', 'agency');
     sessionStorage.setItem('spherum_user', JSON.stringify(data.user || {}));
-    document.body.classList.remove('state-register');
-    document.body.classList.add('state-trial');
-    window.scrollTo(0, 0);
+    // Mostrar aviso de verificação de e-mail por 3s antes de ir ao trial
+    var emailNotice = document.getElementById('reg-email-notice');
+    if (emailNotice) {
+      emailNotice.style.display = 'block';
+      btn.textContent = 'Conta criada!';
+      setTimeout(function() {
+        document.body.classList.remove('state-register');
+        document.body.classList.add('state-trial');
+        window.scrollTo(0, 0);
+        emailNotice.style.display = 'none';
+        btn.textContent = 'Criar conta grátis';
+        btn.disabled = false;
+      }, 3000);
+    } else {
+      document.body.classList.remove('state-register');
+      document.body.classList.add('state-trial');
+      window.scrollTo(0, 0);
+    }
   })
   .catch(function() {
     btn.textContent = 'Criar conta grátis';

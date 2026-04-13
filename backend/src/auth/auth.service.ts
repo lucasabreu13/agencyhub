@@ -47,6 +47,20 @@ export class AuthService {
 
     const token = this.generateToken(user);
 
+    // Busca dados da agência para verificação de trial no frontend
+    let agencyData: { subscriptionStatus: string; trialEndsAt: Date | null } | null = null;
+    if (user.agencyId) {
+      const agency = await this.agencyRepository.findOne({
+        where: { id: user.agencyId },
+      });
+      if (agency) {
+        agencyData = {
+          subscriptionStatus: agency.subscriptionStatus,
+          trialEndsAt: agency.trialEndsAt,
+        };
+      }
+    }
+
     return {
       access_token: token,
       user: {
@@ -56,6 +70,7 @@ export class AuthService {
         role: user.role,
         agencyId: user.agencyId,
       },
+      agency: agencyData,
     };
   }
 
