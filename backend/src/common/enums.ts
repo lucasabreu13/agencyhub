@@ -147,3 +147,10 @@ export enum TaskPriority {
   MEDIUM = 'medium',
   HIGH = 'high',
 }
+
+export enum SubscriptionStatus {
+  TRIAL = 'trial',
+  ACTIVE = 'active',
+  EXPIRED = 'expired',
+  CANCELLED = 'cancelled',
+}

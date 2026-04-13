@@ -1,5 +1,6 @@
 import { Entity, Column, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
 import { BaseEntity } from './base.entity';
+import { SubscriptionStatus } from '../../common/enums';
 
 export enum AgencyPlan {
   BASIC = 'basic',
@@ -34,6 +35,23 @@ export class Agency extends BaseEntity {
 
   @Column({ name: 'owner_id', nullable: true })
   ownerId: string;
+
+  @Column({
+    name: 'subscription_status',
+    type: 'enum',
+    enum: SubscriptionStatus,
+    default: SubscriptionStatus.TRIAL,
+  })
+  subscriptionStatus: SubscriptionStatus;
+
+  @Column({ name: 'trial_ends_at', type: 'timestamp', nullable: true })
+  trialEndsAt: Date | null;
+
+  @Column({ name: 'stripe_customer_id', length: 255, nullable: true })
+  stripeCustomerId: string | null;
+
+  @Column({ name: 'stripe_subscription_id', length: 255, nullable: true })
+  stripeSubscriptionId: string | null;
 
   // Relacionamentos definidos nos outros arquivos para evitar circular deps
 }

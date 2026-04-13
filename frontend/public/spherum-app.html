@@ -837,6 +837,67 @@ body.state-register #page-lp    { display: none; }
 body.state-register #page-login { display: none; }
 body.state-register #page-app   { display: none; }
 body.state-register #page-register { display: block; }
+#page-trial { display: none;
+  background:radial-gradient(ellipse 70% 60% at 50% -5%,rgba(139,92,246,0.18) 0%,transparent 65%),
+             linear-gradient(180deg,#0b1220 0%,#0d0d10 100%);
+  min-height:100vh; }
+body.state-trial #page-lp      { display: none; }
+body.state-trial #page-login   { display: none; }
+body.state-trial #page-app     { display: none; }
+body.state-trial #page-register { display: none; }
+body.state-trial #page-trial   { display: flex; align-items:center; justify-content:center; }
+
+/* ── TRIAL SUCCESS SCREEN ── */
+.trial-wrap { max-width: 780px; width: 100%; padding: 48px 24px; text-align: center; }
+.trial-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(52,211,153,0.12); border: 1px solid rgba(52,211,153,0.3);
+  border-radius: 99px; padding: 6px 16px; margin-bottom: 28px;
+  font-size: 13px; font-weight: 600; color: #34d399; letter-spacing: 0.02em;
+}
+.trial-title {
+  font-family: 'Sora', sans-serif; font-size: 32px; font-weight: 800;
+  letter-spacing: -0.04em; color: #fff; margin-bottom: 12px; line-height: 1.2;
+}
+.trial-sub { font-size: 15px; color: rgba(255,255,255,0.5); margin-bottom: 48px; line-height: 1.6; }
+.trial-plans { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 32px; }
+@media (max-width: 640px) { .trial-plans { grid-template-columns: 1fr; } }
+.trial-plan {
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px; padding: 28px 20px; text-align: left;
+  transition: border-color 0.2s, background 0.2s; cursor: pointer;
+}
+.trial-plan:hover { border-color: rgba(139,92,246,0.4); background: rgba(139,92,246,0.06); }
+.trial-plan.featured {
+  border-color: rgba(139,92,246,0.5); background: rgba(139,92,246,0.08);
+  position: relative;
+}
+.trial-plan-badge {
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(135deg,#8b5cf6,#7c3aed); color: #fff;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 99px; white-space: nowrap;
+}
+.trial-plan-name { font-family:'Sora',sans-serif; font-size:16px; font-weight:700; color:#fff; margin-bottom:4px; }
+.trial-plan-price { font-size:22px; font-weight:800; color:#a78bfa; margin-bottom:16px; font-family:'Sora',sans-serif; }
+.trial-plan-price span { font-size:13px; font-weight:400; color:rgba(255,255,255,0.4); }
+.trial-plan-features { list-style:none; padding:0; margin:0 0 20px; display:flex; flex-direction:column; gap:8px; }
+.trial-plan-features li { font-size:12px; color:rgba(255,255,255,0.55); display:flex; align-items:center; gap:8px; }
+.trial-plan-features li::before { content:'✓'; color:#34d399; font-weight:700; flex-shrink:0; }
+.trial-plan-btn {
+  width:100%; padding:11px; border-radius:9px; border:none; cursor:pointer;
+  font-family:'DM Sans',sans-serif; font-size:13px; font-weight:700; transition:all 0.2s;
+  background: rgba(139,92,246,0.15); color: #a78bfa; border: 1px solid rgba(139,92,246,0.3);
+}
+.trial-plan-btn:hover { background: rgba(139,92,246,0.25); }
+.trial-plan-btn.featured-btn {
+  background: linear-gradient(135deg,#8b5cf6,#7c3aed); color:#fff; border:none;
+  box-shadow: 0 6px 20px rgba(139,92,246,0.35);
+}
+.trial-plan-btn.featured-btn:hover { box-shadow: 0 10px 28px rgba(139,92,246,0.5); transform: translateY(-1px); }
+.trial-plan-btn:disabled { opacity:0.6; cursor:not-allowed; transform:none !important; }
+.trial-skip { font-size:13px; color:rgba(255,255,255,0.35); cursor:pointer; text-decoration:underline; transition:color 0.2s; }
+.trial-skip:hover { color:rgba(255,255,255,0.65); }
 
 /* ══════════════════════════════════════
    LP — GLOBAL
@@ -2180,6 +2241,66 @@ body.state-register #page-blog, body.state-register #page-partners { display: no
       </div>
       <div class="login-back"><a onclick="doLogout()">← Voltar para o início</a></div>
     </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     TRIAL SUCCESS PAGE
+═══════════════════════════════════════ -->
+<div id="page-trial">
+  <div class="trial-wrap">
+    <div class="trial-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      Conta criada com sucesso!
+    </div>
+    <h1 class="trial-title">Seu trial de 7 dias começou!</h1>
+    <p class="trial-sub">Configure seu pagamento para continuar usando o Spherum após o período gratuito.<br>Sem cobranças durante o trial. Cancele quando quiser.</p>
+
+    <div class="trial-plans">
+      <!-- Starter -->
+      <div class="trial-plan">
+        <div class="trial-plan-name">Starter</div>
+        <div class="trial-plan-price">R$ 197<span>/mês</span></div>
+        <ul class="trial-plan-features">
+          <li>Até 5 clientes</li>
+          <li>Campanhas ilimitadas</li>
+          <li>Relatórios básicos</li>
+          <li>Suporte por email</li>
+        </ul>
+        <button class="trial-plan-btn" id="btn-checkout-starter" onclick="goToCheckout('starter', this)">Escolher Starter</button>
+      </div>
+
+      <!-- Pro (destaque) -->
+      <div class="trial-plan featured">
+        <div class="trial-plan-badge">Mais Popular</div>
+        <div class="trial-plan-name">Pro</div>
+        <div class="trial-plan-price">R$ 397<span>/mês</span></div>
+        <ul class="trial-plan-features">
+          <li>Até 20 clientes</li>
+          <li>Campanhas ilimitadas</li>
+          <li>Relatórios avançados</li>
+          <li>CRM completo</li>
+          <li>Suporte prioritário</li>
+        </ul>
+        <button class="trial-plan-btn featured-btn" id="btn-checkout-pro" onclick="goToCheckout('pro', this)">Escolher Pro</button>
+      </div>
+
+      <!-- Scale -->
+      <div class="trial-plan">
+        <div class="trial-plan-name">Scale</div>
+        <div class="trial-plan-price">R$ 797<span>/mês</span></div>
+        <ul class="trial-plan-features">
+          <li>Clientes ilimitados</li>
+          <li>Multi-usuário</li>
+          <li>API de integração</li>
+          <li>Relatórios white-label</li>
+          <li>Gerente de conta dedicado</li>
+        </ul>
+        <button class="trial-plan-btn" id="btn-checkout-scale" onclick="goToCheckout('scale', this)">Escolher Scale</button>
+      </div>
+    </div>
+
+    <p class="trial-skip" onclick="enterApp()">Configurar depois — entrar no painel agora</p>
   </div>
 </div>
 
@@ -6343,9 +6464,8 @@ function handleRegister(e) {
     sessionStorage.setItem('spherum_portal', 'agency');
     sessionStorage.setItem('spherum_user', JSON.stringify(data.user || {}));
     document.body.classList.remove('state-register');
-    document.body.classList.add('state-app');
+    document.body.classList.add('state-trial');
     window.scrollTo(0, 0);
-    setTimeout(function() { switchPortal('agency'); }, 50);
   })
   .catch(function() {
     btn.textContent = 'Criar conta grátis';
@@ -6356,6 +6476,45 @@ function handleRegister(e) {
 }
 
 
+
+function goToCheckout(plan, btnEl) {
+  var token = sessionStorage.getItem('spherum_token');
+  if (!token) { alert('Sessão expirada. Faça login novamente.'); return; }
+
+  // Desabilita todos os botões de plano durante o request
+  document.querySelectorAll('.trial-plan-btn').forEach(function(b) { b.disabled = true; });
+  var originalText = btnEl.textContent;
+  btnEl.textContent = 'Aguarde...';
+
+  fetch(API_URL + '/payments/checkout', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+    body: JSON.stringify({ plan: plan })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      var msg = Array.isArray(data.message) ? data.message[0] : (data.message || 'Erro ao iniciar checkout.');
+      alert(msg);
+      document.querySelectorAll('.trial-plan-btn').forEach(function(b) { b.disabled = false; });
+      btnEl.textContent = originalText;
+    }
+  })
+  .catch(function() {
+    alert('Erro de conexão. Tente novamente.');
+    document.querySelectorAll('.trial-plan-btn').forEach(function(b) { b.disabled = false; });
+    btnEl.textContent = originalText;
+  });
+}
+
+function enterApp() {
+  document.body.classList.remove('state-trial');
+  document.body.classList.add('state-app');
+  window.scrollTo(0, 0);
+  setTimeout(function() { switchPortal('agency'); }, 50);
+}
 
 function showForgotPassword() {
   var loginForm = document.querySelector('#page-login form');

@@ -11,6 +11,7 @@ import { UploadModule } from './modules/upload/upload.module';
 import { EmailModule } from './modules/email/email.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { WebhooksModule } from './modules/webhooks/webhooks.module';
+import { PaymentsModule } from './modules/payments/payments.module';
 
 // Admin modules
 import { AdminAgenciesModule } from './modules/admin/agencies/agencies.module';
@@ -67,6 +68,7 @@ import { ClientMessagesModule } from './modules/client/messages/messages.module'
     NotificationsModule,
     UploadModule,
     WebhooksModule,
+    PaymentsModule,
 
     // Admin
     AdminDashboardModule,

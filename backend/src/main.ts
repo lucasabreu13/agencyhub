@@ -14,7 +14,7 @@ async function runSeedIfNeeded() {
 }
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { rawBody: true });
 
   // Prefixo global da API
   const apiPrefix = process.env.API_PREFIX || 'api/v1';

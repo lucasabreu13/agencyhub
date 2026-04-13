@@ -9,7 +9,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../database/entities/user.entity';
 import { Agency } from '../database/entities/agency.entity';
-import { UserRole, AgencyPlan, AgencyStatus } from '../common/enums';
+import { UserRole, AgencyPlan, AgencyStatus, SubscriptionStatus } from '../common/enums';
 import { LoginDto, RegisterAgencyDto } from './dto/auth.dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { EmailService } from '../modules/email/email.service';
@@ -70,11 +70,17 @@ export class AuthService {
       throw new ConflictException('Este email já está cadastrado na plataforma');
     }
 
+    // Trial de 7 dias a partir do cadastro
+    const trialEndsAt = new Date();
+    trialEndsAt.setDate(trialEndsAt.getDate() + 7);
+
     // Cria a agência
     const agency = this.agencyRepository.create({
       name: agencyName,
       plan: plan as AgencyPlan,
       status: AgencyStatus.ACTIVE,
+      subscriptionStatus: SubscriptionStatus.TRIAL,
+      trialEndsAt,
     });
     const savedAgency = await this.agencyRepository.save(agency);
 
