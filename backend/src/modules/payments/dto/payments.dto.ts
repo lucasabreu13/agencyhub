@@ -17,6 +17,16 @@ export class CreateCheckoutDto {
   plan: StripePlanId;
 }
 
+export class ChangePlanDto {
+  @ApiProperty({
+    enum: StripePlanId,
+    description: 'Novo plano para migrar',
+    example: StripePlanId.PRO,
+  })
+  @IsEnum(StripePlanId)
+  plan: StripePlanId;
+}
+
 export interface PlanInfo {
   id: StripePlanId;
   name: string;

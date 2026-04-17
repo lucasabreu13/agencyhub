@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { PaymentsService } from './payments.service';
-import { CreateCheckoutDto } from './dto/payments.dto';
+import { CreateCheckoutDto, ChangePlanDto } from './dto/payments.dto';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../auth/guards/roles.guard';
 import { Roles } from '../../auth/decorators/roles.decorator';
@@ -39,6 +39,18 @@ export class PaymentsController {
     @Body() dto: CreateCheckoutDto,
   ) {
     return this.paymentsService.createCheckoutSession(agencyId, dto);
+  }
+
+  @Post('change-plan')
+  @ApiBearerAuth('JWT-auth')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.AGENCY_OWNER)
+  @ApiOperation({ summary: 'Alterar plano da assinatura mantendo dias restantes do trial' })
+  changePlan(
+    @TenantId() agencyId: string,
+    @Body() dto: ChangePlanDto,
+  ) {
+    return this.paymentsService.changePlan(agencyId, dto);
   }
 
   @Post('webhook')

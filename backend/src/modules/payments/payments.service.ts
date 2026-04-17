@@ -8,7 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Agency } from '../../database/entities/agency.entity';
 import { SubscriptionStatus } from '../../common/enums';
-import { CreateCheckoutDto, StripePlanId, PlanInfo } from './dto/payments.dto';
+import { CreateCheckoutDto, ChangePlanDto, StripePlanId, PlanInfo } from './dto/payments.dto';
 
 // Stripe 22.x usa export funcional — compatível com CJS do NestJS
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -84,11 +84,13 @@ export class PaymentsService {
       customer: customerId,
       mode: 'subscription',
       payment_method_types: ['card'],
+      payment_method_collection: 'always',
       line_items: [{ price: plan.stripePriceId, quantity: 1 }],
       success_url: successUrl,
       cancel_url: cancelUrl,
       metadata: { agencyId: agency.id, plan: dto.plan },
       subscription_data: {
+        trial_period_days: 14,
         metadata: { agencyId: agency.id, plan: dto.plan },
       },
     });
@@ -96,6 +98,28 @@ export class PaymentsService {
     if (!session.url) throw new BadRequestException('Erro ao gerar URL de checkout');
 
     return { url: session.url };
+  }
+
+  async changePlan(agencyId: string, dto: ChangePlanDto): Promise<{ subscriptionId: string }> {
+    const agency = await this.agencyRepository.findOne({ where: { id: agencyId } });
+    if (!agency) throw new NotFoundException('Agência não encontrada');
+    if (!agency.stripeSubscriptionId) throw new BadRequestException('Nenhuma assinatura ativa encontrada');
+
+    const plan = PLANS[dto.plan];
+    if (!plan) throw new BadRequestException('Plano inválido');
+
+    const subscription = await this.stripe.subscriptions.retrieve(agency.stripeSubscriptionId);
+    const currentItemId = subscription.items.data[0]?.id;
+    if (!currentItemId) throw new BadRequestException('Item da assinatura não encontrado');
+
+    const updated = await this.stripe.subscriptions.update(agency.stripeSubscriptionId, {
+      items: [{ id: currentItemId, price: plan.stripePriceId }],
+      proration_behavior: 'none',
+      metadata: { agencyId: agency.id, plan: dto.plan },
+    });
+
+    this.logger.log(`Plano alterado para agência ${agencyId}: ${dto.plan}`);
+    return { subscriptionId: updated.id };
   }
 
   async handleWebhook(rawBody: Buffer, signature: string): Promise<void> {
