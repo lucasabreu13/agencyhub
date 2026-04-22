@@ -75,10 +75,10 @@ export default function CampaignsPage() {
                         </div>
 
                         <div className="flex items-center gap-6 text-sm text-muted-foreground">
-                          <span>Cliente: {client?.company}</span>
+                          <span>Cliente: {campaign.client?.company || campaign.clientId || ""}</span>
                           <span>Plataforma: {campaign.platform}</span>
                           <span>
-                            {campaign.formatDate(startDate)} -{" "}
+                            {formatDate(campaign.startDate)} -{" "}
                             {campaign.endDate ? (typeof campaign.endDate === "string" ? new Date(campaign.endDate) : campaign.endDate).toLocaleDateString("pt-BR") : "Em andamento"}
                           </span>
                         </div>

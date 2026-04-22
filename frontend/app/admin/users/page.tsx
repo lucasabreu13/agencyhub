@@ -96,7 +96,7 @@ export default function AdminUsersPage() {
             {filteredUsers.map((u) => {
               const initials = u.name
                 .split(" ")
-                .map((n) => n[0])
+                .map((n: string) => n[0])
                 .join("")
                 .toUpperCase()
 
@@ -115,7 +115,7 @@ export default function AdminUsersPage() {
                             <p className="text-sm text-muted-foreground">{u.email}</p>
                           </div>
                           <div className="flex flex-wrap gap-1 mt-2">
-                            {(u.permissions || []).map((perm) => (
+                            {(u.permissions || []).map((perm: string) => (
                               <Badge key={perm} variant="outline" className="text-xs">
                                 {adminPermissions.find((p) => p.id === perm)?.label}
                               </Badge>

@@ -24,6 +24,8 @@ import { useApi } from "@/hooks/use-api"
 import { Plus, Search, Mail, Calendar, Clock, Shield, Trash2, Edit } from "lucide-react"
 import { useRouter } from "next/navigation"
 
+type TeamMember = any
+
 export default function UsersPage() {
   const router = useRouter()
   const { user, loading, logout } = useAuth()
@@ -35,7 +37,7 @@ export default function UsersPage() {
   const [newUser, setNewUser] = useState({
     name: "",
     email: "",
-    role: "analyst" as TeamMember["role"],
+    role: "analyst" as string,
     customRole: "",
     permissions: {
       dashboard: true,
@@ -93,7 +95,7 @@ export default function UsersPage() {
       status: "active",
       createdAt: new Date(),
     }
-    setTeamMembers([...teamMembers, newMember])
+    refetchUsers()
     setIsAddDialogOpen(false)
     setNewUser({
       name: "",
@@ -156,7 +158,7 @@ export default function UsersPage() {
     <div className="flex h-screen overflow-hidden">
       <AgencySidebar onLogout={handleLogout} />
       <div className="flex flex-1 flex-col overflow-hidden">
-        <AgencyHeader user={user} />
+        <AgencyHeader user={user} title="Equipe" />
         <main className="flex-1 overflow-y-auto bg-background p-6">
           <div className="mx-auto max-w-7xl space-y-6">
             <div className="flex items-center justify-between">
@@ -268,7 +270,7 @@ export default function UsersPage() {
                               <span className="text-lg font-semibold text-primary">
                                 {member.name
                                   .split(" ")
-                                  .map((n) => n[0])
+                                  .map((n: string) => n[0])
                                   .join("")
                                   .slice(0, 2)}
                               </span>
@@ -278,7 +280,7 @@ export default function UsersPage() {
                                 <div className="flex items-center gap-2">
                                   <h3 className="font-semibold text-lg">{member.name}</h3>
                                   <Badge variant={member.role === "owner" ? "default" : "secondary"}>
-                                    {roleLabels[member.role]}
+                                    {roleLabels[member.role as keyof typeof roleLabels]}
                                   </Badge>
                                   {member.status === "active" && (
                                     <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
@@ -293,7 +295,7 @@ export default function UsersPage() {
                                   </div>
                                   <div className="flex items-center gap-1">
                                     <Calendar className="h-3 w-3" />
-                                    Desde {member.formatDate(createdAt)}
+                                    Desde {formatDate(member.createdAt)}
                                   </div>
                                   {member.lastLogin && (
                                     <div className="flex items-center gap-1">

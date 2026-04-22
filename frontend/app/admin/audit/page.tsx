@@ -15,14 +15,14 @@ import { useState } from "react"
 import { formatDate } from "@/lib/utils"
 
 export default function AuditPage() {
-  const { user, loading, logout } = useAuth("super_admin")
+  const { user, loading, logout } = useAuth("admin")
   const { data: auditData } = useApi(() => adminApi.getAudit())
   const [searchTerm, setSearchTerm] = useState("")
   const [filterType, setFilterType] = useState("all")
 
   if (loading || !user) return <div className="flex h-screen items-center justify-center">Carregando...</div>
 
-  const logs = auditData?.data || auditData || []
+  const logs: any[] = auditData?.data || []
   const filtered = (logs || []).filter((log: any) => {
     const matchSearch = log.user?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       log.action?.toLowerCase().includes(searchTerm.toLowerCase()) ||

@@ -18,14 +18,14 @@ import { Textarea } from "@/components/ui/textarea"
 import { Bell, Plus, Calendar, Clock, CheckCircle2, AlertCircle } from "lucide-react"
 
 export default function RemindersPage() {
-  const { user, loading, logout } = useAuth("super_admin")
+  const { user, loading, logout } = useAuth("admin")
   const { data: remindersData, refetch } = useApi(() => adminApi.getReminders())
   const [showDialog, setShowDialog] = useState(false)
   const [form, setForm] = useState({ title: "", description: "", date: "", time: "", priority: "medium" })
 
   if (loading || !user) return <div className="flex h-screen items-center justify-center">Carregando...</div>
 
-  const reminders = remindersData?.data || remindersData || []
+  const reminders: any[] = remindersData?.data || []
   const pending = (reminders || []).filter((r: any) => !r.completed)
   const completed = (reminders || []).filter((r: any) => r.completed)
 

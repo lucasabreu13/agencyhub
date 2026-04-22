@@ -27,7 +27,7 @@ export default function AgencySupportPage() {
   if (loading) return <div className="flex h-screen items-center justify-center">Carregando...</div>
   if (!user) return null
 
-  const tickets = ticketsData?.data || ticketsData || []
+  const tickets: any[] = ticketsData?.data || []
   const filtered = filterStatus === "all" ? tickets : (tickets || []).filter((t: any) => t.status === filterStatus)
 
   const getStatusBadge = (status: string) => {

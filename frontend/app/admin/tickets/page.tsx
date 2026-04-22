@@ -33,7 +33,7 @@ export default function AdminTicketsPage() {
   const [statusFilter, setStatusFilter] = useState("all")
   const [userTypeFilter, setUserTypeFilter] = useState("all")
   const [priorityFilter, setPriorityFilter] = useState("all")
-  const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null)
+  const [selectedTicket, setSelectedTicket] = useState<any>(null)
   const [responseMessage, setResponseMessage] = useState("")
 
   const { data: ticketsData } = useApi(() => adminApi.getTickets())
@@ -411,7 +411,7 @@ export default function AdminTicketsPage() {
                                   Nenhuma resposta ainda.
                                 </p>
                               ) : (
-                                ticket.responses.map((response) => (
+                                ticket.responses.map((response: any) => (
                                   <div
                                     key={response.id}
                                     className={`p-3 rounded-lg ${

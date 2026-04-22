@@ -25,11 +25,12 @@ export default function AdminDashboard() {
     )
   }
 
-  const totalAgencies = agenciesData?.total || dashboard?.activeAgencies || 0
-  const totalClients = dashboard?.totalClients || 0
-  const totalCampaigns = dashboard?.totalCampaigns || 0
+  const dash = dashboard as any
+  const totalAgencies = agenciesData?.total || dash?.activeAgencies || 0
+  const totalClients = dash?.totalClients || 0
+  const totalCampaigns = dash?.totalCampaigns || 0
 
-  const monthlyRevenue = dashboard?.mrr || 0
+  const monthlyRevenue = dash?.mrr || 0
 
   const revenueData = [
     { month: "Ago", revenue: 19700, growth: 0 },

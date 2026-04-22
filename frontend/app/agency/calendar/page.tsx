@@ -29,7 +29,7 @@ export default function CalendarPage() {
   if (loading) return <div className="flex h-screen items-center justify-center">Carregando...</div>
   if (!user) return null
 
-  const events = eventsData?.data || eventsData || []
+  const events: any[] = eventsData?.data || []
 
   const year = currentDate.getFullYear()
   const month = currentDate.getMonth()

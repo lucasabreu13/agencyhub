@@ -22,7 +22,7 @@ export default function ClientDocumentsPage() {
 
   if (loading || !user) return <div className="flex h-screen items-center justify-center">Carregando...</div>
 
-  const documents = documentsData?.data || documentsData || []
+  const documents: any[] = documentsData?.data || []
   const filtered = (documents || []).filter((doc: any) => {
     const matchSearch = doc.name?.toLowerCase().includes(searchTerm.toLowerCase())
     const matchType = filterType === "all" || doc.type === filterType

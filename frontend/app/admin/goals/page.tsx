@@ -72,7 +72,7 @@ export default function AdminGoalsPage() {
       "at-risk": "bg-yellow-100 text-yellow-700",
       completed: "bg-blue-100 text-blue-700",
     }
-    return styles[status] || ""
+    return styles[status as keyof typeof styles] || ""
   }
 
   const completedGoals = (goals || []).filter((g) => g.status === "completed").length

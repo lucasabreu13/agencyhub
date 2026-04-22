@@ -306,10 +306,10 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {agencyUsers.map((user) => {
+                    {agencyUsers.map((user: any) => {
                       const initials = user.name
                         .split(" ")
-                        .map((n) => n[0])
+                        .map((n: any) => n[0])
                         .join("")
                         .toUpperCase()
 
@@ -388,7 +388,7 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
                 <CardContent>
                   {agencyClients.length > 0 ? (
                     <div className="space-y-4">
-                      {agencyClients.map((client) => (
+                      {agencyClients.map((client: any) => (
                         <div key={client.id} className="flex items-center justify-between p-4 border rounded-lg">
                           <div className="flex-1">
                             <div className="flex items-center gap-2">
@@ -548,7 +548,7 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
                     </div>
                     <div className="flex justify-between">
                       <span className="text-sm text-muted-foreground">Clientes Ativos:</span>
-                      <span className="font-semibold">{agencyClients.filter((c) => c.status === "active").length}</span>
+                      <span className="font-semibold">{agencyClients.filter((c: any) => c.status === "active").length}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-sm text-muted-foreground">Membros da Equipe:</span>
@@ -572,7 +572,7 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
                       <span className="text-sm text-muted-foreground">Receita Total:</span>
                       <span className="font-semibold text-green-600">
                         {agencyClients
-                          .reduce((acc, c) => acc + c.monthlyBudget, 0)
+                          .reduce((acc: any, c: any) => acc + c.monthlyBudget, 0)
                           .toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                       </span>
                     </div>

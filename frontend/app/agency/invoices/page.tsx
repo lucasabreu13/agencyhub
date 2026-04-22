@@ -24,7 +24,7 @@ import { Badge } from "@/components/ui/badge"
 import { FileText, Plus, Download, Search, Calendar, DollarSign } from "lucide-react"
 
 export default function InvoicesPage() {
-  const { user, loading } = useAuth("agency_owner")
+  const { user, loading, logout } = useAuth("agency_owner")
   const [searchInvoice, setSearchInvoice] = useState("")
   const [isEmitDialogOpen, setIsEmitDialogOpen] = useState(false)
 
@@ -51,15 +51,15 @@ export default function InvoicesPage() {
     setNewInvoice({ client: "", value: "", description: "", dueDate: "", items: "" })
   }
 
-  if (loading) {
+  if (loading || !user) {
     return null
   }
 
   return (
     <div className="flex h-screen bg-background">
-      <AgencySidebar />
+      <AgencySidebar onLogout={logout} />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <AgencyHeader user={user} />
+        <AgencyHeader user={user} title="Notas Fiscais" />
         <main className="flex-1 overflow-y-auto p-6">
           <div className="max-w-7xl mx-auto space-y-6">
             <div className="flex justify-between items-center">

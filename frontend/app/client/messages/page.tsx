@@ -26,7 +26,7 @@ export default function ClientMessagesPage() {
 
   useEffect(() => {
     if (selectedConv) {
-      clientApi.getMessages(selectedConv).then((res: any) => {
+      clientApi.getMessages().then((res: any) => {
         setMessagesData(res?.messages || res?.data || [])
       })
     }
@@ -40,9 +40,9 @@ export default function ClientMessagesPage() {
 
   const handleSend = async () => {
     if (!message.trim() || !selectedConv) return
-    await clientApi.sendMessage(selectedConv, { content: message })
+    await clientApi.sendMessage({ content: message })
     setMessage("")
-    const res: any = await clientApi.getMessages(selectedConv)
+    const res: any = await clientApi.getMessages()
     setMessagesData(res?.messages || res?.data || [])
   }
 

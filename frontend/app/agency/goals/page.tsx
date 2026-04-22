@@ -208,7 +208,7 @@ export default function GoalsPage() {
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Calendar className="h-4 w-4" />
                         <span>
-                          {goal.formatDate(startDate)} - {goal.formatDate(endDate)}
+                          {formatDate(goal.startDate)} - {formatDate(goal.endDate)}
                         </span>
                       </div>
                       <Badge variant={daysRemaining < 30 ? "destructive" : "outline"}>

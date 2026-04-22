@@ -72,6 +72,7 @@ export default function AdminRevenuePage() {
 
 
   const monthlyRevenue = revenueData?.summary?.income || 0
+  const yearlyRevenue = monthlyRevenue * 12
   const monthlyExpenses = revenueData?.summary?.expense || 0
   const netProfit = monthlyRevenue - monthlyExpenses
   const profitMargin = ((netProfit / monthlyRevenue) * 100).toFixed(1)
@@ -242,7 +243,7 @@ export default function AdminRevenuePage() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold">
-                      {(376100 || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                      {(376100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">Acumulado nos últimos 6 meses</p>
                   </CardContent>

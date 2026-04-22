@@ -41,7 +41,7 @@ export default function ChatPage() {
 
   const handleSend = async () => {
     if (!message.trim() || !selectedConv) return
-    await agencyApi.sendMessage(selectedConv, { content: message })
+    await agencyApi.sendMessage({ clientId: selectedConv, content: message })
     setMessage("")
     const res: any = await agencyApi.getMessages(selectedConv)
     setMessagesData(res?.data || res || [])

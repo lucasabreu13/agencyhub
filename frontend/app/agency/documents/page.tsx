@@ -22,7 +22,7 @@ export default function AgencyDocumentsPage() {
   if (loading) return <div className="flex h-screen items-center justify-center">Carregando...</div>
   if (!user) return null
 
-  const documents = documentsData?.data || documentsData || []
+  const documents: any[] = documentsData?.data || []
   const filtered = (documents || []).filter((d: any) =>
     d.name?.toLowerCase().includes(searchQuery.toLowerCase())
   )
