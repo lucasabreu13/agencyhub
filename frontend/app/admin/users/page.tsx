@@ -1,5 +1,7 @@
 "use client"
 import { formatDate } from "@/lib/utils"
+import { useApi } from "@/hooks/use-api"
+import { adminApi } from "@/lib/api"
 
 import { useState } from "react"
 import { useAuth } from "@/hooks/use-auth"
@@ -15,33 +17,6 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Mail, Plus, Search } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 
-const mockAdminUsers = [
-  {
-    id: "1",
-    name: "Admin Principal",
-    email: "admin@agencyhub.com",
-    role: "Super Admin",
-    createdAt: new Date(2024, 0, 1),
-    permissions: ["users", "agencies", "financial", "tickets", "settings", "audit"],
-  },
-  {
-    id: "2",
-    name: "João Silva",
-    email: "joao@agencyhub.com",
-    role: "Admin",
-    createdAt: new Date(2024, 3, 15),
-    permissions: ["users", "agencies", "tickets"],
-  },
-  {
-    id: "3",
-    name: "Maria Santos",
-    email: "maria@agencyhub.com",
-    role: "Suporte",
-    createdAt: new Date(2024, 6, 10),
-    permissions: ["tickets"],
-  },
-]
-
 const adminPermissions = [
   { id: "users", label: "Gerenciar Usuários" },
   { id: "agencies", label: "Gerenciar Agências" },
@@ -53,6 +28,7 @@ const adminPermissions = [
 
 export default function AdminUsersPage() {
   const { user, loading, logout } = useAuth("admin")
+  const { data: usersData } = useApi(() => adminApi.getUsers())
   const [searchTerm, setSearchTerm] = useState("")
   const [showAddDialog, setShowAddDialog] = useState(false)
   const [newUser, setNewUser] = useState({ name: "", email: "", role: "", permissions: [] as string[] })
@@ -65,7 +41,7 @@ export default function AdminUsersPage() {
     )
   }
 
-  const filteredUsers = mockAdminUsers.filter(
+  const filteredUsers = (usersData?.data || []).filter(
     (u) =>
       u.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       u.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -139,7 +115,7 @@ export default function AdminUsersPage() {
                             <p className="text-sm text-muted-foreground">{u.email}</p>
                           </div>
                           <div className="flex flex-wrap gap-1 mt-2">
-                            {u.permissions.map((perm) => (
+                            {(u.permissions || []).map((perm) => (
                               <Badge key={perm} variant="outline" className="text-xs">
                                 {adminPermissions.find((p) => p.id === perm)?.label}
                               </Badge>
@@ -152,7 +128,7 @@ export default function AdminUsersPage() {
                         <div className="text-right">
                           <Badge variant={u.role === "Super Admin" ? "destructive" : "default"}>{u.role}</Badge>
                           <p className="text-xs text-muted-foreground mt-1">
-                            Desde {u.formatDate(createdAt)}
+                            Desde {formatDate(u.createdAt)}
                           </p>
                         </div>
                         <Button variant="outline" size="sm">

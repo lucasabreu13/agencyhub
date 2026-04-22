@@ -24,8 +24,8 @@ export default function ClientReportsPage() {
 
   const reports = reportsData?.data || []
 
-  const totalBudget = (campaigns || []).reduce((acc, c) => acc + c.budget, 0)
-  const totalSpent = (campaigns || []).reduce((acc, c) => acc + c.spent, 0)
+  const totalBudget = (reports || []).reduce((acc, c) => acc + (c.budget || 0), 0)
+  const totalSpent = (reports || []).reduce((acc, c) => acc + (c.spent || 0), 0)
 
   return (
     <div className="flex h-screen">
@@ -103,7 +103,7 @@ export default function ClientReportsPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
-                {(campaigns || []).map((campaign) => {
+                {(reports || []).map((campaign) => {
                   const percentage = (campaign.spent / campaign.budget) * 100
 
                   return (
@@ -146,34 +146,6 @@ export default function ClientReportsPage() {
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>ROI por Campanha</CardTitle>
-              <CardDescription>Retorno sobre investimento detalhado</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {(campaigns || []).map((campaign) => {
-                  const roi = Math.floor(Math.random() * 200) + 150 // Mock ROI
-
-                  return (
-                    <div key={campaign.id} className="flex items-center justify-between border-b pb-3 last:border-0">
-                      <div>
-                        <p className="font-medium">{campaign.name}</p>
-                        <p className="text-sm text-muted-foreground">
-                          Investimento: {(campaign.spent || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-2xl font-bold text-green-600">+{roi}%</p>
-                        <p className="text-xs text-muted-foreground">ROI</p>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            </CardContent>
-          </Card>
         </div>
       </div>
     </div>

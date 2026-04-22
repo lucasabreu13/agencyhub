@@ -1,5 +1,7 @@
 "use client"
 import { formatDate } from "@/lib/utils"
+import { useApi } from "@/hooks/use-api"
+import { adminApi } from "@/lib/api"
 
 import { useState } from "react"
 import { useAuth } from "@/hooks/use-auth"
@@ -31,7 +33,7 @@ interface Goal {
   type: "revenue" | "agencies" | "users" | "custom"
   target: number
   current: number
-  deadline: Date
+  deadline: string | Date
   status: "on-track" | "at-risk" | "completed"
   responsible: string
 }
@@ -39,53 +41,7 @@ interface Goal {
 export default function AdminGoalsPage() {
   const { user, loading, logout } = useAuth("admin")
   const [showDialog, setShowDialog] = useState(false)
-
-  const [goals, setGoals] = useState<Goal[]>([
-    {
-      id: "1",
-      title: "MRR de R$ 500k",
-      description: "Atingir receita recorrente mensal de R$ 500.000",
-      type: "revenue",
-      target: 500000,
-      current: 207050,
-      deadline: new Date("2026-06-30"),
-      status: "on-track",
-      responsible: "Time Comercial",
-    },
-    {
-      id: "2",
-      title: "100 Agências Ativas",
-      description: "Alcançar 100 agências utilizando a plataforma",
-      type: "agencies",
-      target: 100,
-      current: 45,
-      deadline: new Date("2026-12-31"),
-      status: "on-track",
-      responsible: "Marketing",
-    },
-    {
-      id: "3",
-      title: "5000 Usuários Ativos",
-      description: "Ter 5000 usuários ativos na plataforma",
-      type: "users",
-      target: 5000,
-      current: 1250,
-      deadline: new Date("2026-09-30"),
-      status: "at-risk",
-      responsible: "Growth",
-    },
-    {
-      id: "4",
-      title: "Reduzir Churn para 2%",
-      description: "Reduzir taxa de cancelamento para 2% ao mês",
-      type: "custom",
-      target: 2,
-      current: 3.2,
-      deadline: new Date("2026-03-31"),
-      status: "at-risk",
-      responsible: "Customer Success",
-    },
-  ])
+  const { data: goalsData } = useApi(() => adminApi.getGoals())
 
   if (loading || !user) {
     return (
@@ -94,6 +50,8 @@ export default function AdminGoalsPage() {
       </div>
     )
   }
+
+  const goals: Goal[] = goalsData?.data || []
 
   const getIcon = (type: string) => {
     switch (type) {
@@ -244,7 +202,7 @@ export default function AdminGoalsPage() {
               const progress =
                 goal.type === "custom" ? 100 - (goal.current / goal.target) * 100 : (goal.current / goal.target) * 100
               const daysUntilDeadline = Math.ceil(
-                (goal.deadline.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
+                (new Date(goal.deadline).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
               )
 
               return (
@@ -283,7 +241,7 @@ export default function AdminGoalsPage() {
                       <div className="flex items-center gap-4">
                         <div>
                           <p className="text-muted-foreground">Prazo</p>
-                          <p className="font-medium">{goal.formatDate(deadline)}</p>
+                          <p className="font-medium">{formatDate(goal.deadline)}</p>
                         </div>
                         <div>
                           <p className="text-muted-foreground">Faltam</p>

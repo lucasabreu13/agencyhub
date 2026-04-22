@@ -35,70 +35,16 @@ type Ticket = {
   description: string
   status: TicketStatus
   priority: TicketPriority
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string | Date
+  updatedAt: string | Date
   responses: {
     id: string
     message: string
     author: string
-    createdAt: Date
+    createdAt: string | Date
     isAdmin: boolean
   }[]
 }
-
-const mockTickets: Ticket[] = [
-  {
-    id: "1",
-    subject: "Dúvida sobre relatório de performance",
-    description: "Gostaria de entender melhor as métricas apresentadas no último relatório",
-    status: "resolved",
-    priority: "low",
-    createdAt: new Date(2025, 0, 2),
-    updatedAt: new Date(2025, 0, 3),
-    responses: [
-      {
-        id: "r1",
-        message: "Olá! Claro, ficarei feliz em explicar. Quais métricas específicas você tem dúvida?",
-        author: "Suporte Spherum",
-        createdAt: new Date(2025, 0, 2, 14, 30),
-        isAdmin: true,
-      },
-      {
-        id: "r2",
-        message: "Principalmente sobre CTR e taxa de conversão.",
-        author: "Você",
-        createdAt: new Date(2025, 0, 2, 15, 0),
-        isAdmin: false,
-      },
-      {
-        id: "r3",
-        message:
-          "CTR (Click-Through Rate) é a porcentagem de pessoas que clicaram no seu anúncio. Taxa de conversão é quantas dessas pessoas realizaram a ação desejada. Preparei um documento explicativo que será enviado por email.",
-        author: "Suporte Spherum",
-        createdAt: new Date(2025, 0, 3, 10, 0),
-        isAdmin: true,
-      },
-    ],
-  },
-  {
-    id: "2",
-    subject: "Solicitação de ajuste na campanha",
-    description: "Preciso ajustar o orçamento da campanha de Google Ads",
-    status: "in_progress",
-    priority: "medium",
-    createdAt: new Date(2025, 0, 4),
-    updatedAt: new Date(2025, 0, 4),
-    responses: [
-      {
-        id: "r4",
-        message: "Recebemos sua solicitação. Para qual valor você gostaria de ajustar?",
-        author: "Suporte Spherum",
-        createdAt: new Date(2025, 0, 4, 11, 0),
-        isAdmin: true,
-      },
-    ],
-  },
-]
 
 export default function ClientSupportPage() {
   const { user, loading, logout } = useAuth("agency_client")
@@ -329,12 +275,12 @@ export default function ClientSupportPage() {
                           {getStatusBadge(ticket.status)}
                           {getPriorityBadge(ticket.priority)}
                           <span className="text-xs text-muted-foreground">
-                            Criado em {ticket.formatDate(createdAt)}
+                            Criado em {formatDate(ticket.createdAt)}
                           </span>
-                          {ticket.responses.length > 0 && (
+                          {(ticket.responses || []).length > 0 && (
                             <span className="flex items-center gap-1 text-xs text-muted-foreground">
                               <MessageSquare className="h-3 w-3" />
-                              {ticket.responses.length} {ticket.responses.length === 1 ? "resposta" : "respostas"}
+                              {(ticket.responses || []).length} {(ticket.responses || []).length === 1 ? "resposta" : "respostas"}
                             </span>
                           )}
                         </div>
@@ -364,16 +310,16 @@ export default function ClientSupportPage() {
                       <h4 className="font-semibold mb-2">Descrição</h4>
                       <p className="text-sm text-muted-foreground">{selectedTicket.description}</p>
                       <p className="text-xs text-muted-foreground mt-2">
-                        Criado em {selectedTicket.formatDate(createdAt)} às{" "}
-                        {selectedTicket.createdAt.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
+                        Criado em {formatDate(selectedTicket.createdAt)} às{" "}
+                        {new Date(selectedTicket.createdAt).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
                       </p>
                     </div>
 
-                    {selectedTicket.responses.length > 0 && (
+                    {(selectedTicket.responses || []).length > 0 && (
                       <div>
                         <h4 className="font-semibold mb-3">Histórico de Respostas</h4>
                         <div className="space-y-4">
-                          {selectedTicket.responses.map((response) => (
+                          {(selectedTicket.responses || []).map((response) => (
                             <div
                               key={response.id}
                               className={`p-4 rounded-lg ${
@@ -383,8 +329,8 @@ export default function ClientSupportPage() {
                               <div className="flex items-center justify-between mb-2">
                                 <span className="font-medium text-sm">{response.author}</span>
                                 <span className="text-xs text-muted-foreground">
-                                  {response.formatDate(createdAt)} às{" "}
-                                  {response.createdAt.toLocaleTimeString("pt-BR", {
+                                  {formatDate(response.createdAt)} às{" "}
+                                  {new Date(response.createdAt).toLocaleTimeString("pt-BR", {
                                     hour: "2-digit",
                                     minute: "2-digit",
                                   })}

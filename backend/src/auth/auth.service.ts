@@ -85,9 +85,9 @@ export class AuthService {
       throw new ConflictException('Este email já está cadastrado na plataforma');
     }
 
-    // Trial de 7 dias a partir do cadastro
+    // Trial de 14 dias a partir do cadastro
     const trialEndsAt = new Date();
-    trialEndsAt.setDate(trialEndsAt.getDate() + 7);
+    trialEndsAt.setDate(trialEndsAt.getDate() + 14);
 
     // Cria a agência
     const agency = this.agencyRepository.create({
