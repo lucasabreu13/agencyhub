@@ -55,10 +55,10 @@ export default function SettingsPage() {
                 <div>
                   <Badge variant="default" className="text-sm">
                     {agencyData?.plan === "basic"
-                      ? "Básico"
+                      ? "Starter"
                       : agencyData?.plan === "pro"
-                        ? "Profissional"
-                        : "Enterprise"}
+                        ? "Pro"
+                        : "Scale"}
                   </Badge>
                 </div>
               </div>

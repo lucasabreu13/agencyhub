@@ -238,7 +238,7 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
                     <div>
                       <p className="text-sm text-muted-foreground mb-2">Valor do Plano</p>
                       <p className="text-2xl font-bold">
-                        {(agency.plan === "basic" ? 197 : agency.plan === "pro" ? 497 : 997).toLocaleString("pt-BR", {
+                        {(agency.plan === "basic" ? 197 : agency.plan === "pro" ? 397 : 797).toLocaleString("pt-BR", {
                           style: "currency",
                           currency: "BRL",
                         })}
@@ -579,7 +579,7 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
                     <div className="flex justify-between">
                       <span className="text-sm text-muted-foreground">Plano Mensal:</span>
                       <span className="font-semibold">
-                        {(agency.plan === "basic" ? 197 : agency.plan === "pro" ? 497 : 997).toLocaleString("pt-BR", {
+                        {(agency.plan === "basic" ? 197 : agency.plan === "pro" ? 397 : 797).toLocaleString("pt-BR", {
                           style: "currency",
                           currency: "BRL",
                         })}

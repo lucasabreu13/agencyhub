@@ -3,14 +3,17 @@ import {
   UnauthorizedException,
   NotFoundException,
   ConflictException,
+  BadRequestException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as crypto from 'crypto';
+import * as bcrypt from 'bcrypt';
 import { User } from '../database/entities/user.entity';
 import { Agency } from '../database/entities/agency.entity';
 import { UserRole, AgencyPlan, AgencyStatus, SubscriptionStatus } from '../common/enums';
-import { LoginDto, RegisterAgencyDto } from './dto/auth.dto';
+import { LoginDto, RegisterAgencyDto, ForgotPasswordDto, ResetPasswordDto } from './dto/auth.dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { EmailService } from '../modules/email/email.service';
 import { OnboardingService } from '../modules/onboarding/onboarding.service';
@@ -154,6 +157,48 @@ export class AuthService {
       role: user.role,
       agencyId: user.agencyId,
     };
+  }
+
+  async forgotPassword(dto: ForgotPasswordDto) {
+    const user = await this.userRepository.findOne({
+      where: { email: dto.email.toLowerCase(), isActive: true },
+    });
+
+    // Não revela se o email existe
+    if (!user) {
+      return { message: 'Se este email estiver cadastrado, você receberá um link de redefinição em breve.' };
+    }
+
+    const token = crypto.randomBytes(32).toString('hex');
+    const expiry = new Date();
+    expiry.setHours(expiry.getHours() + 1);
+
+    await this.userRepository.update(user.id, {
+      resetPasswordToken: token,
+      resetPasswordExpiry: expiry,
+    });
+
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3001';
+    await this.emailService.sendPasswordReset(user.email, user.name, `${frontendUrl}/reset-password?token=${token}`);
+
+    return { message: 'Se este email estiver cadastrado, você receberá um link de redefinição em breve.' };
+  }
+
+  async resetPassword(dto: ResetPasswordDto) {
+    const user = await this.userRepository.findOne({
+      where: { resetPasswordToken: dto.token },
+    });
+
+    if (!user || !user.resetPasswordExpiry || user.resetPasswordExpiry < new Date()) {
+      throw new BadRequestException('Token inválido ou expirado');
+    }
+
+    user.passwordHash = await bcrypt.hash(dto.password, 10);
+    user.resetPasswordToken = null;
+    user.resetPasswordExpiry = null;
+    await this.userRepository.save(user);
+
+    return { message: 'Senha redefinida com sucesso. Você já pode fazer login.' };
   }
 
   private generateToken(user: User): string {

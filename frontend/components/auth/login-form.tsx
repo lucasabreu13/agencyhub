@@ -37,14 +37,6 @@ export function LoginForm({ type }: LoginFormProps) {
     }
   }
 
-  const getDemoCredentials = () => {
-    switch (type) {
-      case "admin": return { email: "admin@agencyhub.com", password: "Admin@123" }
-      case "agency": return { email: "mariana@pixelagency.com.br", password: "Owner@123" }
-      case "client": return { email: "pedro@techstart.com.br", password: "Cliente@123" }
-    }
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
@@ -75,8 +67,6 @@ export function LoginForm({ type }: LoginFormProps) {
       setLoading(false)
     }
   }
-
-  const demo = getDemoCredentials()
 
   return (
     <Card className="w-full max-w-md">
@@ -112,12 +102,12 @@ export function LoginForm({ type }: LoginFormProps) {
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? "Entrando..." : "Entrar"}
           </Button>
+          <p className="text-center text-sm text-muted-foreground">
+            <a href="/forgot-password" className="underline">
+              Esqueci minha senha
+            </a>
+          </p>
         </form>
-        <div className="mt-4 rounded-md bg-muted p-3">
-          <p className="text-xs text-muted-foreground mb-1">Credenciais de teste (seed):</p>
-          <p className="text-xs font-mono">{demo.email}</p>
-          <p className="text-xs font-mono">Senha: {demo.password}</p>
-        </div>
       </CardContent>
     </Card>
   )

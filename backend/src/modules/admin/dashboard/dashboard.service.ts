@@ -4,6 +4,8 @@ import { Repository } from 'typeorm';
 import { AgencyStatus, TicketStatus, TransactionScope, TransactionType, UserRole } from '../../../common/enums';
 import { Agency } from '../../../database/entities/agency.entity';
 import { User } from '../../../database/entities/user.entity';
+import { Client } from '../../../database/entities/client.entity';
+import { Campaign } from '../../../database/entities/campaign.entity';
 import { Ticket } from '../../../database/entities/ticket.entity';
 import { FinancialTransaction } from '../../../database/entities/financial-transaction.entity';
 
@@ -14,6 +16,10 @@ export class AdminDashboardService {
     private agencyRepository: Repository<Agency>,
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @InjectRepository(Client)
+    private clientRepository: Repository<Client>,
+    @InjectRepository(Campaign)
+    private campaignRepository: Repository<Campaign>,
     @InjectRepository(Ticket)
     private ticketRepository: Repository<Ticket>,
     @InjectRepository(FinancialTransaction)
@@ -21,11 +27,13 @@ export class AdminDashboardService {
   ) {}
 
   async getDashboard() {
-    const [totalAgencies, activeAgencies, totalUsers, openTickets] = await Promise.all([
+    const [totalAgencies, activeAgencies, totalUsers, openTickets, totalClients, totalCampaigns] = await Promise.all([
       this.agencyRepository.count(),
       this.agencyRepository.count({ where: { status: AgencyStatus.ACTIVE } }),
       this.userRepository.count({ where: { role: UserRole.AGENCY_OWNER } }),
       this.ticketRepository.count({ where: { status: TicketStatus.OPEN } }),
+      this.clientRepository.count(),
+      this.campaignRepository.count(),
     ]);
 
     // MRR — soma das receitas da plataforma no mês atual
@@ -57,6 +65,8 @@ export class AdminDashboardService {
         totalOwners: totalUsers,
         openTickets,
         mrr,
+        totalClients,
+        totalCampaigns,
       },
       agenciesByPlan: byPlan,
     };

@@ -25,7 +25,7 @@ export default function AdminDashboard() {
     )
   }
 
-  const dash = dashboard as any
+  const dash = (dashboard as any)?.summary
   const totalAgencies = agenciesData?.total || dash?.activeAgencies || 0
   const totalClients = dash?.totalClients || 0
   const totalCampaigns = dash?.totalCampaigns || 0
@@ -121,7 +121,7 @@ export default function AdminDashboard() {
                         </p>
                       </div>
                       <Badge variant="default">
-                        {agency.plan === "basic" ? "Básico" : agency.plan === "pro" ? "Pro" : "Enterprise"}
+                        {agency.plan === "basic" ? "Starter" : agency.plan === "pro" ? "Pro" : "Scale"}
                       </Badge>
                     </div>
                   ))}
@@ -138,7 +138,7 @@ export default function AdminDashboard() {
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <div className="flex items-center justify-between text-sm">
-                      <span>Plano Básico</span>
+                      <span>Starter</span>
                       <span className="font-medium">0 agências</span>
                     </div>
                     <div className="h-2 bg-muted rounded-full overflow-hidden">
@@ -148,7 +148,7 @@ export default function AdminDashboard() {
 
                   <div className="space-y-2">
                     <div className="flex items-center justify-between text-sm">
-                      <span>Plano Profissional</span>
+                      <span>Pro</span>
                       <span className="font-medium">
                         {(agenciesData?.data || []).filter((a: any) => a.plan === "pro").length} agências
                       </span>
@@ -165,7 +165,7 @@ export default function AdminDashboard() {
 
                   <div className="space-y-2">
                     <div className="flex items-center justify-between text-sm">
-                      <span>Plano Enterprise</span>
+                      <span>Scale</span>
                       <span className="font-medium">
                         {(agenciesData?.data || []).filter((a: any) => a.plan === "enterprise").length} agências
                       </span>

@@ -12,10 +12,16 @@ export function getToken(): string | null {
 
 export function setToken(token: string): void {
   localStorage.setItem("access_token", token)
+  if (typeof document !== "undefined") {
+    document.cookie = `auth_token=${token}; path=/; max-age=86400; SameSite=Lax`
+  }
 }
 
 export function removeToken(): void {
   localStorage.removeItem("access_token")
+  if (typeof document !== "undefined") {
+    document.cookie = "auth_token=; path=/; max-age=0"
+  }
 }
 
 // ─── HTTP client base ─────────────────────────────────────────────────────────
@@ -97,6 +103,12 @@ export const authApi = {
   me: () => api.get<ApiUser>("/auth/me"),
 
   logout: () => api.post<void>("/auth/logout", {}),
+
+  forgotPassword: (email: string) =>
+    api.post<{ message: string }>("/auth/forgot-password", { email }),
+
+  resetPassword: (token: string, password: string) =>
+    api.post<{ message: string }>("/auth/reset-password", { token, password }),
 }
 
 // ─── Tipos de usuário da API ──────────────────────────────────────────────────
@@ -280,7 +292,7 @@ export const agencyApi = {
 // ─── Client ───────────────────────────────────────────────────────────────────
 
 export const clientApi = {
-  getDashboard: () => api.get("/client"),
+  getDashboard: () => api.get("/client/dashboard"),
   getCampaigns: (params?: string) => api.get<Paginated<any>>(`/client/campaigns${params ? `?${params}` : ""}`),
   getReports: (params?: string) => api.get<Paginated<any>>(`/client/reports${params ? `?${params}` : ""}`),
   approveReport: (id: string) => api.patch(`/client/reports/${id}/approve`, {}),

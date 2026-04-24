@@ -21,10 +21,18 @@ export default function ClientDashboard() {
     )
   }
 
-  const campaigns = (dashboardData as any)?.recentCampaigns || []
-  const activeCampaigns = (campaigns || []).filter((c: any) => c.status === "active")
-  const totalBudget = (campaigns || []).reduce((acc: number, c: any) => acc + (c.budget || 0), 0)
-  const totalSpent = (campaigns || []).reduce((acc: number, c: any) => acc + (c.spent || 0), 0)
+  const summary = (dashboardData as any)?.summary || {}
+  const metrics = (dashboardData as any)?.metrics || {}
+
+  const activeCampaignsCount = summary.activeCampaigns ?? 0
+  const totalCampaignsCount = summary.totalCampaigns ?? 0
+  const totalBudget = summary.totalBudget ?? 0
+  const totalSpent = summary.totalSpent ?? 0
+  const impressions = metrics.impressions ?? 0
+  const clicks = metrics.clicks ?? 0
+  const conversions = metrics.conversions ?? 0
+  const conversionRate = clicks > 0 ? ((conversions / clicks) * 100).toFixed(1) : "0.0"
+  const roi = totalSpent > 0 ? (((totalBudget - totalSpent) / totalSpent) * 100).toFixed(0) : "0"
 
   return (
     <div className="flex h-screen">
@@ -44,8 +52,8 @@ export default function ClientDashboard() {
                 <Megaphone className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{activeCampaigns.length}</div>
-                <p className="text-xs text-muted-foreground mt-1">{(campaigns || []).length} total</p>
+                <div className="text-2xl font-bold">{activeCampaignsCount}</div>
+                <p className="text-xs text-muted-foreground mt-1">{totalCampaignsCount} total</p>
               </CardContent>
             </Card>
 
@@ -56,10 +64,10 @@ export default function ClientDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
-                  {(totalSpent || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                  {totalSpent.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                 </div>
                 <p className="text-xs text-muted-foreground mt-1">
-                  de {(totalBudget || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                  de {totalBudget.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                 </p>
               </CardContent>
             </Card>
@@ -70,8 +78,8 @@ export default function ClientDashboard() {
                 <TrendingUp className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">3.8%</div>
-                <p className="text-xs text-green-600 mt-1">+0.5% vs. mês anterior</p>
+                <div className="text-2xl font-bold">{conversionRate}%</div>
+                <p className="text-xs text-muted-foreground mt-1">{conversions} conversões</p>
               </CardContent>
             </Card>
 
@@ -82,9 +90,9 @@ export default function ClientDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
-                  {(totalBudget || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                  {totalBudget.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">Renovação em 25 dias</p>
+                <p className="text-xs text-muted-foreground mt-1">{summary.budgetUsedPercent ?? 0}% utilizado</p>
               </CardContent>
             </Card>
           </div>
@@ -96,20 +104,20 @@ export default function ClientDashboard() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between border-b pb-3">
-                <span className="text-sm text-muted-foreground">Alcance Total</span>
-                <span className="font-bold">45.2K</span>
+                <span className="text-sm text-muted-foreground">Impressões</span>
+                <span className="font-bold">{impressions.toLocaleString("pt-BR")}</span>
               </div>
               <div className="flex items-center justify-between border-b pb-3">
-                <span className="text-sm text-muted-foreground">Engajamento</span>
-                <span className="font-bold">2.8K</span>
+                <span className="text-sm text-muted-foreground">Cliques</span>
+                <span className="font-bold">{clicks.toLocaleString("pt-BR")}</span>
               </div>
               <div className="flex items-center justify-between border-b pb-3">
                 <span className="text-sm text-muted-foreground">Conversões</span>
-                <span className="font-bold">143</span>
+                <span className="font-bold">{conversions.toLocaleString("pt-BR")}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">ROI</span>
-                <span className="font-bold text-green-600">+285%</span>
+                <span className="font-bold text-green-600">+{roi}%</span>
               </div>
             </CardContent>
           </Card>

@@ -7,6 +7,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like, FindManyOptions } from 'typeorm';
 import { Agency } from '../../../database/entities/agency.entity';
 import { User } from '../../../database/entities/user.entity';
+import { Client } from '../../../database/entities/client.entity';
+import { Campaign } from '../../../database/entities/campaign.entity';
 import { AgencyStatus, UserRole } from '../../../common/enums';
 import { CreateAgencyDto, UpdateAgencyDto, AgencyFilterDto } from './dto/agency.dto';
 
@@ -17,6 +19,10 @@ export class AgenciesService {
     private agencyRepository: Repository<Agency>,
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @InjectRepository(Client)
+    private clientRepository: Repository<Client>,
+    @InjectRepository(Campaign)
+    private campaignRepository: Repository<Campaign>,
   ) {}
 
   async findAll(filters: AgencyFilterDto) {
@@ -54,15 +60,18 @@ export class AgenciesService {
   async findStats(id: string) {
     const agency = await this.findOne(id);
 
-    const userCount = await this.userRepository.count({
-      where: { agencyId: id, isActive: true },
-    });
+    const [userCount, clientCount, campaignCount] = await Promise.all([
+      this.userRepository.count({ where: { agencyId: id, isActive: true } }),
+      this.clientRepository.count({ where: { agencyId: id } }),
+      this.campaignRepository.count({ where: { agencyId: id } }),
+    ]);
 
     return {
       agency,
       stats: {
         totalUsers: userCount,
-        // Expanda com queries de clientes, campanhas, receita conforme os módulos forem criados
+        totalClients: clientCount,
+        totalCampaigns: campaignCount,
       },
     };
   }

@@ -47,7 +47,7 @@ interface FormData {
 const PLANS = [
   {
     id: "basic" as Plan,
-    name: "Básico",
+    name: "Starter",
     price: "R$ 197",
     period: "/mês",
     icon: Zap,
@@ -59,7 +59,7 @@ const PLANS = [
   {
     id: "pro" as Plan,
     name: "Pro",
-    price: "R$ 497",
+    price: "R$ 397",
     period: "/mês",
     icon: Star,
     color: "border-purple-200 hover:border-purple-400",
@@ -70,8 +70,8 @@ const PLANS = [
   },
   {
     id: "enterprise" as Plan,
-    name: "Enterprise",
-    price: "R$ 997",
+    name: "Scale",
+    price: "R$ 797",
     period: "/mês",
     icon: Crown,
     color: "border-amber-200 hover:border-amber-400",

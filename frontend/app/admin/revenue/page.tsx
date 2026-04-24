@@ -118,7 +118,7 @@ export default function AdminRevenuePage() {
       type: "income" as const,
       category: "Assinatura",
       description: "Renovação - Digital Pro Marketing",
-      amount: 497,
+      amount: 397,
       status: "confirmed",
     },
     {
@@ -136,7 +136,7 @@ export default function AdminRevenuePage() {
       type: "income" as const,
       category: "Assinatura",
       description: "Novo cliente - Marketing Solutions",
-      amount: 997,
+      amount: 797,
       status: "confirmed",
     },
     {

@@ -20,7 +20,7 @@ export default function AdminSettingsPage() {
   const [plans, setPlans] = useState([
     {
       id: "basic",
-      name: "Básico",
+      name: "Starter",
       price: 197,
       description: "Ideal para agências iniciantes",
       features: ["Até 5 clientes", "5 campanhas ativas", "Relatórios básicos", "Suporte por email"],
@@ -28,8 +28,8 @@ export default function AdminSettingsPage() {
     },
     {
       id: "pro",
-      name: "Profissional",
-      price: 497,
+      name: "Pro",
+      price: 397,
       description: "Para agências em crescimento",
       features: [
         "Até 20 clientes",
@@ -42,8 +42,8 @@ export default function AdminSettingsPage() {
     },
     {
       id: "enterprise",
-      name: "Enterprise",
-      price: 997,
+      name: "Scale",
+      price: 797,
       description: "Solução completa para grandes agências",
       features: [
         "Clientes ilimitados",
