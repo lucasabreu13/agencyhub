@@ -43,6 +43,7 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
 
   const { data: agency, loading: agencyLoading } = useApi(() => adminApi.getAgency(id))
   const { data: agencyStats } = useApi(() => adminApi.getAgencyStats(id))
+  const { data: auditData } = useApi(() => adminApi.getAudit(`agencyId=${id}&limit=50`))
 
   if (loading || !user) {
     return (
@@ -77,84 +78,47 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
   const agencyClients = agencyStats?.clients || []
   const agencyUsers = agencyStats?.users || []
 
-  // Mock data for subscription history
-  const subscriptionHistory = [
-    {
-      id: "1",
-      previousPlan: "Pro",
-      newPlan: "Enterprise",
-      type: "upgrade" as const,
-      date: new Date("2024-12-15"),
-      responsibleUser: "Admin Sistema",
-    },
-    {
-      id: "2",
-      previousPlan: "Básico",
-      newPlan: "Pro",
-      type: "upgrade" as const,
-      date: new Date("2024-08-01"),
-      responsibleUser: "Admin Sistema",
-    },
-  ]
+  const auditLogs: any[] = auditData?.data || []
 
-  // Mock data for audit logs
-  const auditLogs = [
-    {
-      id: "log1",
-      timestamp: new Date("2026-01-06T10:30:00"),
-      user: "João Silva",
-      action: "Login realizado",
-      module: "Autenticação",
-      entity: "Sistema",
-      origin: "Agência",
-    },
-    {
-      id: "log2",
-      timestamp: new Date("2026-01-06T09:15:00"),
-      user: "Maria Santos",
-      action: "Cliente criado",
-      module: "Clientes",
-      entity: "TechStart Solutions",
-      origin: "Agência",
-    },
-    {
-      id: "log3",
-      timestamp: new Date("2026-01-05T16:45:00"),
-      user: "Admin Sistema",
-      action: "Visualização de dados",
-      module: "Financeiro",
-      entity: "Relatório Mensal",
-      origin: "Admin",
-    },
-    {
-      id: "log4",
-      timestamp: new Date("2026-01-05T14:20:00"),
-      user: "Carlos Santos",
-      action: "Campanha editada",
-      module: "Campanhas",
-      entity: "Lançamento Produto Q1",
-      origin: "Agência",
-    },
-    {
-      id: "log5",
-      timestamp: new Date("2026-01-05T11:00:00"),
-      user: "Cliente TechStart",
-      action: "Relatório visualizado",
-      module: "Relatórios",
-      entity: "Performance Dezembro",
-      origin: "Cliente",
-    },
-  ]
+  const roleOriginMap: Record<string, string> = {
+    admin: "admin",
+    agência: "agency_owner",
+    cliente: "agency_client",
+  }
 
-  const filteredLogs = auditLogs.filter((log) => {
-    const matchesFilter = logFilter === "all" || log.origin.toLowerCase() === logFilter
+  const filteredLogs = auditLogs.filter((log: any) => {
+    const matchesFilter = logFilter === "all" || log.userRole === roleOriginMap[logFilter]
     const matchesSearch =
       logSearch === "" ||
-      log.user.toLowerCase().includes(logSearch.toLowerCase()) ||
-      log.action.toLowerCase().includes(logSearch.toLowerCase()) ||
-      log.module.toLowerCase().includes(logSearch.toLowerCase())
+      (log.userName || "").toLowerCase().includes(logSearch.toLowerCase()) ||
+      (log.action || "").toLowerCase().includes(logSearch.toLowerCase()) ||
+      (log.entityType || "").toLowerCase().includes(logSearch.toLowerCase())
     return matchesFilter && matchesSearch
   })
+
+  function getOriginLabel(role: string) {
+    if (role === "admin") return "Admin"
+    if (role === "agency_owner") return "Agência"
+    return "Cliente"
+  }
+
+  function getOriginVariant(role: string): "destructive" | "default" | "secondary" {
+    if (role === "admin") return "destructive"
+    if (role === "agency_owner") return "default"
+    return "secondary"
+  }
+
+  function getPlanLabel(plan: string) {
+    if (plan === "starter" || plan === "basic") return "Starter"
+    if (plan === "pro") return "Pro"
+    return "Scale"
+  }
+
+  function getPlanPrice(plan: string) {
+    if (plan === "pro") return 397
+    if (plan === "scale" || plan === "enterprise") return 797
+    return 197
+  }
 
   return (
     <div className="flex h-screen">
@@ -211,16 +175,22 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
                   <div className="grid md:grid-cols-4 gap-4">
                     <div>
                       <p className="text-sm text-muted-foreground mb-2">Status da Assinatura</p>
-                      <Badge variant="default" className="bg-green-600">
-                        <CheckCircle2 className="h-3 w-3 mr-1" />
-                        Ativa
-                      </Badge>
+                      {agency.subscriptionStatus === "active" ? (
+                        <Badge variant="default" className="bg-green-600">
+                          <CheckCircle2 className="h-3 w-3 mr-1" />
+                          Ativa
+                        </Badge>
+                      ) : agency.subscriptionStatus === "trial" ? (
+                        <Badge variant="default" className="bg-blue-600">Trial</Badge>
+                      ) : agency.subscriptionStatus === "expired" ? (
+                        <Badge variant="destructive">Expirada</Badge>
+                      ) : (
+                        <Badge variant="secondary">Cancelada</Badge>
+                      )}
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground mb-2">Plano Atual</p>
-                      <p className="font-semibold text-lg">
-                        {agency.plan === "basic" ? "Básico" : agency.plan === "pro" ? "Pro" : "Enterprise"}
-                      </p>
+                      <p className="font-semibold text-lg">{getPlanLabel(agency.plan)}</p>
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground mb-2">Data de Início</p>
@@ -229,8 +199,14 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground mb-2">Data de Renovação</p>
-                      <p className="font-medium">15/02/2026</p>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        {agency.subscriptionStatus === "trial" ? "Trial expira em" : "Data de Renovação"}
+                      </p>
+                      <p className="font-medium">
+                        {agency.trialEndsAt
+                          ? new Date(agency.trialEndsAt).toLocaleDateString("pt-BR")
+                          : "N/A"}
+                      </p>
                     </div>
                   </div>
 
@@ -238,7 +214,7 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
                     <div>
                       <p className="text-sm text-muted-foreground mb-2">Valor do Plano</p>
                       <p className="text-2xl font-bold">
-                        {(agency.plan === "basic" ? 197 : agency.plan === "pro" ? 397 : 797).toLocaleString("pt-BR", {
+                        {getPlanPrice(agency.plan).toLocaleString("pt-BR", {
                           style: "currency",
                           currency: "BRL",
                         })}
@@ -247,8 +223,12 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground mb-2">Método de Pagamento</p>
-                      <p className="font-medium">Cartão de Crédito •••• 4532</p>
-                      <p className="text-xs text-muted-foreground mt-1">Faturamento Mensal</p>
+                      <p className="font-medium">
+                        {agency.stripeCustomerId ? "Cartão de crédito via Stripe" : "N/A"}
+                      </p>
+                      {agency.stripeCustomerId && (
+                        <p className="text-xs text-muted-foreground mt-1">Faturamento Mensal</p>
+                      )}
                     </div>
                   </div>
 
@@ -258,38 +238,20 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
                       <History className="h-5 w-5" />
                       Histórico Completo de Mudanças
                     </h4>
-                    <div className="space-y-3">
-                      {subscriptionHistory.map((history) => (
-                        <div key={history.id} className="flex items-start gap-3 pb-3 border-b last:border-0">
-                          {history.type === "upgrade" ? (
-                            <ArrowUpRight className="h-5 w-5 text-green-600 mt-0.5" />
-                          ) : (
-                            <ArrowDownRight className="h-5 w-5 text-orange-600 mt-0.5" />
-                          )}
-                          <div className="flex-1">
-                            <div className="flex items-center justify-between">
-                              <p className="font-medium">
-                                {history.type === "upgrade" ? "Upgrade" : "Downgrade"}: {history.previousPlan} →{" "}
-                                {history.newPlan}
-                              </p>
-                              <p className="text-sm text-muted-foreground">
-                                {formatDate(history.date)}
-                              </p>
-                            </div>
-                            <p className="text-sm text-muted-foreground mt-1">Responsável: {history.responsibleUser}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                    <p className="text-sm text-muted-foreground">Nenhum histórico de mudanças de plano registrado</p>
                   </div>
 
-                  {/* Informações de Cancelamento (se aplicável) */}
+                  {/* Informações de Cancelamento */}
                   <div className="border-t pt-6">
                     <h4 className="font-semibold mb-2 flex items-center gap-2 text-muted-foreground">
                       <XCircle className="h-5 w-5" />
                       Informações de Cancelamento
                     </h4>
-                    <p className="text-sm text-muted-foreground">Nenhum cancelamento registrado</p>
+                    <p className="text-sm text-muted-foreground">
+                      {agency.subscriptionStatus === "cancelled"
+                        ? "Assinatura cancelada."
+                        : "Nenhum cancelamento registrado"}
+                    </p>
                   </div>
                 </CardContent>
               </Card>
@@ -490,38 +452,38 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
                           </tr>
                         </thead>
                         <tbody>
-                          {filteredLogs.map((log) => (
-                            <tr key={log.id} className="border-t hover:bg-muted/30">
-                              <td className="p-3 text-sm">
-                                <div>{formatDate(log.timestamp)}</div>
-                                <div className="text-xs text-muted-foreground">
-                                  {log.timestamp.toLocaleTimeString("pt-BR", {
-                                    hour: "2-digit",
-                                    minute: "2-digit",
-                                  })}
-                                </div>
-                              </td>
-                              <td className="p-3 text-sm font-medium">{log.user}</td>
-                              <td className="p-3 text-sm">{log.action}</td>
-                              <td className="p-3 text-sm">
-                                <Badge variant="outline">{log.module}</Badge>
-                              </td>
-                              <td className="p-3 text-sm text-muted-foreground">{log.entity}</td>
-                              <td className="p-3 text-sm">
-                                <Badge
-                                  variant={
-                                    log.origin === "Admin"
-                                      ? "destructive"
-                                      : log.origin === "Agência"
-                                        ? "default"
-                                        : "secondary"
-                                  }
-                                >
-                                  {log.origin}
-                                </Badge>
+                          {filteredLogs.length === 0 ? (
+                            <tr>
+                              <td colSpan={6} className="text-center py-8 text-sm text-muted-foreground">
+                                Nenhum log encontrado
                               </td>
                             </tr>
-                          ))}
+                          ) : (
+                            filteredLogs.map((log: any) => {
+                              const ts = new Date(log.createdAt)
+                              return (
+                                <tr key={log.id} className="border-t hover:bg-muted/30">
+                                  <td className="p-3 text-sm">
+                                    <div>{formatDate(ts)}</div>
+                                    <div className="text-xs text-muted-foreground">
+                                      {ts.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
+                                    </div>
+                                  </td>
+                                  <td className="p-3 text-sm font-medium">{log.userName}</td>
+                                  <td className="p-3 text-sm">{log.action}</td>
+                                  <td className="p-3 text-sm">
+                                    <Badge variant="outline">{log.entityType}</Badge>
+                                  </td>
+                                  <td className="p-3 text-sm text-muted-foreground">{log.entityId || "—"}</td>
+                                  <td className="p-3 text-sm">
+                                    <Badge variant={getOriginVariant(log.userRole)}>
+                                      {getOriginLabel(log.userRole)}
+                                    </Badge>
+                                  </td>
+                                </tr>
+                              )
+                            })
+                          )}
                         </tbody>
                       </table>
                     </div>
@@ -530,6 +492,7 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
                   <p className="text-sm text-muted-foreground">
                     Mostrando {filteredLogs.length} de {auditLogs.length} registros
                   </p>
+
                 </CardContent>
               </Card>
             </TabsContent>
@@ -557,7 +520,7 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
                     <div className="flex justify-between">
                       <span className="text-sm text-muted-foreground">Plano Atual:</span>
                       <span className="font-semibold">
-                        {agency.plan === "basic" ? "Básico" : agency.plan === "pro" ? "Pro" : "Enterprise"}
+                        {getPlanLabel(agency.plan)}
                       </span>
                     </div>
                   </CardContent>
@@ -579,7 +542,7 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
                     <div className="flex justify-between">
                       <span className="text-sm text-muted-foreground">Plano Mensal:</span>
                       <span className="font-semibold">
-                        {(agency.plan === "basic" ? 197 : agency.plan === "pro" ? 397 : 797).toLocaleString("pt-BR", {
+                        {getPlanPrice(agency.plan).toLocaleString("pt-BR", {
                           style: "currency",
                           currency: "BRL",
                         })}

@@ -11,12 +11,36 @@ import { Badge } from "@/components/ui/badge"
 import { useApi } from "@/hooks/use-api"
 import { agencyApi } from "@/lib/api"
 import { useEffect, useState } from "react"
+import { useToast } from "@/hooks/use-toast"
+import { Loader2 } from "lucide-react"
+
+function getPlanLabel(plan: string) {
+  if (plan === "starter" || plan === "basic") return "Starter"
+  if (plan === "pro") return "Pro"
+  return "Scale"
+}
 
 export default function SettingsPage() {
   const { user, loading, logout } = useAuth("agency_owner")
   const { data: agencyData } = useApi(() => agencyApi.getProfile())
+  const { toast } = useToast()
 
+  const [agencyName, setAgencyName] = useState("")
+  const [userName, setUserName] = useState("")
+  const [currentPassword, setCurrentPassword] = useState("")
+  const [newPassword, setNewPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [savingAgency, setSavingAgency] = useState(false)
+  const [savingProfile, setSavingProfile] = useState(false)
+  const [savingPassword, setSavingPassword] = useState(false)
 
+  useEffect(() => {
+    if (agencyData?.name) setAgencyName(agencyData.name)
+  }, [agencyData])
+
+  useEffect(() => {
+    if (user?.name) setUserName(user.name)
+  }, [user])
 
   if (loading || !user) {
     return (
@@ -24,6 +48,53 @@ export default function SettingsPage() {
         <p>Carregando...</p>
       </div>
     )
+  }
+
+  const handleSaveAgency = async () => {
+    setSavingAgency(true)
+    try {
+      await agencyApi.updateProfile({ name: agencyName })
+      toast({ title: "Agência atualizada", description: "Dados da agência salvos com sucesso." })
+    } catch (err: any) {
+      toast({ title: "Erro", description: err.message || "Não foi possível salvar.", variant: "destructive" })
+    } finally {
+      setSavingAgency(false)
+    }
+  }
+
+  const handleSaveProfile = async () => {
+    setSavingProfile(true)
+    try {
+      await agencyApi.updateMyProfile({ name: userName })
+      toast({ title: "Perfil atualizado", description: "Seus dados foram salvos com sucesso." })
+    } catch (err: any) {
+      toast({ title: "Erro", description: err.message || "Não foi possível salvar.", variant: "destructive" })
+    } finally {
+      setSavingProfile(false)
+    }
+  }
+
+  const handleChangePassword = async () => {
+    if (newPassword !== confirmPassword) {
+      toast({ title: "Erro", description: "A nova senha e a confirmação não coincidem.", variant: "destructive" })
+      return
+    }
+    if (newPassword.length < 6) {
+      toast({ title: "Erro", description: "A nova senha deve ter ao menos 6 caracteres.", variant: "destructive" })
+      return
+    }
+    setSavingPassword(true)
+    try {
+      await agencyApi.changePassword({ currentPassword, newPassword })
+      setCurrentPassword("")
+      setNewPassword("")
+      setConfirmPassword("")
+      toast({ title: "Senha alterada", description: "Sua senha foi atualizada com sucesso." })
+    } catch (err: any) {
+      toast({ title: "Erro", description: err.message || "Não foi possível alterar a senha.", variant: "destructive" })
+    } finally {
+      setSavingPassword(false)
+    }
   }
 
   return (
@@ -47,28 +118,30 @@ export default function SettingsPage() {
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label>Nome da Agência</Label>
-                <Input defaultValue={agencyData?.name || ""} />
+                <Input value={agencyName} onChange={(e) => setAgencyName(e.target.value)} />
               </div>
 
               <div className="space-y-2">
                 <Label>Plano Atual</Label>
                 <div>
                   <Badge variant="default" className="text-sm">
-                    {agencyData?.plan === "basic"
-                      ? "Starter"
-                      : agencyData?.plan === "pro"
-                        ? "Pro"
-                        : "Scale"}
+                    {getPlanLabel(agencyData?.plan || "")}
                   </Badge>
                 </div>
               </div>
 
               <div className="space-y-2">
                 <Label>Data de Criação</Label>
-                <Input value={agencyData?.createdAt?.toLocaleDateString("pt-BR") || ""} disabled />
+                <Input
+                  value={agencyData?.createdAt ? new Date(agencyData.createdAt).toLocaleDateString("pt-BR") : ""}
+                  disabled
+                />
               </div>
 
-              <Button>Salvar Alterações</Button>
+              <Button onClick={handleSaveAgency} disabled={savingAgency}>
+                {savingAgency && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+                Salvar Alterações
+              </Button>
             </CardContent>
           </Card>
 
@@ -80,15 +153,18 @@ export default function SettingsPage() {
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label>Nome</Label>
-                <Input defaultValue={user.name} />
+                <Input value={userName} onChange={(e) => setUserName(e.target.value)} />
               </div>
 
               <div className="space-y-2">
                 <Label>Email</Label>
-                <Input defaultValue={user.email} type="email" />
+                <Input value={user.email} type="email" disabled />
               </div>
 
-              <Button>Atualizar Perfil</Button>
+              <Button onClick={handleSaveProfile} disabled={savingProfile}>
+                {savingProfile && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+                Atualizar Perfil
+              </Button>
             </CardContent>
           </Card>
 
@@ -100,20 +176,38 @@ export default function SettingsPage() {
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label>Senha Atual</Label>
-                <Input type="password" placeholder="••••••••" />
+                <Input
+                  type="password"
+                  placeholder="••••••••"
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                />
               </div>
 
               <div className="space-y-2">
                 <Label>Nova Senha</Label>
-                <Input type="password" placeholder="••••••••" />
+                <Input
+                  type="password"
+                  placeholder="••••••••"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
               </div>
 
               <div className="space-y-2">
                 <Label>Confirmar Nova Senha</Label>
-                <Input type="password" placeholder="••••••••" />
+                <Input
+                  type="password"
+                  placeholder="••••••••"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
               </div>
 
-              <Button>Alterar Senha</Button>
+              <Button onClick={handleChangePassword} disabled={savingPassword}>
+                {savingPassword && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+                Alterar Senha
+              </Button>
             </CardContent>
           </Card>
         </div>

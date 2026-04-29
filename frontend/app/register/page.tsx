@@ -30,7 +30,7 @@ import { cn } from "@/lib/utils"
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
-type Plan = "basic" | "pro" | "enterprise"
+type Plan = "starter" | "pro" | "scale"
 
 interface FormData {
   plan: Plan
@@ -46,7 +46,7 @@ interface FormData {
 
 const PLANS = [
   {
-    id: "basic" as Plan,
+    id: "starter" as Plan,
     name: "Starter",
     price: "R$ 197",
     period: "/mês",
@@ -69,7 +69,7 @@ const PLANS = [
     features: ["Clientes ilimitados", "CRM completo", "Financeiro avançado", "Metas e KPIs", "Suporte prioritário"],
   },
   {
-    id: "enterprise" as Plan,
+    id: "scale" as Plan,
     name: "Scale",
     price: "R$ 797",
     period: "/mês",

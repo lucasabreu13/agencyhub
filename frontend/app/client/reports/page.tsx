@@ -24,8 +24,20 @@ export default function ClientReportsPage() {
 
   const reports = reportsData?.data || []
 
-  const totalBudget = (reports || []).reduce((acc, c) => acc + (c.budget || 0), 0)
-  const totalSpent = (reports || []).reduce((acc, c) => acc + (c.spent || 0), 0)
+  const totalBudget = (reports || []).reduce((acc: number, c: any) => acc + (Number(c.budget) || 0), 0)
+  const totalSpent = (reports || []).reduce((acc: number, c: any) => acc + (Number(c.spent) || 0), 0)
+  const totalImpressions = (reports || []).reduce((acc: number, c: any) => acc + (Number(c.metrics?.impressions) || 0), 0)
+  const totalConversions = (reports || []).reduce((acc: number, c: any) => acc + (Number(c.metrics?.conversions) || 0), 0)
+  const avgCtr =
+    (reports || []).length > 0
+      ? (reports || []).reduce((acc: number, c: any) => acc + (Number(c.metrics?.ctr) || 0), 0) / (reports || []).length
+      : 0
+
+  function formatCount(n: number): string {
+    if (n >= 1000000) return `${(n / 1000000).toFixed(1)}M`
+    if (n >= 1000) return `${(n / 1000).toFixed(1)}K`
+    return String(n)
+  }
 
   return (
     <div className="flex h-screen">
@@ -68,19 +80,17 @@ export default function ClientReportsPage() {
                 <Eye className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">187.5K</div>
-                <p className="text-xs text-green-600 mt-1">+15.2% vs. mês anterior</p>
+                <div className="text-2xl font-bold">{formatCount(totalImpressions)}</div>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Taxa de Conversão</CardTitle>
+                <CardTitle className="text-sm font-medium">Taxa de Conversão Média</CardTitle>
                 <TrendingUp className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">3.8%</div>
-                <p className="text-xs text-green-600 mt-1">+0.5% vs. mês anterior</p>
+                <div className="text-2xl font-bold">{avgCtr.toFixed(1)}%</div>
               </CardContent>
             </Card>
 
@@ -90,8 +100,7 @@ export default function ClientReportsPage() {
                 <Target className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">428</div>
-                <p className="text-xs text-green-600 mt-1">+22.4% vs. mês anterior</p>
+                <div className="text-2xl font-bold">{totalConversions}</div>
               </CardContent>
             </Card>
           </div>
@@ -123,19 +132,19 @@ export default function ClientReportsPage() {
 
                       <div className="grid grid-cols-4 gap-4">
                         <div className="text-center p-3 bg-muted/50 rounded-lg">
-                          <p className="text-lg font-bold">62.5K</p>
+                          <p className="text-lg font-bold">{formatCount(Number(campaign.metrics?.impressions) || 0)}</p>
                           <p className="text-xs text-muted-foreground">Impressões</p>
                         </div>
                         <div className="text-center p-3 bg-muted/50 rounded-lg">
-                          <p className="text-lg font-bold">2.4K</p>
+                          <p className="text-lg font-bold">{formatCount(Number(campaign.metrics?.clicks) || 0)}</p>
                           <p className="text-xs text-muted-foreground">Cliques</p>
                         </div>
                         <div className="text-center p-3 bg-muted/50 rounded-lg">
-                          <p className="text-lg font-bold">3.8%</p>
+                          <p className="text-lg font-bold">{(Number(campaign.metrics?.ctr) || 0).toFixed(1)}%</p>
                           <p className="text-xs text-muted-foreground">CTR</p>
                         </div>
                         <div className="text-center p-3 bg-muted/50 rounded-lg">
-                          <p className="text-lg font-bold">214</p>
+                          <p className="text-lg font-bold">{Number(campaign.metrics?.conversions) || 0}</p>
                           <p className="text-xs text-muted-foreground">Conversões</p>
                         </div>
                       </div>

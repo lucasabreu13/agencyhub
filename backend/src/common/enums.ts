@@ -1,7 +1,7 @@
 export enum AgencyPlan {
-  BASIC = 'basic',
+  STARTER = 'starter',
   PRO = 'pro',
-  ENTERPRISE = 'enterprise',
+  SCALE = 'scale',
 }
 
 export enum AgencyStatus {

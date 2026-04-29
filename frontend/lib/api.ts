@@ -86,7 +86,7 @@ export interface Paginated<T> {
 
 export interface RegisterAgencyPayload {
   agencyName: string
-  plan: "basic" | "pro" | "enterprise"
+  plan: "starter" | "pro" | "scale"
   ownerName: string
   ownerEmail: string
   ownerPassword: string

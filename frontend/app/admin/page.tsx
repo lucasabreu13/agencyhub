@@ -121,7 +121,7 @@ export default function AdminDashboard() {
                         </p>
                       </div>
                       <Badge variant="default">
-                        {agency.plan === "basic" ? "Starter" : agency.plan === "pro" ? "Pro" : "Scale"}
+                        {agency.plan === "starter" || agency.plan === "basic" ? "Starter" : agency.plan === "pro" ? "Pro" : "Scale"}
                       </Badge>
                     </div>
                   ))}
@@ -167,14 +167,14 @@ export default function AdminDashboard() {
                     <div className="flex items-center justify-between text-sm">
                       <span>Scale</span>
                       <span className="font-medium">
-                        {(agenciesData?.data || []).filter((a: any) => a.plan === "enterprise").length} agências
+                        {(agenciesData?.data || []).filter((a: any) => a.plan === "scale" || a.plan === "enterprise").length} agências
                       </span>
                     </div>
                     <div className="h-2 bg-muted rounded-full overflow-hidden">
                       <div
                         className="h-full bg-green-500"
                         style={{
-                          width: `${((agenciesData?.data || []).filter((a: any) => a.plan === "enterprise").length / totalAgencies) * 100}%`,
+                          width: `${((agenciesData?.data || []).filter((a: any) => a.plan === "scale" || a.plan === "enterprise").length / totalAgencies) * 100}%`,
                         }}
                       />
                     </div>

@@ -3,9 +3,9 @@ import { BaseEntity } from './base.entity';
 import { SubscriptionStatus } from '../../common/enums';
 
 export enum AgencyPlan {
-  BASIC = 'basic',
+  STARTER = 'starter',
   PRO = 'pro',
-  ENTERPRISE = 'enterprise',
+  SCALE = 'scale',
 }
 
 export enum AgencyStatus {
@@ -22,7 +22,7 @@ export class Agency extends BaseEntity {
   @Column({
     type: 'enum',
     enum: AgencyPlan,
-    default: AgencyPlan.BASIC,
+    default: AgencyPlan.STARTER,
   })
   plan: AgencyPlan;
 

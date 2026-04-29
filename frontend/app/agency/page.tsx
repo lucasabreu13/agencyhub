@@ -59,23 +59,31 @@ export default function AgencyDashboard() {
   const totalBudget = (campaigns || []).reduce((acc: number, c: any) => acc + Number(c.budget), 0)
   const totalSpent = (campaigns || []).reduce((acc: number, c: any) => acc + Number(c.spent), 0)
 
-  const campaignPerformanceData = [
-    { name: "Sem 1", impressoes: 45000, conversoes: 1200 },
-    { name: "Sem 2", impressoes: 52000, conversoes: 1450 },
-    { name: "Sem 3", impressoes: 48000, conversoes: 1350 },
-    { name: "Sem 4", impressoes: 61000, conversoes: 1820 },
-    { name: "Sem 5", impressoes: 55000, conversoes: 1650 },
-    { name: "Sem 6", impressoes: 67000, conversoes: 2100 },
-  ]
+  const campaignPerformanceData = campaigns
+    .slice(0, 6)
+    .map((c: any) => ({
+      name: (c.name || "").length > 12 ? (c.name as string).slice(0, 12) + "…" : c.name,
+      impressoes: Number(c.metrics?.impressions) || 0,
+      conversoes: Number(c.metrics?.conversions) || 0,
+    }))
 
-  const roiData = [
-    { mes: "Ago", roi: 2.8 },
-    { mes: "Set", roi: 3.2 },
-    { mes: "Out", roi: 3.5 },
-    { mes: "Nov", roi: 4.1 },
-    { mes: "Dez", roi: 3.9 },
-    { mes: "Jan", roi: 4.5 },
-  ]
+  const roiByMonth: Record<string, { budget: number; spent: number }> = {}
+  for (const c of campaigns) {
+    const d = c.startDate ? new Date(c.startDate) : new Date(c.createdAt)
+    const key = d.toLocaleString("pt-BR", { month: "short" }).replace(".", "")
+    if (!roiByMonth[key]) roiByMonth[key] = { budget: 0, spent: 0 }
+    roiByMonth[key].budget += Number(c.budget) || 0
+    roiByMonth[key].spent += Number(c.spent) || 0
+  }
+  const roiData = Object.entries(roiByMonth)
+    .slice(-6)
+    .map(([mes, { budget, spent }]) => ({
+      mes: mes.charAt(0).toUpperCase() + mes.slice(1),
+      roi: spent > 0 ? Math.round((budget / spent) * 10) / 10 : 0,
+    }))
+  const currentRoi = roiData.length > 0 ? roiData[roiData.length - 1].roi : 0
+  const prevRoi = roiData.length > 1 ? roiData[roiData.length - 2].roi : 0
+  const roiChange = prevRoi > 0 ? Math.round(((currentRoi - prevRoi) / prevRoi) * 100) : 0
 
   return (
     <div className="flex h-screen">
@@ -273,8 +281,12 @@ export default function AgencyDashboard() {
                 </ResponsiveContainer>
                 <div className="mt-4 p-3 bg-muted rounded-lg">
                   <p className="text-sm text-muted-foreground">ROI Médio Atual</p>
-                  <p className="text-2xl font-bold text-green-600">4.5x</p>
-                  <p className="text-xs text-muted-foreground mt-1">+12% vs mês anterior</p>
+                  <p className="text-2xl font-bold text-green-600">{currentRoi}x</p>
+                  {prevRoi > 0 && (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {roiChange >= 0 ? `+${roiChange}%` : `${roiChange}%`} vs mês anterior
+                    </p>
+                  )}
                 </div>
               </CardContent>
             </Card>

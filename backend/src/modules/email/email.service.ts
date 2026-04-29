@@ -107,13 +107,15 @@ export class EmailService {
 
   async sendAgencyWelcome(to: string, ownerName: string, agencyName: string, plan: string) {
     const portalUrl = process.env.FRONTEND_URL || 'https://agencyhub-ruddy.vercel.app';
-    const planLabel = plan === 'basic' ? 'Básico' : plan === 'pro' ? 'Pro' : 'Enterprise';
+    const planLabel = plan === 'starter' || plan === 'basic' ? 'Starter' : plan === 'pro' ? 'Pro' : 'Scale';
     const planFeatures: Record<string, string[]> = {
+      starter: ['Até 5 clientes', 'Campanhas ilimitadas', 'Relatórios mensais', 'Suporte por email'],
       basic: ['Até 5 clientes', 'Campanhas ilimitadas', 'Relatórios mensais', 'Suporte por email'],
       pro: ['Clientes ilimitados', 'CRM completo', 'Kanban e Projetos', 'Relatórios avançados', 'Suporte prioritário'],
+      scale: ['Tudo do Pro', 'Multi-usuário', 'API dedicada', 'SLA garantido', 'Gerente de conta'],
       enterprise: ['Tudo do Pro', 'Multi-usuário', 'API dedicada', 'SLA garantido', 'Gerente de conta'],
     };
-    const features = planFeatures[plan] || planFeatures['basic'];
+    const features = planFeatures[plan] || planFeatures['starter'];
 
     return this.send({
       to,

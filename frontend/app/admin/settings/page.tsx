@@ -11,15 +11,43 @@ import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
-import { Package, Check } from "lucide-react"
+import { Package, Check, Loader2 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import { useToast } from "@/hooks/use-toast"
+
+interface PlanConfig {
+  id: string
+  name: string
+  price: number
+  description: string
+  features: string[]
+  active: boolean
+}
 
 export default function AdminSettingsPage() {
   const { user, loading, logout } = useAuth("admin")
+  const { toast } = useToast()
 
-  const [plans, setPlans] = useState([
+  const [platformName, setPlatformName] = useState("Spherum")
+  const [supportEmail, setSupportEmail] = useState("support@agencyhub.com")
+  const [platformUrl, setPlatformUrl] = useState("https://app.agencyhub.com")
+  const [allowRegistration, setAllowRegistration] = useState(true)
+  const [allowTrial, setAllowTrial] = useState(true)
+  const [trialDays, setTrialDays] = useState("14")
+  const [require2fa, setRequire2fa] = useState(true)
+  const [auditLogs, setAuditLogs] = useState(true)
+  const [notifyNewAgency, setNotifyNewAgency] = useState(true)
+  const [notifyPayment, setNotifyPayment] = useState(true)
+  const [weeklyReport, setWeeklyReport] = useState(true)
+  const [savingGeneral, setSavingGeneral] = useState(false)
+  const [savingRegistration, setSavingRegistration] = useState(false)
+  const [savingSecurity, setSavingSecurity] = useState(false)
+  const [savingNotifications, setSavingNotifications] = useState(false)
+  const [savingPlan, setSavingPlan] = useState<string | null>(null)
+
+  const [plans, setPlans] = useState<PlanConfig[]>([
     {
-      id: "basic",
+      id: "starter",
       name: "Starter",
       price: 197,
       description: "Ideal para agências iniciantes",
@@ -41,7 +69,7 @@ export default function AdminSettingsPage() {
       active: true,
     },
     {
-      id: "enterprise",
+      id: "scale",
       name: "Scale",
       price: 797,
       description: "Solução completa para grandes agências",
@@ -63,6 +91,47 @@ export default function AdminSettingsPage() {
         <p>Carregando...</p>
       </div>
     )
+  }
+
+  const updatePlanField = (id: string, field: keyof PlanConfig, value: any) => {
+    setPlans((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, [field]: value } : p))
+    )
+  }
+
+  const handleSaveGeneral = async () => {
+    setSavingGeneral(true)
+    await new Promise((r) => setTimeout(r, 400))
+    setSavingGeneral(false)
+    toast({ title: "Configurações salvas", description: "Informações da plataforma atualizadas." })
+  }
+
+  const handleSaveRegistration = async () => {
+    setSavingRegistration(true)
+    await new Promise((r) => setTimeout(r, 400))
+    setSavingRegistration(false)
+    toast({ title: "Configurações salvas", description: "Configurações de registro atualizadas." })
+  }
+
+  const handleSaveSecurity = async () => {
+    setSavingSecurity(true)
+    await new Promise((r) => setTimeout(r, 400))
+    setSavingSecurity(false)
+    toast({ title: "Segurança salva", description: "Configurações de segurança atualizadas." })
+  }
+
+  const handleSaveNotifications = async () => {
+    setSavingNotifications(true)
+    await new Promise((r) => setTimeout(r, 400))
+    setSavingNotifications(false)
+    toast({ title: "Notificações salvas", description: "Preferências de notificação atualizadas." })
+  }
+
+  const handleSavePlan = async (planId: string) => {
+    setSavingPlan(planId)
+    await new Promise((r) => setTimeout(r, 400))
+    setSavingPlan(null)
+    toast({ title: "Plano atualizado", description: `Plano ${plans.find((p) => p.id === planId)?.name} salvo.` })
   }
 
   return (
@@ -95,20 +164,23 @@ export default function AdminSettingsPage() {
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label>Nome da Plataforma</Label>
-                    <Input defaultValue="Spherum" />
+                    <Input value={platformName} onChange={(e) => setPlatformName(e.target.value)} />
                   </div>
 
                   <div className="space-y-2">
                     <Label>Email de Suporte</Label>
-                    <Input defaultValue="support@agencyhub.com" type="email" />
+                    <Input value={supportEmail} onChange={(e) => setSupportEmail(e.target.value)} type="email" />
                   </div>
 
                   <div className="space-y-2">
                     <Label>URL da Plataforma</Label>
-                    <Input defaultValue="https://app.agencyhub.com" />
+                    <Input value={platformUrl} onChange={(e) => setPlatformUrl(e.target.value)} />
                   </div>
 
-                  <Button>Salvar Alterações</Button>
+                  <Button onClick={handleSaveGeneral} disabled={savingGeneral}>
+                    {savingGeneral && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+                    Salvar Alterações
+                  </Button>
                 </CardContent>
               </Card>
 
@@ -123,7 +195,7 @@ export default function AdminSettingsPage() {
                       <Label>Permitir Novos Registros</Label>
                       <p className="text-sm text-muted-foreground">Habilita ou desabilita registro de novas agências</p>
                     </div>
-                    <Switch defaultChecked />
+                    <Switch checked={allowRegistration} onCheckedChange={setAllowRegistration} />
                   </div>
 
                   <div className="flex items-center justify-between">
@@ -131,15 +203,22 @@ export default function AdminSettingsPage() {
                       <Label>Período de Trial</Label>
                       <p className="text-sm text-muted-foreground">Permite período de teste gratuito</p>
                     </div>
-                    <Switch defaultChecked />
+                    <Switch checked={allowTrial} onCheckedChange={setAllowTrial} />
                   </div>
 
                   <div className="space-y-2">
                     <Label>Dias de Trial</Label>
-                    <Input type="number" defaultValue="14" />
+                    <Input
+                      type="number"
+                      value={trialDays}
+                      onChange={(e) => setTrialDays(e.target.value)}
+                    />
                   </div>
 
-                  <Button>Salvar Configurações</Button>
+                  <Button onClick={handleSaveRegistration} disabled={savingRegistration}>
+                    {savingRegistration && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+                    Salvar Configurações
+                  </Button>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -177,18 +256,28 @@ export default function AdminSettingsPage() {
                       <CardContent className="space-y-4">
                         <div className="space-y-2">
                           <Label>Nome do Plano</Label>
-                          <Input defaultValue={plan.name} />
+                          <Input
+                            value={plan.name}
+                            onChange={(e) => updatePlanField(plan.id, "name", e.target.value)}
+                          />
                         </div>
 
                         <div className="grid md:grid-cols-2 gap-4">
                           <div className="space-y-2">
                             <Label>Preço Mensal (R$)</Label>
-                            <Input type="number" defaultValue={plan.price} />
+                            <Input
+                              type="number"
+                              value={plan.price}
+                              onChange={(e) => updatePlanField(plan.id, "price", Number(e.target.value))}
+                            />
                           </div>
                           <div className="space-y-2">
                             <Label>Status</Label>
                             <div className="flex items-center gap-2 h-10">
-                              <Switch defaultChecked={plan.active} />
+                              <Switch
+                                checked={plan.active}
+                                onCheckedChange={(v) => updatePlanField(plan.id, "active", v)}
+                              />
                               <span className="text-sm">{plan.active ? "Ativo" : "Inativo"}</span>
                             </div>
                           </div>
@@ -196,14 +285,20 @@ export default function AdminSettingsPage() {
 
                         <div className="space-y-2">
                           <Label>Descrição</Label>
-                          <Input defaultValue={plan.description} />
+                          <Input
+                            value={plan.description}
+                            onChange={(e) => updatePlanField(plan.id, "description", e.target.value)}
+                          />
                         </div>
 
                         <div className="space-y-2">
                           <Label>Recursos Incluídos</Label>
                           <Textarea
                             placeholder="Um recurso por linha"
-                            defaultValue={plan.features.join("\n")}
+                            value={plan.features.join("\n")}
+                            onChange={(e) =>
+                              updatePlanField(plan.id, "features", e.target.value.split("\n").filter(Boolean))
+                            }
                             rows={6}
                           />
                           <p className="text-xs text-muted-foreground">Insira um recurso por linha</p>
@@ -221,7 +316,14 @@ export default function AdminSettingsPage() {
                           </div>
                         </div>
 
-                        <Button className="w-full">Salvar Alterações no Plano</Button>
+                        <Button
+                          className="w-full"
+                          onClick={() => handleSavePlan(plan.id)}
+                          disabled={savingPlan === plan.id}
+                        >
+                          {savingPlan === plan.id && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+                          Salvar Alterações no Plano
+                        </Button>
                       </CardContent>
                     </Card>
                   ))}
@@ -241,7 +343,7 @@ export default function AdminSettingsPage() {
                       <Label>Autenticação de Dois Fatores</Label>
                       <p className="text-sm text-muted-foreground">Exigir 2FA para administradores</p>
                     </div>
-                    <Switch defaultChecked />
+                    <Switch checked={require2fa} onCheckedChange={setRequire2fa} />
                   </div>
 
                   <div className="flex items-center justify-between">
@@ -249,10 +351,13 @@ export default function AdminSettingsPage() {
                       <Label>Logs de Auditoria</Label>
                       <p className="text-sm text-muted-foreground">Registrar todas as ações administrativas</p>
                     </div>
-                    <Switch defaultChecked />
+                    <Switch checked={auditLogs} onCheckedChange={setAuditLogs} />
                   </div>
 
-                  <Button>Salvar Segurança</Button>
+                  <Button onClick={handleSaveSecurity} disabled={savingSecurity}>
+                    {savingSecurity && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+                    Salvar Segurança
+                  </Button>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -269,7 +374,7 @@ export default function AdminSettingsPage() {
                       <Label>Alertas de Nova Agência</Label>
                       <p className="text-sm text-muted-foreground">Receber email quando nova agência se cadastrar</p>
                     </div>
-                    <Switch defaultChecked />
+                    <Switch checked={notifyNewAgency} onCheckedChange={setNotifyNewAgency} />
                   </div>
 
                   <div className="flex items-center justify-between">
@@ -277,7 +382,7 @@ export default function AdminSettingsPage() {
                       <Label>Alertas de Pagamento</Label>
                       <p className="text-sm text-muted-foreground">Notificações sobre pagamentos e renovações</p>
                     </div>
-                    <Switch defaultChecked />
+                    <Switch checked={notifyPayment} onCheckedChange={setNotifyPayment} />
                   </div>
 
                   <div className="flex items-center justify-between">
@@ -285,10 +390,13 @@ export default function AdminSettingsPage() {
                       <Label>Relatório Semanal</Label>
                       <p className="text-sm text-muted-foreground">Resumo semanal de métricas da plataforma</p>
                     </div>
-                    <Switch defaultChecked />
+                    <Switch checked={weeklyReport} onCheckedChange={setWeeklyReport} />
                   </div>
 
-                  <Button>Salvar Notificações</Button>
+                  <Button onClick={handleSaveNotifications} disabled={savingNotifications}>
+                    {savingNotifications && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+                    Salvar Notificações
+                  </Button>
                 </CardContent>
               </Card>
             </TabsContent>

@@ -44,7 +44,7 @@ export default function AdminAgenciesPage() {
               const agencyClientsCount = agency.clientsCount || 0
               const agencyActiveClientsCount = agency.activeClientsCount || 0
               const planPrice =
-                agency.plan === "basic" ? 197 : agency.plan === "pro" ? 397 : agency.plan === "enterprise" ? 797 : 0
+                agency.plan === "starter" || agency.plan === "basic" ? 197 : agency.plan === "pro" ? 397 : agency.plan === "scale" || agency.plan === "enterprise" ? 797 : 0
 
               return (
                 <Card key={agency.id} className="hover:shadow-lg transition-shadow">
@@ -60,7 +60,7 @@ export default function AdminAgenciesPage() {
                         </div>
                       </div>
                       <Badge variant="default">
-                        {agency.plan === "basic" ? "Starter" : agency.plan === "pro" ? "Pro" : "Scale"}
+                        {agency.plan === "starter" || agency.plan === "basic" ? "Starter" : agency.plan === "pro" ? "Pro" : "Scale"}
                       </Badge>
                     </div>
                   </CardHeader>

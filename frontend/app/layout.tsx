@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Geist, Geist_Mono, Sora } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
+import { Toaster } from "@/components/ui/toaster"
 import "./globals.css"
 
 const _geist = Geist({ subsets: ["latin"] })
@@ -32,6 +33,7 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body className={`${sora.variable} font-sans antialiased`}>
         {children}
+        <Toaster />
         <Analytics />
       </body>
     </html>
