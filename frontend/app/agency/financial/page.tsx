@@ -5,6 +5,7 @@ import { useState } from "react"
 import { useAuth } from "@/hooks/use-auth"
 import { useApi } from "@/hooks/use-api"
 import { agencyApi } from "@/lib/api"
+import { useToast } from "@/hooks/use-toast"
 import { AgencySidebar } from "@/components/agency/sidebar"
 import { AgencyHeader } from "@/components/agency/header"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
@@ -19,8 +20,10 @@ import { TrendingUp, TrendingDown, DollarSign, Plus, ArrowUpDown } from "lucide-
 
 export default function FinancialPage() {
   const { user, loading, logout } = useAuth("agency_owner")
+  const { toast } = useToast()
   const { data: financialData, refetch } = useApi(() => agencyApi.getFinancial())
   const [showDialog, setShowDialog] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
   const [form, setForm] = useState({ type: "income", description: "", amount: "", category: "", status: "pending" })
 
   if (loading) return <div className="flex h-screen items-center justify-center">Carregando...</div>
@@ -43,10 +46,18 @@ export default function FinancialPage() {
   }
 
   const handleCreate = async () => {
-    await agencyApi.createTransaction({ ...form, amount: parseFloat(form.amount) })
-    setShowDialog(false)
-    setForm({ type: "income", description: "", amount: "", category: "", status: "pending" })
-    refetch?.()
+    setIsSaving(true)
+    try {
+      await agencyApi.createTransaction({ ...form, amount: parseFloat(form.amount) })
+      setShowDialog(false)
+      setForm({ type: "income", description: "", amount: "", category: "", status: "pending" })
+      refetch?.()
+      toast({ title: "Transação criada", description: "A transação foi registrada com sucesso." })
+    } catch (e: any) {
+      toast({ title: "Erro ao criar transação", description: e?.message || "Tente novamente.", variant: "destructive" })
+    } finally {
+      setIsSaving(false)
+    }
   }
 
   return (
@@ -89,7 +100,9 @@ export default function FinancialPage() {
                     <Label>Categoria</Label>
                     <Input value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} />
                   </div>
-                  <Button onClick={handleCreate} className="w-full">Salvar</Button>
+                  <Button onClick={handleCreate} className="w-full" disabled={isSaving}>
+                    {isSaving ? "Salvando..." : "Salvar"}
+                  </Button>
                 </div>
               </DialogContent>
             </Dialog>

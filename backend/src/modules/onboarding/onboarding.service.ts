@@ -21,17 +21,12 @@ export class OnboardingService {
   ) {}
 
   async seedAgencyData(agencyId: string, ownerId: string): Promise<void> {
-    try {
-      await Promise.all([
-        this.createInitialGoal(agencyId, ownerId),
-        this.createInitialReminders(agencyId, ownerId),
-        this.createInitialKanbanTasks(agencyId, ownerId),
-      ]);
-      this.logger.log(`Dados iniciais criados para agência ${agencyId}`);
-    } catch (err) {
-      // Seed não bloqueia o cadastro — loga o erro e segue
-      this.logger.error(`Erro ao criar dados iniciais para ${agencyId}: ${err.message}`);
-    }
+    await Promise.all([
+      this.createInitialGoal(agencyId, ownerId),
+      this.createInitialReminders(agencyId, ownerId),
+      this.createInitialKanbanTasks(agencyId, ownerId),
+    ]);
+    this.logger.log(`Dados iniciais criados para agência ${agencyId}`);
   }
 
   private async createInitialGoal(agencyId: string, ownerId: string): Promise<void> {

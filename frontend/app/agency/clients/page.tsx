@@ -22,9 +22,11 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Plus, Mail, Building2, Search, FileText, Upload, Calendar, DollarSign } from "lucide-react"
 import { useState } from "react"
+import { useToast } from "@/hooks/use-toast"
 
 export default function ClientsPage() {
   const { user, loading, logout } = useAuth("agency_owner")
+  const { toast } = useToast()
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedClient, setSelectedClient] = useState<any>(null)
   const [showNewClientDialog, setShowNewClientDialog] = useState(false)
@@ -72,7 +74,7 @@ export default function ClientsPage() {
       setShowNewClientDialog(false)
       setNewClient({ companyName: "", email: "", phone: "", cnpj: "", contract: null })
     } catch (e: any) {
-      alert(e?.message || "Erro ao criar cliente")
+      toast({ title: "Erro ao criar cliente", description: e?.message || "Tente novamente.", variant: "destructive" })
     }
   }
 

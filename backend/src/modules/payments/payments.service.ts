@@ -1,6 +1,7 @@
 import {
   Injectable,
   BadRequestException,
+  InternalServerErrorException,
   NotFoundException,
   Logger,
 } from '@nestjs/common';
@@ -70,34 +71,40 @@ export class PaymentsService {
     const successUrl = `${frontendUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`;
     const cancelUrl = `${frontendUrl}/checkout/cancel`;
 
-    // Cria ou reutiliza customer no Stripe
-    let customerId = agency.stripeCustomerId;
-    if (!customerId) {
-      const customer = await this.stripe.customers.create({
-        metadata: { agencyId: agency.id },
-      });
-      customerId = customer.id;
-      await this.agencyRepository.update(agency.id, { stripeCustomerId: customerId });
-    }
+    try {
+      // Cria ou reutiliza customer no Stripe
+      let customerId = agency.stripeCustomerId;
+      if (!customerId) {
+        const customer = await this.stripe.customers.create({
+          metadata: { agencyId: agency.id },
+        });
+        customerId = customer.id;
+        await this.agencyRepository.update(agency.id, { stripeCustomerId: customerId });
+      }
 
-    const session = await this.stripe.checkout.sessions.create({
-      customer: customerId,
-      mode: 'subscription',
-      payment_method_types: ['card'],
-      payment_method_collection: 'always',
-      line_items: [{ price: plan.stripePriceId, quantity: 1 }],
-      success_url: successUrl,
-      cancel_url: cancelUrl,
-      metadata: { agencyId: agency.id, plan: dto.plan },
-      subscription_data: {
-        trial_period_days: 14,
+      const session = await this.stripe.checkout.sessions.create({
+        customer: customerId,
+        mode: 'subscription',
+        payment_method_types: ['card'],
+        payment_method_collection: 'always',
+        line_items: [{ price: plan.stripePriceId, quantity: 1 }],
+        success_url: successUrl,
+        cancel_url: cancelUrl,
         metadata: { agencyId: agency.id, plan: dto.plan },
-      },
-    });
+        subscription_data: {
+          trial_period_days: 14,
+          metadata: { agencyId: agency.id, plan: dto.plan },
+        },
+      });
 
-    if (!session.url) throw new BadRequestException('Erro ao gerar URL de checkout');
+      if (!session.url) throw new BadRequestException('Erro ao gerar URL de checkout');
 
-    return { url: session.url };
+      return { url: session.url };
+    } catch (err) {
+      if (err instanceof BadRequestException || err instanceof NotFoundException) throw err;
+      this.logger.error(`Erro ao criar sessão de checkout para agência ${agencyId}: ${err.message}`);
+      throw new InternalServerErrorException('Falha ao criar sessão de pagamento no Stripe. Tente novamente.');
+    }
   }
 
   async changePlan(agencyId: string, dto: ChangePlanDto): Promise<{ subscriptionId: string }> {
@@ -108,18 +115,24 @@ export class PaymentsService {
     const plan = PLANS[dto.plan];
     if (!plan) throw new BadRequestException('Plano inválido');
 
-    const subscription = await this.stripe.subscriptions.retrieve(agency.stripeSubscriptionId);
-    const currentItemId = subscription.items.data[0]?.id;
-    if (!currentItemId) throw new BadRequestException('Item da assinatura não encontrado');
+    try {
+      const subscription = await this.stripe.subscriptions.retrieve(agency.stripeSubscriptionId);
+      const currentItemId = subscription.items.data[0]?.id;
+      if (!currentItemId) throw new BadRequestException('Item da assinatura não encontrado');
 
-    const updated = await this.stripe.subscriptions.update(agency.stripeSubscriptionId, {
-      items: [{ id: currentItemId, price: plan.stripePriceId }],
-      proration_behavior: 'none',
-      metadata: { agencyId: agency.id, plan: dto.plan },
-    });
+      const updated = await this.stripe.subscriptions.update(agency.stripeSubscriptionId, {
+        items: [{ id: currentItemId, price: plan.stripePriceId }],
+        proration_behavior: 'none',
+        metadata: { agencyId: agency.id, plan: dto.plan },
+      });
 
-    this.logger.log(`Plano alterado para agência ${agencyId}: ${dto.plan}`);
-    return { subscriptionId: updated.id };
+      this.logger.log(`Plano alterado para agência ${agencyId}: ${dto.plan}`);
+      return { subscriptionId: updated.id };
+    } catch (err) {
+      if (err instanceof BadRequestException || err instanceof NotFoundException) throw err;
+      this.logger.error(`Erro ao alterar plano para agência ${agencyId}: ${err.message}`);
+      throw new InternalServerErrorException('Falha ao alterar plano no Stripe. Tente novamente.');
+    }
   }
 
   async handleWebhook(rawBody: Buffer, signature: string): Promise<void> {

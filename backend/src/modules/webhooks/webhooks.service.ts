@@ -30,26 +30,22 @@ export class WebhooksService {
     // Processar dados de campanha do Meta Ads
     if (payload?.data) {
       for (const entry of payload.data) {
-        try {
-          // Buscar campanha pelo externalId (ID do Meta)
-          const campaign = await this.campaignRepo.findOne({
-            where: { agencyId, externalId: entry.campaign_id?.toString() },
-          });
+        // Buscar campanha pelo externalId (ID do Meta)
+        const campaign = await this.campaignRepo.findOne({
+          where: { agencyId, externalId: entry.campaign_id?.toString() },
+        });
 
-          if (campaign) {
-            if (entry.spend !== undefined) campaign.spent = Number(entry.spend);
-            if (entry.impressions !== undefined) campaign.metrics = {
-              ...((campaign.metrics as any) || {}),
-              impressions: Number(entry.impressions),
-              clicks: Number(entry.clicks || 0),
-              ctr: entry.ctr ? Number(entry.ctr) : undefined,
-              cpc: entry.cpc ? Number(entry.cpc) : undefined,
-            };
-            await this.campaignRepo.save(campaign);
-            this.logger.log(`Campanha ${campaign.id} atualizada via Meta webhook`);
-          }
-        } catch (err) {
-          this.logger.error(`Erro ao processar entrada Meta: ${err.message}`);
+        if (campaign) {
+          if (entry.spend !== undefined) campaign.spent = Number(entry.spend);
+          if (entry.impressions !== undefined) campaign.metrics = {
+            ...((campaign.metrics as any) || {}),
+            impressions: Number(entry.impressions),
+            clicks: Number(entry.clicks || 0),
+            ctr: entry.ctr ? Number(entry.ctr) : undefined,
+            cpc: entry.cpc ? Number(entry.cpc) : undefined,
+          };
+          await this.campaignRepo.save(campaign);
+          this.logger.log(`Campanha ${campaign.id} atualizada via Meta webhook`);
         }
       }
     }
@@ -61,28 +57,24 @@ export class WebhooksService {
     // Processar dados do Google Ads
     if (payload?.campaigns) {
       for (const entry of payload.campaigns) {
-        try {
-          const campaign = await this.campaignRepo.findOne({
-            where: { agencyId, externalId: entry.id?.toString() },
-          });
+        const campaign = await this.campaignRepo.findOne({
+          where: { agencyId, externalId: entry.id?.toString() },
+        });
 
-          if (campaign) {
-            if (entry.cost_micros !== undefined) {
-              campaign.spent = Number(entry.cost_micros) / 1_000_000;
-            }
-            if (entry.metrics) {
-              campaign.metrics = {
-                ...((campaign.metrics as any) || {}),
-                impressions: Number(entry.metrics.impressions || 0),
-                clicks: Number(entry.metrics.clicks || 0),
-                conversions: Number(entry.metrics.conversions || 0),
-              };
-            }
-            await this.campaignRepo.save(campaign);
-            this.logger.log(`Campanha ${campaign.id} atualizada via Google webhook`);
+        if (campaign) {
+          if (entry.cost_micros !== undefined) {
+            campaign.spent = Number(entry.cost_micros) / 1_000_000;
           }
-        } catch (err) {
-          this.logger.error(`Erro ao processar entrada Google: ${err.message}`);
+          if (entry.metrics) {
+            campaign.metrics = {
+              ...((campaign.metrics as any) || {}),
+              impressions: Number(entry.metrics.impressions || 0),
+              clicks: Number(entry.metrics.clicks || 0),
+              conversions: Number(entry.metrics.conversions || 0),
+            };
+          }
+          await this.campaignRepo.save(campaign);
+          this.logger.log(`Campanha ${campaign.id} atualizada via Google webhook`);
         }
       }
     }

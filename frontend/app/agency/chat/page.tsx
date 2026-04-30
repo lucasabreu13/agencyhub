@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react"
 import { useAuth } from "@/hooks/use-auth"
 import { useApi } from "@/hooks/use-api"
 import { agencyApi } from "@/lib/api"
+import { useToast } from "@/hooks/use-toast"
 import { AgencySidebar } from "@/components/agency/sidebar"
 import { AgencyHeader } from "@/components/agency/header"
 import { Input } from "@/components/ui/input"
@@ -16,6 +17,7 @@ import { formatDate } from "@/lib/utils"
 
 export default function ChatPage() {
   const { user, loading, logout } = useAuth()
+  const { toast } = useToast()
   const { data: conversationsData, refetch } = useApi(() => agencyApi.getConversations())
   const [selectedConv, setSelectedConv] = useState<string | null>(null)
   const [messagesData, setMessagesData] = useState<any[]>([])
@@ -41,10 +43,16 @@ export default function ChatPage() {
 
   const handleSend = async () => {
     if (!message.trim() || !selectedConv) return
-    await agencyApi.sendMessage({ clientId: selectedConv, content: message })
+    const savedMessage = message
     setMessage("")
-    const res: any = await agencyApi.getMessages(selectedConv)
-    setMessagesData(res?.data || res || [])
+    try {
+      await agencyApi.sendMessage({ clientId: selectedConv, content: savedMessage })
+      const res: any = await agencyApi.getMessages(selectedConv)
+      setMessagesData(res?.data || res || [])
+    } catch (e: any) {
+      setMessage(savedMessage)
+      toast({ title: "Erro ao enviar mensagem", description: e?.message || "Tente novamente.", variant: "destructive" })
+    }
   }
 
   const selectedConvData = conversations.find((c: any) => c.id === selectedConv)

@@ -41,8 +41,8 @@ export class EmailService {
       this.logger.log(`Email enviado para: ${dto.to}`);
       return true;
     } catch (err) {
-      this.logger.error(`Erro ao enviar email: ${err.message}`);
-      return false;
+      this.logger.error(`Erro ao enviar email para ${dto.to}: ${err.message}`);
+      throw new Error(`Falha ao enviar email para ${Array.isArray(dto.to) ? dto.to.join(', ') : dto.to}: ${err.message}`);
     }
   }
 

@@ -8,6 +8,7 @@ import { agencyApi, adminApi, clientApi } from "@/lib/api"
 import { useApi } from "@/hooks/use-api"
 import { Users, Megaphone, FolderKanban, TrendingUp, DollarSign, AlertCircle } from "lucide-react"
 import { useEffect, useState } from "react"
+import { useToast } from "@/hooks/use-toast"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import {
@@ -25,13 +26,16 @@ import {
 
 export default function AgencyDashboard() {
   const { user, loading, logout } = useAuth("agency_owner")
+  const { toast } = useToast()
   const [agencyName, setAgencyName] = useState("")
 
   useEffect(() => {
     if (user?.agencyId) {
       agencyApi.getProfile().then((res: any) => {
         if (res?.name) setAgencyName(res.name)
-      }).catch(() => {})
+      }).catch(() => {
+        toast({ title: "Erro ao carregar perfil da agência", description: "Algumas informações podem estar indisponíveis.", variant: "destructive" })
+      })
     }
   }, [user])
 

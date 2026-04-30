@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { authApi, type RegisterAgencyPayload } from "@/lib/api"
@@ -116,6 +116,13 @@ function PasswordStrength({ password }: { password: string }) {
 export default function RegisterPage() {
   const router = useRouter()
   const [step, setStep] = useState<1 | 2 | 3>(1)
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("auth_token")
+      if (token) router.replace("/agency")
+    }
+  }, [])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
 
